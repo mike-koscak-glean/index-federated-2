@@ -2,14 +2,12 @@ import { motion } from 'framer-motion';
 import { LOGOS } from '../logos';
 
 const CLIENTS = [
-  { label: 'Cursor IDE', icon: 'code', x: 12, y: 8 },
-  { label: 'Desktop Agent', icon: 'computer', x: 50, y: 3 },
-  { label: 'Internal Tools', icon: 'dashboard', x: 88, y: 8 },
-  { label: 'Slack Bot', icon: 'chat', x: 25, y: 22 },
-  { label: 'Custom App', icon: 'widgets', x: 75, y: 22 },
+  { label: 'Cursor IDE', icon: 'code', x: 15, y: 10 },
+  { label: 'Desktop Agent', icon: 'computer', x: 50, y: 5 },
+  { label: 'Internal Tools', icon: 'dashboard', x: 85, y: 10 },
+  { label: 'Slack Bot', icon: 'chat', x: 25, y: 25 },
+  { label: 'Custom App', icon: 'widgets', x: 75, y: 25 },
 ];
-
-const GLEAN_CENTER = { x: 50, y: 68 };
 
 export function Scene6() {
   return (
@@ -46,8 +44,8 @@ export function Scene6() {
                 key={i}
                 x1={client.x}
                 y1={client.y + 12}
-                x2={GLEAN_CENTER.x}
-                y2={GLEAN_CENTER.y}
+                x2={50}
+                y2={52}
                 stroke="rgba(255,255,255,0.15)"
                 strokeWidth={0.3}
                 strokeDasharray="2,2"
@@ -89,9 +87,9 @@ export function Scene6() {
               style={{ left: `${client.x}%` }}
               initial={{ top: `${client.y + 12}%`, opacity: 0 }}
               animate={{
-                top: [`${client.y + 12}%`, `${GLEAN_CENTER.y}%`],
+                top: ['20%', '48%'],
                 opacity: [0, 1, 1, 0],
-                left: [`${client.x}%`, `${GLEAN_CENTER.x}%`],
+                left: [`${client.x}%`, '50%'],
               }}
               transition={{
                 delay: 1.6 + i * 0.2,
@@ -108,12 +106,12 @@ export function Scene6() {
             <motion.div
               key={`resp-${i}`}
               className="arch-packet arch-packet-resp"
-              style={{ left: `${GLEAN_CENTER.x}%` }}
-              initial={{ top: `${GLEAN_CENTER.y}%`, opacity: 0 }}
+              style={{ left: '50%' }}
+              initial={{ top: '55%', opacity: 0 }}
               animate={{
-                top: [`${GLEAN_CENTER.y}%`, `${client.y + 12}%`],
+                top: ['55%', `${client.y + 12}%`],
                 opacity: [0, 1, 1, 0],
-                left: [`${GLEAN_CENTER.x}%`, `${client.x}%`],
+                left: ['50%', `${client.x}%`],
               }}
               transition={{
                 delay: 2.2 + i * 0.2,
