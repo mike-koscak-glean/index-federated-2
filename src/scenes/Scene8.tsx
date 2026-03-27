@@ -47,7 +47,7 @@ export function Scene8() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        Step 8 — Beyond Search
+        Step 7 — Beyond Search
       </motion.div>
 
       <motion.h2

@@ -44,21 +44,7 @@ This is the difference between a pile of documents and actual understanding.
 
 ---
 
-## Scene 3 — Federated vs Indexed Results
-
-**~35 seconds**
-
-Same query, side by side. The difference is immediate.
-
-On the left, federated results: a list of links grouped by app. Half are stale — closed-lost opportunities, archived tickets. And buried at position six, a Slack thread where the customer is *threatening to churn*. The most critical insight, and it's invisible.
-
-On the right, Glean returns an *answer*. AI-generated Customer 360 at the top: deal value, churn risk, open P1, executive sponsor change. Suggested next actions below. Key contacts. And *then* the supporting documents — each with rich context: who owns it, how often it's viewed, whether you were in the meeting where it was discussed.
-
-Federated gives you fragments to sift through. Glean's index gives you understanding — synthesized, ranked, and permission-verified.
-
----
-
-## Scene 4 — LLM / Agent on Federated Data
+## Scene 3 — LLM / Agent on Federated Data
 
 **~30 seconds**
 
@@ -70,7 +56,7 @@ With federated retrieval, the context window fills up fast — but it's mostly n
 
 ---
 
-## Scene 5 — LLM / Agent on Glean Index
+## Scene 4 — LLM / Agent on Glean Index
 
 **~40 seconds**
 
@@ -84,7 +70,7 @@ ML does the heavy lifting *before* the LLM. Better retrieval means fewer reasoni
 
 ---
 
-## Scene 6 — MCP as Access Layer on Top of Glean
+## Scene 5 — MCP as Access Layer on Top of Glean
 
 **~30 seconds**
 
@@ -98,7 +84,7 @@ MCP gives you openness. Glean gives you intelligence and governance.
 
 ---
 
-## Scene 7 — The Search Advantage
+## Scene 6 — The Search Advantage
 
 **~20 seconds**
 
@@ -108,17 +94,17 @@ But better search and better AI answers? That's just the starting point. A real 
 
 ---
 
-## Scene 8 — Beyond Search
+## Scene 7 — Beyond Search
 
 **~30 seconds**
 
-This is what the enterprise graph makes possible. You've already seen agents and workflow automation in action. But the same graph also powers **Prism** — real-time entity views like account health and deal risk, built automatically from signals across Gong, Slack, Jira, and Salesforce. **Personal Graph** infers your tasks, projects, and collaborators from your activity, so every interaction is contextual. And **Proactive Intelligence** surfaces what matters — churn alerts, recommendations, next steps — before you even ask.
+This is what the enterprise graph makes possible — and it's the foundation for every advanced use case we're building. You've already seen agents and workflow automation in action. But the same graph also powers **Prism** — real-time entity views like account health and deal risk, built automatically from signals across Gong, Slack, Jira, and Salesforce. **Personal Graph** infers your tasks, projects, and collaborators from your activity, so every interaction is contextual. And **Proactive Intelligence** surfaces what matters — churn alerts, recommendations, next steps — before you even ask.
 
-Every one of these capabilities compounds on the same permission-aware graph. No re-indexing. No re-integration. One foundation, infinite leverage.
+Every one of these capabilities compounds on the same permission-aware graph. No re-indexing. No re-integration. One foundation that keeps unlocking new value.
 
 ---
 
-## Scene 9 — The Full Picture
+## Scene 8 — The Full Picture
 
 **~30 seconds**
 

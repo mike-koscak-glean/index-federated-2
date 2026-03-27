@@ -101,7 +101,7 @@ export function Scene5() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        Step 5 — LLM / Agent on Glean Index
+        Step 4 — LLM / Agent on Glean Index
       </motion.div>
 
       <div className="agent-layout agent-layout-horizontal">

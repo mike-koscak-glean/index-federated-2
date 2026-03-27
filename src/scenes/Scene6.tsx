@@ -17,7 +17,7 @@ export function Scene6() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        Step 6 — MCP as Access Layer on Top of Glean
+        Step 5 — MCP as Access Layer on Top of Glean
       </motion.div>
 
       <div className="arch-layout">

@@ -45,7 +45,7 @@ export function Scene9() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        Step 9 — The Full Picture
+        Step 8 — The Full Picture
       </motion.div>
 
       <div className="finale-layout">
