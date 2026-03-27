@@ -53,6 +53,34 @@ export function Scene3() {
         {/* Left: Federated */}
         <div className="split-panel">
           <div className="panel-header panel-header-red">MCP / Federated Results</div>
+
+          {/* Bad AI answer from noisy retrieval */}
+          <motion.div
+            className="fed-answer-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
+            <div className="fed-answer-header">
+              <span className="material-symbols-rounded" style={{ fontSize: 18 }}>auto_awesome</span>
+              AI-generated summary
+              <span className="result-tag result-tag-dim" style={{ marginLeft: 'auto' }}>
+                <span className="material-symbols-rounded" style={{ fontSize: 12 }}>warning</span>
+                Low confidence
+              </span>
+            </div>
+            <div className="fed-answer-body">
+              <strong>Acme Corp</strong> is a customer with records in Salesforce and Jira.
+              A feature request was filed in 2023. Meeting notes from February 2024
+              mention an onboarding discussion. There is also a Confluence runbook
+              available for reference.
+            </div>
+            <div className="fed-answer-missing">
+              <span className="material-symbols-rounded" style={{ fontSize: 13 }}>help_outline</span>
+              No deal value, no risk signals, no recommended actions
+            </div>
+          </motion.div>
+
           <div className="results-stack">
             {FED_RESULTS.map((r, i) => (
               <motion.div
