@@ -22,6 +22,77 @@ const ANSWER_SECTIONS = [
   { icon: 'rocket_launch', label: 'Next Best Actions', text: 'Schedule EBR with new sponsor, escalate P1s to engineering, share product roadmap.' },
 ];
 
+const NET_LAYERS = [
+  [0.18, 0.22, 0.45, 0.68, 0.78],
+  [0.15, 0.35, 0.55, 0.72, 0.88],
+  [0.20, 0.42, 0.62, 0.82],
+  [0.30, 0.55, 0.75],
+  [0.38, 0.65],
+];
+const NET_X = [0.08, 0.28, 0.50, 0.72, 0.92];
+
+function NeuralNetVis() {
+  const edges: { x1: number; y1: number; x2: number; y2: number; delay: number }[] = [];
+  for (let l = 0; l < NET_LAYERS.length - 1; l++) {
+    const fromNodes = NET_LAYERS[l];
+    const toNodes = NET_LAYERS[l + 1];
+    fromNodes.forEach((fy, fi) => {
+      toNodes.forEach((ty, ti) => {
+        edges.push({
+          x1: NET_X[l], y1: fy,
+          x2: NET_X[l + 1], y2: ty,
+          delay: (l * 0.4) + (fi + ti) * 0.06,
+        });
+      });
+    });
+  }
+
+  return (
+    <motion.div
+      className="ml-net-vis"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 1.4, duration: 0.6 }}
+    >
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="ml-net-svg">
+        {edges.map((e, i) => (
+          <motion.line
+            key={`e${i}`}
+            x1={e.x1 * 100} y1={e.y1 * 100}
+            x2={e.x2 * 100} y2={e.y2 * 100}
+            stroke="url(#mlGrad)"
+            strokeWidth="0.4"
+            strokeOpacity="0"
+            animate={{ strokeOpacity: [0, 0.5, 0.15] }}
+            transition={{ delay: 1.6 + e.delay, duration: 1.2, repeat: Infinity, repeatDelay: 2.5 + Math.random() }}
+          />
+        ))}
+        {NET_LAYERS.flatMap((layer, l) =>
+          layer.map((y, ni) => (
+            <motion.circle
+              key={`n${l}-${ni}`}
+              cx={NET_X[l] * 100} cy={y * 100} r="1.6"
+              fill="none"
+              stroke="url(#mlGrad)"
+              strokeWidth="0.5"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: [0, 0.9, 0.5], scale: 1 }}
+              transition={{ delay: 1.5 + l * 0.3 + ni * 0.08, duration: 1, repeat: Infinity, repeatDelay: 3 + Math.random() }}
+            />
+          ))
+        )}
+        <defs>
+          <linearGradient id="mlGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#343CED" />
+            <stop offset="100%" stopColor="#D8FD49" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <div className="ml-net-label">Ranking model</div>
+    </motion.div>
+  );
+}
+
 export function Scene5() {
   return (
     <div className="scene">
@@ -72,6 +143,8 @@ export function Scene5() {
               </motion.div>
             ))}
           </div>
+
+          <NeuralNetVis />
 
           <motion.div
             className="ml-output"
