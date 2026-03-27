@@ -1147,7 +1147,7 @@
 
 .arch-mcp-band {
   position: absolute;
-  top: 38%;
+  top: 44%;
   left: 10%;
   right: 10%;
   padding: 8px 0;
@@ -1166,9 +1166,9 @@
 
 .arch-glean-core {
   position: absolute;
-  top: 52%;
+  top: 68%;
   left: 50%;
-  transform: translate(-50%, 0);
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
