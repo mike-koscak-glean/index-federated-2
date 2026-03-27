@@ -172,10 +172,21 @@ export function Scene3() {
           </div>
 
           <motion.div
+            className="glean-why"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.6 }}
+          >
+            Glean doesn't return links — it returns <strong>answers</strong>.
+            One index understands content, people, permissions, and activity
+            across every source, so the most important insight is always first.
+          </motion.div>
+
+          <motion.div
             className="glean-bottom-label"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.8 }}
+            transition={{ delay: 1.9 }}
           >
             <span className="material-symbols-rounded" style={{ fontSize: 16, color: 'var(--glean-green)' }}>insights</span>
             60+ signals · Cross-source ranking · Permission-verified · AI answers
