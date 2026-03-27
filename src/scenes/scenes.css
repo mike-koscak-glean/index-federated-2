@@ -250,6 +250,84 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
+/* Token cost bar */
+.fed-token-strip {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fed-token-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.fed-token-track {
+  height: 22px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  overflow: hidden;
+  gap: 2px;
+  padding: 3px;
+}
+
+.fed-token-noise {
+  background: linear-gradient(90deg, rgba(255, 80, 80, 0.45), rgba(255, 120, 60, 0.3));
+  border-radius: 4px;
+  position: relative;
+}
+
+.fed-token-noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 6px,
+    rgba(0, 0, 0, 0.15) 6px,
+    rgba(0, 0, 0, 0.15) 7px
+  );
+  border-radius: 4px;
+}
+
+.fed-token-signal {
+  background: rgba(216, 253, 73, 0.25);
+  border-radius: 4px;
+}
+
+.fed-token-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fed-token-noise-label {
+  font-size: 10px;
+  color: #ff8080;
+  font-weight: 600;
+}
+
+.fed-token-cost {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: #ff8080;
+  font-weight: 600;
+  animation: pulseSlow 1.5s ease-in-out infinite;
+}
+
 /* ========================================
    Scene 2 — Glean Indexing
    ======================================== */
@@ -1334,78 +1412,74 @@
 }
 
 /* ========================================
-   Scene 8 — Beyond Search Constellation
+   Scene 8 — Beyond Search Grid
    ======================================== */
 
-.constellation-layout {
-  display: flex;
-  gap: 32px;
-  width: 100%;
-  flex: 1;
-  min-height: 0;
+.beyond-grid {
+  display: grid;
+  grid-template-areas:
+    ".     top    ."
+    "left  hub    right"
+    "bl    .      br";
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 16px 20px;
   align-items: center;
+  width: 100%;
+  max-width: 880px;
 }
 
-.constellation-visual {
-  flex: 0 0 auto;
+/* ---- Hub ---- */
+
+.beyond-hub {
+  grid-area: hub;
   position: relative;
-  width: min(420px, 45vh);
-  aspect-ratio: 1;
-}
-
-.orbit-ring {
-  position: absolute;
-  width: 76%;
-  height: 76%;
-  left: 12%;
-  top: 12%;
-  border-radius: 50%;
-  border: 1px dashed rgba(216, 253, 73, 0.25);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.orbit-line {
-  position: absolute;
-  height: 1px;
-  transform-origin: 0% 50%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.orbit-particle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.constellation-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  z-index: 3;
-  padding: 20px;
+  gap: 8px;
+  padding: 28px 36px;
+  z-index: 1;
   overflow: visible;
 }
 
-.constellation-center-glow {
+.beyond-hub-glow {
   position: absolute;
-  inset: -40px;
-  background: radial-gradient(ellipse, rgba(52, 60, 237, 0.45) 0%, rgba(216, 253, 73, 0.12) 40%, transparent 70%);
+  inset: -50px;
+  background: radial-gradient(
+    ellipse,
+    rgba(52, 60, 237, 0.5) 0%,
+    rgba(216, 253, 73, 0.1) 40%,
+    transparent 70%
+  );
   animation: pulseGlow 3s ease-in-out infinite;
   border-radius: 50%;
+  pointer-events: none;
 }
 
-.constellation-center-label {
+.beyond-hub-ring {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  border: 1px solid rgba(216, 253, 73, 0.3);
+  pointer-events: none;
+  opacity: 0;
+  animation: expandRing 4s ease-out infinite;
+}
+
+.beyond-hub-ring-1 { animation-delay: 0s; }
+.beyond-hub-ring-2 { animation-delay: 1.3s; }
+.beyond-hub-ring-3 { animation-delay: 2.6s; }
+
+@keyframes expandRing {
+  0%   { transform: translate(-50%, -50%) scale(1);  opacity: 0.5; }
+  100% { transform: translate(-50%, -50%) scale(10); opacity: 0; }
+}
+
+.beyond-hub-label {
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
@@ -1417,76 +1491,67 @@
   z-index: 1;
 }
 
-.constellation-node {
-  position: absolute;
-  transform: translate(-50%, -50%);
+/* ---- Capability cards ---- */
+
+.beyond-card {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 6px;
-  z-index: 2;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(12px);
+  border: 1px solid;
+  border-radius: var(--radius-md);
+  width: 260px;
+  position: relative;
+  overflow: hidden;
 }
 
-.constellation-node-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
+.beyond-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--cap-color, #fff) 6%, transparent),
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+.beyond-card-top   { grid-area: top;   justify-self: center; }
+.beyond-card-left  { grid-area: left;  justify-self: end; }
+.beyond-card-right { grid-area: right; justify-self: start; }
+.beyond-card-bl    { grid-area: bl;    justify-self: end; }
+.beyond-card-br    { grid-area: br;    justify-self: start; }
+
+.beyond-card-icon {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid;
   position: relative;
-  transition: transform 0.2s ease;
+  z-index: 1;
 }
 
-.constellation-node-icon::after {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  border-radius: 18px;
-  background: radial-gradient(ellipse, var(--node-color, rgba(255,255,255,0.1)) 0%, transparent 70%);
-  opacity: 0.15;
-  animation: pulseGlow 4s ease-in-out infinite;
-}
-
-.constellation-node-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.8);
-  text-align: center;
-  white-space: nowrap;
-}
-
-.constellation-details {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 380px;
-}
-
-.constellation-detail-card {
-  padding: 12px 16px;
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid;
-  border-radius: var(--radius-md);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.constellation-detail-header {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.beyond-card-label {
   font-size: 13px;
   font-weight: 700;
+  margin-bottom: 2px;
+  position: relative;
+  z-index: 1;
 }
 
-.constellation-detail-text {
-  font-size: 12px;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.6);
+.beyond-card-desc {
+  font-size: 11px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.55);
+  position: relative;
+  z-index: 1;
 }
 
 /* ========================================

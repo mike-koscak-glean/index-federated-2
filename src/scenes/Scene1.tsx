@@ -96,6 +96,47 @@ export function Scene1() {
           </motion.div>
         </div>
 
+        {/* Token cost bar */}
+        <motion.div
+          className="fed-token-strip"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 2.6, duration: 0.5 }}
+        >
+          <div className="fed-token-header">
+            <span className="material-symbols-rounded" style={{ fontSize: 16, color: '#ff8080' }}>
+              data_usage
+            </span>
+            LLM Context Window
+          </div>
+          <div className="fed-token-track">
+            <motion.div
+              className="fed-token-noise"
+              initial={{ width: '0%' }}
+              animate={{ width: '85%' }}
+              transition={{ delay: 3.0, duration: 1.4, ease: 'easeOut' }}
+            />
+            <motion.div
+              className="fed-token-signal"
+              initial={{ width: '0%' }}
+              animate={{ width: '12%' }}
+              transition={{ delay: 3.0, duration: 1.4, ease: 'easeOut' }}
+            />
+          </div>
+          <div className="fed-token-meta">
+            <span className="fed-token-noise-label">~85% stale / irrelevant</span>
+            <motion.span
+              className="fed-token-cost"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 4.2, type: 'spring', stiffness: 300, damping: 20 }}
+            >
+              <span className="material-symbols-rounded" style={{ fontSize: 13 }}>payments</span>
+              More noise → more tokens → higher cost
+            </motion.span>
+          </div>
+        </motion.div>
+
         <motion.div
           className="callout-list"
           initial={{ opacity: 0 }}
@@ -109,7 +150,7 @@ export function Scene1() {
             Each app returns its own slice; no unified view or cross-source ranking.
           </div>
           <div className="callout">
-            Ranking is simple, rule-based heuristics over heterogeneous APIs.
+            Every irrelevant document burns tokens — overloading the context window with noise at a higher cost.
           </div>
         </motion.div>
       </div>

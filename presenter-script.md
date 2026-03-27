@@ -7,129 +7,123 @@ Two paths. Same question. Radically different outcomes.
 ---
 
 ## Scene 0 — Cold Open
-**~30 seconds**
 
-Every enterprise leader eventually asks this question. "What's really happening with our most important customer?" It sounds simple. It's not — because the answer lives across a dozen systems, owned by different teams, governed by different permissions.
+**~20 seconds**
 
-Today we're going to show you two fundamentally different ways to answer it. One wires up live API calls and hopes for the best. The other builds a foundation that actually understands your business. By the end, the right choice will be obvious.
+Every enterprise leader asks this question. It sounds simple — but the answer lives across a dozen systems, owned by different teams, governed by different permissions.
+
+Today we'll show you two fundamentally different ways to answer it. One wires up live API calls and hopes for the best. The other builds a foundation that actually understands your business.
 
 ---
 
 ## Scene 1 — How Federated / MCP Works
-**~45 seconds**
+
+**~35 seconds**
 
 This is how federated search works. Your query hits a router, which fans out live API calls to every system — Drive, Jira, Salesforce, Slack, Confluence, ServiceNow, Gong.
 
-The problem starts immediately: you're only as fast as your slowest system. One overloaded endpoint and the entire experience stalls.
+You're only as fast as your slowest system. But latency isn't the real issue. Each app returns its own slice using its own relevance logic. There's no shared understanding of what matters — no way to correlate a Salesforce opportunity with a Slack escalation with a Jira P1. The system stacks fragments together and calls it an answer.
 
-But latency isn't even the real issue. Each app returns its own slice of results using its own relevance logic. There's no shared understanding of what matters. No way to correlate a Salesforce opportunity with a Slack escalation with a Jira P1. The system just stacks fragments together and calls it an answer.
+No memory. No enterprise context. Every query starts from scratch. And when you pipe all that unranked content into an LLM, every irrelevant document burns tokens and money. You're overloading the context window with noise and paying more for worse answers.
 
-No memory. No enterprise context. Every query starts from scratch. For a question like Customer 360 — where the value is in the *connections* between data — this approach is fundamentally blind.
+For a question like Customer 360 — where the value is in the *connections* between data — this approach is fundamentally blind.
 
 ---
 
 ## Scene 2 — How Glean Indexing Works
-**~45 seconds**
 
-Now, the other path. Glean connects to over 100 enterprise systems and deeply crawls each one — not just content, but permissions, people, org structure, and activity signals like views, edits, and comments.
+**~35 seconds**
 
-All of that feeds into a single, permission-aware enterprise index. Glean mirrors the exact access controls from every source system, enforced at both index time and query time. If you shouldn't see it in Salesforce, you won't see it in Glean.
+Now, the other path. Glean connects to over 100 enterprise systems and deeply crawls each one — not just content, but permissions, people, org structure, and activity signals.
 
-But the real power is what Glean builds on top: an enterprise knowledge graph. It doesn't just know that a document exists — it knows who owns it, who's read it 124 times, which team it belongs to, and how it connects to your accounts, projects, and people. That graph powers hybrid lexical and semantic search with over 60 ranking signals, tuned on *your* enterprise data.
+All of that feeds into a single, permission-aware enterprise index. Glean mirrors the exact access controls from every source system. If you shouldn't see it in Salesforce, you won't see it in Glean.
+
+On top of this index, Glean builds an enterprise knowledge graph. It doesn't just know a document exists — it knows who owns it, who's read it, which team it belongs to, and how it connects to your accounts, projects, and people. That graph powers hybrid search with over 60 ranking signals, tuned on *your* data.
 
 This is the difference between a pile of documents and actual understanding.
 
 ---
 
 ## Scene 3 — Federated vs Indexed Results
-**~45 seconds**
+
+**~35 seconds**
 
 Same query, side by side. The difference is immediate.
 
-On the left, federated results: a list of links, grouped by app. Half of them are stale — closed-lost opportunities, archived tickets, an outdated runbook. And buried at position six, a Slack thread where the customer is *threatening to churn*. The most critical insight in the entire result set, and it's invisible.
+On the left, federated results: a list of links grouped by app. Half are stale — closed-lost opportunities, archived tickets. And buried at position six, a Slack thread where the customer is *threatening to churn*. The most critical insight, and it's invisible.
 
-Now look at the right side. Glean doesn't just return links — it returns an *answer*. At the top, an AI-generated Customer 360: deal value, churn risk, open P1, executive sponsor change. Below that, suggested next actions — schedule an EBR, escalate the bug, share the roadmap. Then a key contact card with the account owner. And *then* the supporting documents — each with rich context: who owns it, how many times it's been viewed, whether you were in the meeting where it was discussed.
+On the right, Glean returns an *answer*. AI-generated Customer 360 at the top: deal value, churn risk, open P1, executive sponsor change. Suggested next actions below. Key contacts. And *then* the supporting documents — each with rich context: who owns it, how often it's viewed, whether you were in the meeting where it was discussed.
 
-This is the difference between a search engine and a knowledge engine. Federated gives you fragments to sift through. Glean gives you understanding — synthesized, ranked, actionable, and permission-verified.
+Federated gives you fragments to sift through. Glean's index gives you understanding — synthesized, ranked, and permission-verified.
 
 ---
 
 ## Scene 4 — LLM / Agent on Federated Data
-**~40 seconds**
+
+**~30 seconds**
 
 Now let's feed these results to an AI agent.
 
-With federated retrieval, the agent's context window fills up fast — but it's mostly noise. Stale records, duplicates, archived tickets, an 18-month-old runbook. The LLM has no way to tell what's current, what's authoritative, or what's relevant. So it reasons longer, makes more calls, burns more compute, and still produces unreliable output.
+With federated retrieval, the context window fills up fast — but it's mostly noise. Stale records, duplicates, archived tickets. The LLM can't tell what's current or what's relevant. It reasons longer, makes more calls, burns more compute, and still produces unreliable output.
 
-This is the fundamental insight people miss: *bigger context windows don't fix bad retrieval.* Garbage in, garbage out — no matter how powerful the model. And every MCP host has to reinvent this retrieval from scratch, with no shared enterprise memory.
-
-Retrieval quality is the bottleneck. Not model capability.
+*Bigger context windows don't fix bad retrieval.* Garbage in, garbage out — no matter how powerful the model. Retrieval quality is the bottleneck. Not model capability.
 
 ---
 
 ## Scene 5 — LLM / Agent on Glean Index
-**~50 seconds**
+
+**~40 seconds**
 
 Now compare. Same question, but the agent calls into Glean's index.
 
-On the left you can see what happens *before* the LLM ever sees a token. Glean runs a machine-learning relevance engine — not an LLM, a purpose-built ranking pipeline with over 60 signals trained on *your* enterprise data. Semantic matching understands meaning beyond keywords. Personalization weighs what matters to *you* based on your role, your activity, your team. Popularity surfaces what the rest of the company actually uses. Recency ensures the freshest information wins.
+Before the LLM sees a single token, Glean runs a purpose-built ML ranking pipeline — over 60 signals trained on *your* data. Semantic matching, personalization based on your role and activity, popularity, recency. Out of 200+ candidates, ML narrows it to four — curated, permission-checked, verified.
 
-The result: out of 200+ candidate documents, ML narrows it to four — curated, permission-checked, verified. The active opportunity. The churn escalation. The latest QBR. The key contact.
+Only *then* does the LLM take over. From that small, high-signal context, it composes a real Customer 360: summary, health score, risks, and next best actions. No extra reasoning loops. No hallucination from stale data.
 
-Only *then* does the LLM take over. From that small, high-signal context, it composes a real Customer 360: summary, health score, risks, and next best actions. No extra reasoning loops. No hallucination from stale data. No permission leaks.
-
-This is the key insight: ML does the heavy lifting *before* the LLM. Better retrieval means fewer reasoning steps, lower cost, faster answers, and results you can actually trust.
+ML does the heavy lifting *before* the LLM. Better retrieval means fewer reasoning steps, lower cost, faster answers, and results you can trust.
 
 ---
 
 ## Scene 6 — MCP as Access Layer on Top of Glean
-**~35 seconds**
 
-So where does MCP fit? Right here — as the access layer *on top of* the index.
+**~30 seconds**
 
-MCP is a great protocol for connecting tools and agents. But it's a port, not an engine. Without an intelligent layer underneath, every MCP host is on its own — reinventing retrieval, reimplementing permissions, getting inconsistent results.
+So where does MCP fit? As the access layer *on top of* the index.
 
-With Glean underneath, every client — Cursor, desktop agents, Slack bots, internal tools, custom apps — connects through MCP into the same governed enterprise graph. One index. One permission model. One source of truth.
+MCP is a great protocol — but it's a port, not an engine. Without an intelligent layer underneath, every MCP host reinvents retrieval and permissions from scratch.
 
-MCP gives you openness. Glean gives you intelligence and governance. You need both.
+With Glean underneath, every client — Cursor, desktop agents, Slack bots, custom apps — connects through MCP into the same governed graph. One index. One permission model. One source of truth.
+
+MCP gives you openness. Glean gives you intelligence and governance.
 
 ---
 
 ## Scene 7 — The Search Advantage
-**~30 seconds**
 
-Latency, relevance, coverage, governance, agent reliability — across every dimension that matters, the gap is stark. An indexed enterprise graph gives your agents a brain.
+**~20 seconds**
 
-But here's the thing: better search results and better AI answers? That's just the starting point. When you build a real knowledge graph — one that understands your content, your people, and how they connect — you unlock an entirely new category of intelligence.
+Latency, relevance, coverage, governance, agent reliability — across every dimension, the gap is stark. An indexed enterprise graph gives your agents a brain.
+
+But better search and better AI answers? That's just the starting point. A real knowledge graph unlocks an entirely new category of intelligence.
 
 ---
 
 ## Scene 8 — Beyond Search
-**~50 seconds**
 
-This is what the enterprise graph makes possible. At the center is the same index — your content, permissions, people, and activity. But radiating out from it are capabilities that federated search can never deliver.
+**~30 seconds**
 
-**Agents** — not chatbots, real multi-step agents that reason over enterprise context, execute across systems, and take action. Triage a support ticket. Update your CRM. Draft a deal review. All grounded in the knowledge graph.
+This is what the enterprise graph makes possible. You've already seen agents and workflow automation in action. But the same graph also powers **Prism** — real-time entity views like account health and deal risk, built automatically from signals across Gong, Slack, Jira, and Salesforce. **Personal Graph** infers your tasks, projects, and collaborators from your activity, so every interaction is contextual. And **Proactive Intelligence** surfaces what matters — churn alerts, recommendations, next steps — before you even ask.
 
-**Prism** — Glean's real-time observability layer. It transforms unstructured signals from Gong, Slack, Jira, Salesforce into structured entity views. Account health. Deal risk. Renewal predictions. Not dashboards you build — intelligence that builds itself from the graph.
-
-**Personal Graph** — Glean infers what *you* are working on from your activity across every tool. Your tasks, your projects, your collaborators — a personal context layer that makes every interaction smarter.
-
-**Proactive Intelligence** — the graph doesn't wait for you to ask. It surfaces what matters: churn risk alerts, document recommendations, suggested next steps — before you even know to look.
-
-**Workflow Automation** — agents that trigger automatically. Event-driven, cross-system orchestration — not scripts, but intelligent workflows that adapt because they understand the business context underneath.
-
-Every one of these capabilities is grounded in the same permission-aware graph. No re-indexing. No re-integration. Each feature compounds on a single source of truth.
+Every one of these capabilities compounds on the same permission-aware graph. No re-indexing. No re-integration. One foundation, infinite leverage.
 
 ---
 
 ## Scene 9 — The Full Picture
-**~40 seconds**
+
+**~30 seconds**
 
 Here's the full picture. At the base: 100+ enterprise systems. Above that: a unified, permission-aware index. On top: the enterprise knowledge graph — entities, relationships, and signals tuned on *your* data.
 
-And from that foundation, you ship an entire platform to every employee. Search. AI Assistant. Agents. Prism analytics. Workflow automation. Personal AI. All from one indexed, governed foundation.
+From that one foundation, you ship an entire platform: Search, AI Assistant, Agents, Prism, Workflow Automation, Personal AI. All governed, all from one index.
 
-This is the difference between plugging into APIs and building real infrastructure. Federated gives your AI fragments. An enterprise graph gives it understanding.
-
-**Index once. Unlock everything.**
+Federated gives your AI fragments. An enterprise graph gives it understanding. **Index once. Unlock everything.**
