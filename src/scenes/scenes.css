@@ -633,6 +633,27 @@
   min-height: 0;
 }
 
+.agent-layout-vertical {
+  flex-direction: column;
+  align-items: center;
+}
+
+.agent-layout-vertical .agent-box {
+  width: 100%;
+  max-width: 700px;
+}
+
+.agent-layout-vertical .callout-list {
+  flex-direction: row;
+  max-width: 100%;
+  gap: 16px;
+}
+
+.agent-layout-vertical .callout-list .callout {
+  flex: 1;
+  text-align: center;
+}
+
 .agent-box {
   flex: 1;
   display: flex;

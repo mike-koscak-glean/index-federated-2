@@ -24,7 +24,7 @@ export function Scene4() {
         Step 4 — LLM / Agent on Federated Data
       </motion.div>
 
-      <div className="agent-layout">
+      <div className="agent-layout agent-layout-vertical">
         <motion.div
           className="agent-box agent-box-fed"
           initial={{ opacity: 0, scale: 0.9 }}
