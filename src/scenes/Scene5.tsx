@@ -26,7 +26,7 @@ export function Scene5() {
         Step 5 — LLM / Agent on Glean Index
       </motion.div>
 
-      <div className="agent-layout">
+      <div className="agent-layout agent-layout-vertical">
         <motion.div
           className="agent-box agent-box-glean"
           initial={{ opacity: 0, scale: 0.9 }}
