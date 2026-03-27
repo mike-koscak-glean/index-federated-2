@@ -8,6 +8,13 @@ const CURATED_SNIPPETS = [
   'Key contact: Jane Smith (VP Sales, Acme)',
 ];
 
+const ML_SIGNALS = [
+  { icon: 'neurology', label: 'Semantic Match', desc: 'Deep-learning similarity' },
+  { icon: 'person_search', label: 'Personalization', desc: 'Your activity & role' },
+  { icon: 'trending_up', label: 'Popularity', desc: 'Views, edits, shares' },
+  { icon: 'schedule', label: 'Recency', desc: 'Freshness weighting' },
+];
+
 const ANSWER_SECTIONS = [
   { icon: 'summarize', label: 'Summary', text: 'Acme Corp is a $1.2M opportunity at risk. Escalation thread indicates churn concerns around onboarding delays.' },
   { icon: 'health_and_safety', label: 'Health Score', text: '62/100 — down from 78 last quarter. Three open P1 support tickets.' },
@@ -26,7 +33,58 @@ export function Scene5() {
         Step 5 — LLM / Agent on Glean Index
       </motion.div>
 
-      <div className="agent-layout agent-layout-vertical">
+      <div className="agent-layout agent-layout-horizontal">
+        {/* Left panel — ML Relevance Engine */}
+        <motion.div
+          className="ml-panel"
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+        >
+          <div className="ml-panel-header">
+            <span className="material-symbols-rounded" style={{ fontSize: 20, color: 'var(--glean-green)' }}>model_training</span>
+            <span>ML Relevance Engine</span>
+          </div>
+          <div className="ml-panel-sub">60+ ranking signals, trained on your enterprise</div>
+
+          <div className="ml-signals">
+            {ML_SIGNALS.map((s, i) => (
+              <motion.div
+                key={i}
+                className="ml-signal"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.6 + i * 0.18 }}
+              >
+                <div className="ml-signal-icon">
+                  <span className="material-symbols-rounded" style={{ fontSize: 18 }}>{s.icon}</span>
+                </div>
+                <div className="ml-signal-info">
+                  <div className="ml-signal-label">{s.label}</div>
+                  <div className="ml-signal-desc">{s.desc}</div>
+                </div>
+                <motion.div
+                  className="ml-signal-bar"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ delay: 0.9 + i * 0.18, duration: 0.5, ease: 'easeOut' }}
+                />
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            className="ml-output"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 1, 0.6, 1] }}
+            transition={{ delay: 1.8, duration: 1.5, repeat: Infinity, repeatDelay: 3 }}
+          >
+            <span className="material-symbols-rounded" style={{ fontSize: 14 }}>check_circle</span>
+            Ranked &amp; filtered — 4 of 200+ results
+          </motion.div>
+        </motion.div>
+
+        {/* Right panel — Agent + answer */}
         <motion.div
           className="agent-box agent-box-glean"
           initial={{ opacity: 0, scale: 0.9 }}
@@ -38,7 +96,6 @@ export function Scene5() {
             <span>Glean-powered Agent</span>
           </div>
 
-          {/* Query beam */}
           <div className="glean-flow">
             <motion.div
               className="glean-query-beam"
@@ -75,7 +132,6 @@ export function Scene5() {
             </div>
           </div>
 
-          {/* Composed answer */}
           <motion.div
             className="answer-card"
             initial={{ opacity: 0, y: 20 }}
@@ -105,24 +161,24 @@ export function Scene5() {
             </div>
           </motion.div>
         </motion.div>
-
-        <motion.div
-          className="callout-list"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 3.2 }}
-        >
-          <div className="callout">
-            Index once; agents reuse the same trusted context everywhere.
-          </div>
-          <div className="callout">
-            RAG uses a small, permission-checked subset of the index, not your entire corpus.
-          </div>
-          <div className="callout">
-            Better retrieval → fewer reasoning steps → faster, cheaper, more accurate agents.
-          </div>
-        </motion.div>
       </div>
+
+      <motion.div
+        className="callout-list callout-list-row"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 3.2 }}
+      >
+        <div className="callout">
+          ML models rank before the LLM sees anything — the agent gets signal, not noise.
+        </div>
+        <div className="callout">
+          60+ signals trained on your enterprise — not generic web relevance.
+        </div>
+        <div className="callout">
+          Better retrieval → fewer reasoning steps → faster, cheaper, more accurate agents.
+        </div>
+      </motion.div>
     </div>
   );
 }

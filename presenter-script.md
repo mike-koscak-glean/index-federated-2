@@ -68,15 +68,17 @@ Retrieval quality is the bottleneck. Not model capability.
 ---
 
 ## Scene 5 — LLM / Agent on Glean Index
-**~40 seconds**
+**~50 seconds**
 
 Now compare. Same question, but the agent calls into Glean's index.
 
-Instead of ten noisy snippets, it gets four — curated, permission-checked, verified. The active opportunity with deal value. The churn escalation. The latest QBR summary. The key contact.
+On the left you can see what happens *before* the LLM ever sees a token. Glean runs a machine-learning relevance engine — not an LLM, a purpose-built ranking pipeline with over 60 signals trained on *your* enterprise data. Semantic matching understands meaning beyond keywords. Personalization weighs what matters to *you* based on your role, your activity, your team. Popularity surfaces what the rest of the company actually uses. Recency ensures the freshest information wins.
 
-From that, the agent composes a real Customer 360: summary, health score, risks, and next best actions. No extra reasoning loops. No hallucination risk from stale data. No permission leaks.
+The result: out of 200+ candidate documents, ML narrows it to four — curated, permission-checked, verified. The active opportunity. The churn escalation. The latest QBR. The key contact.
 
-This is what Glean calls "system of context." Index once, and every agent — regardless of where it runs — reuses the same trusted, governed foundation. Better retrieval means fewer reasoning steps, lower cost, faster answers, and results you can actually trust.
+Only *then* does the LLM take over. From that small, high-signal context, it composes a real Customer 360: summary, health score, risks, and next best actions. No extra reasoning loops. No hallucination from stale data. No permission leaks.
+
+This is the key insight: ML does the heavy lifting *before* the LLM. Better retrieval means fewer reasoning steps, lower cost, faster answers, and results you can actually trust.
 
 ---
 

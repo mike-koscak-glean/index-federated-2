@@ -817,6 +817,132 @@
   white-space: nowrap;
 }
 
+/* ========================================
+   ML Relevance Engine panel (Scene 5)
+   ======================================== */
+
+.agent-layout-horizontal {
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+  flex: 1;
+  gap: 24px;
+}
+
+.agent-layout-horizontal .agent-box {
+  flex: 1;
+  min-width: 0;
+}
+
+.ml-panel {
+  width: 240px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px;
+  background: rgba(52, 60, 237, 0.06);
+  border: 1px solid rgba(216, 253, 73, 0.12);
+  border-radius: var(--radius-lg);
+}
+
+.ml-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--glean-green);
+}
+
+.ml-panel-sub {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: -6px;
+}
+
+.ml-signals {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ml-signal {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.ml-signal-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(216, 253, 73, 0.08);
+  border: 1px solid rgba(216, 253, 73, 0.15);
+  color: var(--glean-green);
+  flex-shrink: 0;
+}
+
+.ml-signal-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ml-signal-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.ml-signal-desc {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.ml-signal-bar {
+  position: absolute;
+  bottom: -4px;
+  left: 42px;
+  right: 0;
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(90deg, rgba(52, 60, 237, 0.5), rgba(216, 253, 73, 0.4));
+  transform-origin: left;
+}
+
+.ml-output {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--glean-green);
+  padding: 8px 10px;
+  background: rgba(216, 253, 73, 0.06);
+  border: 1px solid rgba(216, 253, 73, 0.15);
+  border-radius: var(--radius-md);
+  margin-top: auto;
+}
+
+.callout-list-row {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  max-width: 900px;
+}
+
+.callout-list-row .callout {
+  flex: 1;
+  text-align: center;
+}
+
 /* Answer card */
 .answer-card {
   background: rgba(0, 0, 0, 0.35);
