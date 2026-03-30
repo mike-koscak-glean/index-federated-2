@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Artificial Personalized Intelligence — Glean</title>
+  <link rel="icon" type="image/svg+xml" href="https://app.glean.com/images/glean-logo2.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --glean-blue: #343CED;
+      --glean-green: #D8FD49;
+      --glean-oatmeal: #F6F3EB;
+      --chaos-red: #ff4d4d;
+      --chaos-orange: #ff8844;
+      --bg: #07071a;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.1);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255,255,255,0.55);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      overflow: hidden;
+      height: 100dvh;
+      width: 100dvw;
+    }
+
+    #app {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 32px 48px 24px;
+      position: relative;
+    }
+
+    /* ── Header ───────────────────────────────── */
+    .header {
+      text-align: center;
+      flex-shrink: 0;
+      margin-bottom: 12px;
+      min-height: 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .title {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      transition: opacity 0.5s ease;
+    }
+    .title .hi { color: var(--glean-green); }
+    .subtitle {
+      font-size: 17px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      margin-top: 8px;
+      transition: opacity 0.5s ease;
+    }
+
+    /* ── Diagram ──────────────────────────────── */
+    .diagram {
+      flex: 1;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 0;
+    }
+    .diagram svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── Node rows ────────────────────────────── */
+    .row {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .row-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      transition: color 0.6s;
+    }
+    .nodes {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+    }
+    .node-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.6s, box-shadow 0.6s;
+    }
+    .node-icon img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+    .node-icon.text-icon {
+      font-weight: 700;
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: -0.03em;
+    }
+    .node-name {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .more-icon {
+      background: transparent;
+      border-style: dashed;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    /* ── Middle section ───────────────────────── */
+    .middle-section {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: max-height 0.8s cubic-bezier(0.4,0,0.2,1),
+                  opacity 0.6s ease 0.2s,
+                  transform 0.6s ease 0.2s;
+    }
+    .state-2 .middle-section {
+      max-height: 450px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .layer-card {
+      border-radius: 16px;
+      padding: 20px 28px;
+      border: 1px solid rgba(52,60,237,0.25);
+      background: linear-gradient(135deg, rgba(52,60,237,0.08) 0%, rgba(52,60,237,0.02) 100%);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .layer-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--glean-blue);
+      border-radius: 0 2px 2px 0;
+    }
+    .layer-card .layer-icon {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(52,60,237,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .layer-card .layer-icon .material-symbols-rounded {
+      font-size: 24px;
+      color: var(--glean-blue);
+    }
+    .layer-card .layer-info { flex: 1; }
+    .layer-card .layer-title {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 4px;
+    }
+    .layer-card .layer-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+    .layer-card .layer-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .badge-blue {
+      background: rgba(52,60,237,0.2);
+      color: #8b8fff;
+      border: 1px solid rgba(52,60,237,0.3);
+    }
+    .badge-green {
+      background: rgba(216,253,73,0.12);
+      color: var(--glean-green);
+      border: 1px solid rgba(216,253,73,0.25);
+    }
+    .glean-wordmark {
+      height: 22px;
+      opacity: 0.8;
+      flex-shrink: 0;
+    }
+
+    /* ── Callouts (State 1 pain points) ───────── */
+    .callouts {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .callout {
+      position: absolute;
+      padding: 5px 13px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      backdrop-filter: blur(6px);
+      transition: opacity 0.4s ease;
+      white-space: nowrap;
+    }
+    .callout-pain {
+      background: rgba(255,77,77,0.12);
+      border: 1px solid rgba(255,77,77,0.3);
+      color: #ff8080;
+    }
+    .state-2 .callout-pain { opacity: 0; }
+    .state-1 .callout-pain { opacity: 1; }
+
+    /* ── Experience row → card treatment (state 2) */
+    .exp-row {
+      padding: 10px 0;
+      border-radius: 16px;
+      border: 1px solid transparent;
+      background: transparent;
+      transition: padding 0.6s ease 0.15s,
+                  border-color 0.6s ease 0.15s,
+                  background 0.6s ease 0.15s;
+    }
+    .state-2 .exp-row {
+      padding: 18px 28px 14px;
+      border-color: rgba(52,60,237,0.25);
+      background: linear-gradient(135deg, rgba(52,60,237,0.08) 0%, rgba(52,60,237,0.02) 100%);
+    }
+    .state-2 .exp-row::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--glean-blue);
+      border-radius: 0 2px 2px 0;
+    }
+    .exp-meta {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, opacity 0.4s ease;
+      text-align: left;
+      width: 100%;
+    }
+    .state-2 .exp-meta {
+      max-height: 80px;
+      opacity: 1;
+    }
+    .exp-meta .layer-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      margin-bottom: 6px;
+    }
+    .exp-meta .layer-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+
+    /* ── State-specific node styles ───────────── */
+    .state-1 .exp-row .node-icon {
+      border-color: rgba(255,77,77,0.35);
+      box-shadow: 0 0 16px rgba(255,77,77,0.2);
+    }
+    .state-1 .sys-row .node-icon {
+      border-color: rgba(255,136,68,0.3);
+      box-shadow: 0 0 12px rgba(255,136,68,0.15);
+    }
+    .state-2 .exp-row .node-icon {
+      border-color: rgba(52,60,237,0.4);
+      box-shadow: 0 0 16px rgba(52,60,237,0.2);
+    }
+    .state-2 .sys-row .node-icon {
+      border-color: rgba(52,60,237,0.3);
+      box-shadow: 0 0 12px rgba(52,60,237,0.15);
+    }
+
+    /* ── Footer ───────────────────────────────── */
+    .footer {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding-top: 16px;
+    }
+    .step-dots {
+      display: flex;
+      gap: 8px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.35);
+      background: transparent;
+      transition: all 0.4s;
+      cursor: pointer;
+    }
+    .dot.active {
+      background: var(--glean-blue);
+      border-color: var(--glean-blue);
+      box-shadow: 0 0 8px rgba(52,60,237,0.5);
+    }
+    .nav-btn {
+      padding: 10px 28px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      backdrop-filter: blur(8px);
+    }
+    .nav-btn:hover {
+      background: rgba(52,60,237,0.2);
+      border-color: rgba(52,60,237,0.4);
+    }
+    .hint {
+      font-size: 11px;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ── SVG path styles ──────────────────────── */
+    .messy-path {
+      stroke-dasharray: 6, 4;
+      animation: flow 2s linear infinite;
+    }
+    @keyframes flow {
+      to { stroke-dashoffset: -20; }
+    }
+    .clean-path {
+      stroke-dasharray: var(--len);
+      stroke-dashoffset: var(--len);
+      animation: draw 0.7s ease forwards;
+      animation-delay: var(--delay, 0s);
+    }
+    @keyframes draw {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* ── SVG groups ───────────────────────────── */
+    .svg-messy { transition: opacity 0.5s ease; }
+    .svg-clean { transition: opacity 0.5s ease; }
+    .state-1 .svg-clean { opacity: 0; }
+    .state-2 .svg-messy { opacity: 0; }
+  </style>
+</head>
+<body>
+  <div id="app" class="state-1">
+
+    <div class="header">
+      <h1 class="title" id="title">Point-to-Point AI</h1>
+      <p class="subtitle" id="subtitle">Each experience connects directly — no shared context, no enterprise knowledge, no reuse</p>
+    </div>
+
+    <div class="diagram" id="diagram">
+      <svg id="connections" xmlns="http://www.w3.org/2000/svg">
+        <g class="svg-messy" id="messyGroup"></g>
+        <g class="svg-clean" id="cleanGroup"></g>
+      </svg>
+
+      <!-- Callouts -->
+      <div class="callouts">
+        <div class="callout callout-pain" style="top:32%; left:4%;">✕ No permissions model</div>
+        <div class="callout callout-pain" style="top:44%; right:3%;">✕ Cold start every query</div>
+        <div class="callout callout-pain" style="top:56%; left:6%;">✕ No enterprise context</div>
+        <div class="callout callout-pain" style="top:68%; right:5%;">✕ N × M connection explosion</div>
+      </div>
+
+      <!-- Experience Layer (top) -->
+      <div class="row exp-row" id="expRow">
+        <div class="row-label">AI Experiences</div>
+        <div class="exp-meta">
+          <div class="layer-desc">Any AI experience connects through standard protocols — no custom integration per tool</div>
+          <div class="layer-badges">
+            <span class="badge badge-blue">Any AI client</span>
+            <span class="badge badge-blue">MCP · REST · SDK</span>
+            <span class="badge badge-green">Zero custom integration</span>
+            <span class="badge badge-blue">Governed access</span>
+          </div>
+        </div>
+        <div class="nodes" id="expNodes">
+          <div class="node"><div class="node-icon"><img src="https://app.glean.com/images/claude.svg" alt="Claude Code" /></div><span class="node-name">Claude Code</span></div>
+          <div class="node"><div class="node-icon text-icon">⌨</div><span class="node-name">Cursor</span></div>
+          <div class="node"><div class="node-icon"><img src="https://app.glean.com/images/logos/google-gemini.svg" alt="Gemini" /></div><span class="node-name">Gemini</span></div>
+          <div class="node"><div class="node-icon"><img src="https://app.glean.com/images/logos/openai.svg" alt="ChatGPT" /></div><span class="node-name">ChatGPT</span></div>
+          <div class="node"><div class="node-icon text-icon">MCP</div><span class="node-name">MCP Clients</span></div>
+        </div>
+      </div>
+
+      <!-- Middle Layers (revealed in State 2) -->
+      <div class="middle-section" id="middleSection">
+        <div class="layer-card">
+          <div class="layer-icon"><span class="material-symbols-rounded">psychology</span></div>
+          <div class="layer-info">
+            <div class="layer-title">Process Layer</div>
+            <div class="layer-desc">ML captures your business processes and generates enterprise &amp; personal knowledge graphs</div>
+            <div class="layer-badges">
+              <span class="badge badge-blue">Enterprise Knowledge Graph</span>
+              <span class="badge badge-green">Personal Graph</span>
+              <span class="badge badge-blue">60+ ML ranking signals</span>
+              <span class="badge badge-blue">Semantic + keyword hybrid</span>
+              <span class="badge badge-green">Role-aware personalization</span>
+            </div>
+          </div>
+          <img class="glean-wordmark" src="https://app.glean.com/images/glean-text3.svg" alt="Glean" />
+        </div>
+        <div class="layer-card">
+          <div class="layer-icon"><span class="material-symbols-rounded">lock</span></div>
+          <div class="layer-info">
+            <div class="layer-title">System Layer</div>
+            <div class="layer-desc">Reusable, permission-aware connectors that pull not just data but all rich metadata</div>
+            <div class="layer-badges">
+              <span class="badge badge-blue">100+ connectors</span>
+              <span class="badge badge-blue">ACL-mirrored</span>
+              <span class="badge badge-blue">Deep crawl</span>
+              <span class="badge badge-blue">Real-time sync</span>
+              <span class="badge badge-green">Rich metadata &amp; relationships</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enterprise Systems (bottom) -->
+      <div class="row sys-row" id="sysRow">
+        <div class="nodes" id="sysNodes">
+          <div class="node"><div class="node-icon"><img src="https://app.glean.com/images/logos/salesforce.svg" alt="Salesforce" /></div><span class="node-name">Salesforce</span></div>
+          <div class="node"><div class="node-icon"><img src="https://app.glean.com/images/logos/jira3.svg" alt="Jira" /></div><span class="node-name">Jira</span></div>
+          <div class="node"><div class="node-icon"><img src="https://app.glean.com/images/logos/confluence3.svg" alt="Confluence" /></div><span class="node-name">Confluence</span></div>
+          <div class="node"><div class="node-icon"><img src="https://app.glean.com/images/logos/servicenow.svg" alt="ServiceNow" /></div><span class="node-name">ServiceNow</span></div>
+          <div class="node"><div class="node-icon"><img src="https://app.glean.com/images/logos/sharepoint.svg" alt="SharePoint" /></div><span class="node-name">SharePoint</span></div>
+          <div class="node"><div class="node-icon"><img src="https://app.glean.com/images/logos/gmail3.svg" alt="Gmail" /></div><span class="node-name">Gmail</span></div>
+          <div class="node"><div class="node-icon"><img src="https://app.glean.com/images/logos/gdrive3.svg" alt="Google Drive" /></div><span class="node-name">Drive</span></div>
+          <div class="node"><div class="node-icon"><img src="https://app.glean.com/images/logos/gong.svg" alt="Gong" /></div><span class="node-name">Gong</span></div>
+          <div class="node"><div class="node-icon"><img src="https://app.glean.com/images/logos/teams.svg" alt="Teams" /></div><span class="node-name">Teams</span></div>
+          <div class="node"><div class="node-icon"><img src="https://app.glean.com/images/logos/outlook.svg" alt="Outlook" /></div><span class="node-name">Outlook</span></div>
+          <div class="node"><div class="node-icon more-icon">+90</div><span class="node-name">more</span></div>
+        </div>
+        <div class="row-label">Enterprise Systems of Record</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="step-dots">
+        <span class="dot active" id="dot0" data-state="1"></span>
+        <span class="dot" id="dot1" data-state="2"></span>
+      </div>
+      <button class="nav-btn" id="navBtn">See a better way →</button>
+      <span class="hint">Press → or Space</span>
+    </div>
+
+  </div>
+
+  <script>
+    const app       = document.getElementById('app');
+    const titleEl   = document.getElementById('title');
+    const subEl     = document.getElementById('subtitle');
+    const navBtn    = document.getElementById('navBtn');
+    const dot0      = document.getElementById('dot0');
+    const dot1      = document.getElementById('dot1');
+    const svg       = document.getElementById('connections');
+    const messyG    = document.getElementById('messyGroup');
+    const cleanG    = document.getElementById('cleanGroup');
+    const diagram   = document.getElementById('diagram');
+
+    let state = 1;
+    let transitioning = false;
+
+    const MESSY_CONNS = [
+      [0,0],[0,2],[0,5],[0,7],
+      [1,1],[1,3],[1,4],[1,6],
+      [2,0],[2,5],[2,6],[2,8],[2,9],
+      [3,0],[3,1],[3,3],[3,7],[3,8],
+      [4,2],[4,4],[4,6],[4,9],[4,1],
+    ];
+    const CHAOS_COLORS = ['#ff4d4d','#ff7744','#ffaa33','#ff5577','#ee5533'];
+
+    function getCenter(el) {
+      const r = el.getBoundingClientRect();
+      const s = diagram.getBoundingClientRect();
+      return { x: r.left + r.width / 2 - s.left, y: r.top + r.height / 2 - s.top };
+    }
+
+    function seededOffset(i) {
+      return Math.sin(i * 9301 + 49297) * 100 - 50;
+    }
+
+    function drawMessy() {
+      messyG.innerHTML = '';
+      const expEls = document.querySelectorAll('#expNodes .node-icon');
+      const sysEls = document.querySelectorAll('#sysNodes .node-icon');
+
+      MESSY_CONNS.forEach(([ei, si], idx) => {
+        const from = getCenter(expEls[ei]);
+        const to   = getCenter(sysEls[si]);
+        const dx = to.x - from.x;
+        const dy = to.y - from.y;
+        const ox = seededOffset(idx);
+        const oy = seededOffset(idx + 50);
+
+        const d = `M${from.x},${from.y} C${from.x + ox},${from.y + dy * 0.35 + oy} ${to.x - ox * 0.7},${to.y - dy * 0.35 - oy * 0.5} ${to.x},${to.y}`;
+        const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+        path.setAttribute('d', d);
+        path.setAttribute('stroke', CHAOS_COLORS[idx % CHAOS_COLORS.length]);
+        path.setAttribute('stroke-width', '1.8');
+        path.setAttribute('fill', 'none');
+        path.setAttribute('opacity', '0.45');
+        path.classList.add('messy-path');
+        path.style.animationDuration = (1.4 + (idx % 5) * 0.3) + 's';
+        messyG.appendChild(path);
+      });
+    }
+
+    function drawClean() {
+      cleanG.innerHTML = '';
+      const expEls  = document.querySelectorAll('#expNodes .node-icon');
+      const sysEls  = document.querySelectorAll('#sysNodes .node-icon');
+      const expRow  = document.getElementById('expRow');
+      const midSect = document.getElementById('middleSection');
+      const dRect   = diagram.getBoundingClientRect();
+      const expBot  = expRow.getBoundingClientRect().bottom - dRect.top;
+      const midRect = midSect.getBoundingClientRect();
+      const midTop  = midRect.top - dRect.top;
+      const midBot  = midRect.bottom - dRect.top;
+
+      let i = 0;
+
+      const expSpread = expEls.length;
+      const totalW    = expEls[expSpread - 1].getBoundingClientRect().right
+                      - expEls[0].getBoundingClientRect().left;
+      const startX    = getCenter(expEls[0]).x;
+      const step      = expSpread > 1 ? totalW / (expSpread - 1) : 0;
+
+      for (let j = 0; j < expSpread; j++) {
+        const x = startX + step * j;
+        addCleanPath({ x, y: expBot }, { x, y: midTop }, i++ * 0.06);
+      }
+
+      sysEls.forEach((el) => {
+        if (el.classList.contains('more-icon')) return;
+        const to   = getCenter(el);
+        const from = { x: to.x, y: midBot };
+        addCleanPath(from, to, i++ * 0.04);
+      });
+    }
+
+    function addCleanPath(from, to, delay) {
+      const d = `M${from.x},${from.y} L${to.x},${to.y}`;
+      const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('d', d);
+      path.setAttribute('stroke', 'rgba(52,60,237,0.5)');
+      path.setAttribute('stroke-width', '1.4');
+      path.setAttribute('fill', 'none');
+      const len = Math.hypot(to.x - from.x, to.y - from.y);
+      path.style.setProperty('--len', len);
+      path.style.setProperty('--delay', delay + 's');
+      path.classList.add('clean-path');
+      cleanG.appendChild(path);
+    }
+
+    function goToState(target) {
+      if (transitioning || target === state) return;
+      transitioning = true;
+      state = target;
+
+      app.className = 'state-' + state;
+      dot0.classList.toggle('active', state === 1);
+      dot1.classList.toggle('active', state === 2);
+
+      const expLabel = document.querySelector('#expRow .row-label');
+      if (state === 2) {
+        titleEl.innerHTML = '<span class="hi">A</span>rtificial <span class="hi">P</span>ersonalized <span class="hi">I</span>ntelligence';
+        subEl.textContent = 'Reusable intelligence layers — one foundation, every AI experience';
+        navBtn.textContent = '← Back';
+        expLabel.textContent = 'Experience Layer';
+      } else {
+        titleEl.textContent = 'Point-to-Point AI';
+        subEl.textContent = 'Each experience connects directly — no shared context, no enterprise knowledge, no reuse';
+        navBtn.textContent = 'See a better way →';
+        expLabel.textContent = 'AI Experiences';
+      }
+
+      cleanG.innerHTML = '';
+
+      setTimeout(() => {
+        if (state === 2) {
+          drawClean();
+        }
+        drawMessy();
+        transitioning = false;
+      }, 950);
+    }
+
+    function toggle() { goToState(state === 1 ? 2 : 1); }
+
+    navBtn.addEventListener('click', toggle);
+    dot0.addEventListener('click', () => goToState(1));
+    dot1.addEventListener('click', () => goToState(2));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goToState(2); }
+      if (e.key === 'ArrowLeft')                    { e.preventDefault(); goToState(1); }
+    });
+
+    window.addEventListener('resize', () => {
+      drawMessy();
+      if (state === 2) drawClean();
+    });
+
+    requestAnimationFrame(() => {
+      drawMessy();
+    });
+  </script>
+</body>
+</html>
