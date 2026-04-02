@@ -1,11 +1,36 @@
 import { motion } from 'framer-motion';
 
-const METRICS = [
-  { label: 'Latency', fed: 25, glean: 90 },
-  { label: 'Relevance', fed: 30, glean: 95 },
-  { label: 'Coverage', fed: 35, glean: 92 },
-  { label: 'Governance', fed: 20, glean: 95 },
-  { label: 'Agent Reliability', fed: 30, glean: 88 },
+const DIMENSIONS = [
+  {
+    label: 'Latency',
+    icon: 'speed',
+    fed: 'Sequential API calls at query time',
+    glean: 'Pre-indexed, instant retrieval',
+  },
+  {
+    label: 'Relevance',
+    icon: 'target',
+    fed: 'Keyword matching, per source',
+    glean: 'Semantic ranking across all data',
+  },
+  {
+    label: 'Coverage',
+    icon: 'database',
+    fed: 'Limited to connected APIs',
+    glean: 'Unified across 100+ connectors',
+  },
+  {
+    label: 'Governance',
+    icon: 'shield',
+    fed: 'Varies by source, hard to audit',
+    glean: 'Centralized permissions, always enforced',
+  },
+  {
+    label: 'Agent Reliability',
+    icon: 'psychology',
+    fed: 'Fragile multi-hop chains',
+    glean: 'Single trusted source of truth',
+  },
 ];
 
 export function Scene7() {
@@ -26,33 +51,36 @@ export function Scene7() {
           <div className="compare-col-header panel-header-green">Glean Indexed + MCP</div>
         </div>
 
-        {METRICS.map((m, i) => (
+        {DIMENSIONS.map((d, i) => (
           <motion.div
-            key={m.label}
+            key={d.label}
             className="compare-row"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 + i * 0.15 }}
           >
-            <div className="compare-metric-label">{m.label}</div>
-            <div className="compare-bar-cell">
-              <motion.div
-                className="compare-bar compare-bar-fed"
-                initial={{ width: 0 }}
-                animate={{ width: `${m.fed}%` }}
-                transition={{ delay: 0.6 + i * 0.15, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              />
-              <span className="compare-bar-value">{m.fed}%</span>
+            <div className="compare-metric-label">
+              <span className="material-symbols-rounded compare-icon">{d.icon}</span>
+              {d.label}
             </div>
-            <div className="compare-bar-cell">
-              <motion.div
-                className="compare-bar compare-bar-glean"
-                initial={{ width: 0 }}
-                animate={{ width: `${m.glean}%` }}
-                transition={{ delay: 0.8 + i * 0.15, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              />
-              <span className="compare-bar-value">{m.glean}%</span>
-            </div>
+
+            <motion.div
+              className="compare-cell compare-cell-fed"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.6 + i * 0.15, duration: 0.5 }}
+            >
+              {d.fed}
+            </motion.div>
+
+            <motion.div
+              className="compare-cell compare-cell-glean"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.8 + i * 0.15, duration: 0.5 }}
+            >
+              {d.glean}
+            </motion.div>
           </motion.div>
         ))}
       </div>

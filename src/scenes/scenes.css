@@ -1309,8 +1309,8 @@
 
 .compare-header-row {
   display: grid;
-  grid-template-columns: 140px 1fr 1fr;
-  gap: 16px;
+  grid-template-columns: 150px 1fr 1fr;
+  gap: 14px;
   align-items: end;
   padding-bottom: 8px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -1325,48 +1325,44 @@
 
 .compare-row {
   display: grid;
-  grid-template-columns: 140px 1fr 1fr;
-  gap: 16px;
-  align-items: center;
+  grid-template-columns: 150px 1fr 1fr;
+  gap: 14px;
+  align-items: stretch;
 }
 
 .compare-metric-label {
   font-size: 13px;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.7);
-}
-
-.compare-bar-cell {
   display: flex;
   align-items: center;
-  gap: 8px;
-  height: 28px;
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: var(--radius-pill);
-  overflow: hidden;
-  position: relative;
 }
 
-.compare-bar {
-  height: 100%;
-  border-radius: var(--radius-pill);
-  min-width: 2px;
+.compare-icon {
+  font-size: 16px;
+  vertical-align: middle;
+  margin-right: 6px;
+  opacity: 0.5;
 }
 
-.compare-bar-fed {
-  background: linear-gradient(90deg, rgba(255, 80, 80, 0.4), rgba(255, 80, 80, 0.7));
+.compare-cell {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 14px;
+  border-radius: 8px;
+  line-height: 1.35;
 }
 
-.compare-bar-glean {
-  background: linear-gradient(90deg, rgba(52, 60, 237, 0.5), rgba(216, 253, 73, 0.7));
+.compare-cell-fed {
+  background: rgba(255, 80, 80, 0.1);
+  border: 1px solid rgba(255, 80, 80, 0.2);
+  color: rgba(255, 180, 180, 0.85);
 }
 
-.compare-bar-value {
-  font-size: 11px;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.6);
-  position: absolute;
-  right: 10px;
+.compare-cell-glean {
+  background: rgba(216, 253, 73, 0.08);
+  border: 1px solid rgba(216, 253, 73, 0.2);
+  color: rgba(216, 253, 73, 0.95);
 }
 
 .final-quote {
