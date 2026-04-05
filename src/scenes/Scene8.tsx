@@ -6,7 +6,7 @@ const CORE_CAPABILITIES = [
     icon: 'psychology',
     label: 'Agents',
     desc: 'Plan and act on curated, permission-safe context — not raw API fragments',
-    color: '#8b90ff',
+    color: '#343CED',
     fedCant: 'No pre-ranked context — agents reason over noise',
     microClass: 'beyond-micro-agents',
   },
@@ -14,7 +14,7 @@ const CORE_CAPABILITIES = [
     icon: 'account_tree',
     label: 'Workflow Automation',
     desc: 'Detect business events across systems and orchestrate end-to-end — automatically',
-    color: '#ff79c6',
+    color: '#E16BFF',
     fedCant: 'Request-response only — can\'t watch for changes',
     microClass: 'beyond-micro-workflow',
   },
@@ -33,7 +33,7 @@ const FORWARD_CAPABILITIES = [
     icon: 'auto_awesome',
     label: 'Proactive Intelligence',
     desc: 'AI that acts before you ask — surfacing tasks, risks, and opportunities from patterns in your activity',
-    color: '#ffb86c',
+    color: '#FFAC8C',
     fedCant: 'No continuous ingestion — can\'t detect patterns',
     microClass: 'beyond-micro-proactive',
   },
@@ -41,7 +41,7 @@ const FORWARD_CAPABILITIES = [
     icon: 'person_pin',
     label: 'Personal Graph',
     desc: 'Learns how you work — your projects, your patterns, your priorities — and personalizes everything',
-    color: '#6ecff6',
+    color: '#B2E5EF',
     fedCant: 'No memory between queries',
     microClass: 'beyond-micro-personal',
   },
@@ -49,7 +49,7 @@ const FORWARD_CAPABILITIES = [
     icon: 'schema',
     label: 'Process Intelligence',
     desc: 'Maps how work actually flows across people, tools, and teams — revealing bottlenecks and automation opportunities',
-    color: '#50fa7b',
+    color: '#54D848',
     fedCant: 'Can\'t map cross-source workflows',
     microClass: 'beyond-micro-process',
   },
@@ -113,7 +113,7 @@ function CapCard({ cap, delay }: CapCardProps) {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: delay + 0.4, duration: 0.35 }}
         >
-          <span className="material-symbols-rounded" style={{ fontSize: 13, color: '#ff6060' }}>close</span>
+          <span className="material-symbols-rounded" style={{ fontSize: 13, color: '#FF7E4C' }}>close</span>
           <span>{cap.fedCant}</span>
         </motion.div>
       </div>

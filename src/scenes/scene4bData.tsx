@@ -52,6 +52,7 @@ export interface Persona {
   name: string;
   title: string;
   initials: string;
+  avatarSrc?: string;
   context: string;
   searchingFor: string;
 }
@@ -121,9 +122,10 @@ export const SCENARIOS: Scenario[] = [
       { queryTerm: 'onboarding delay', matchTerm: 'wizard timeout', resultIndex: 2 },
     ],
     persona: {
-      name: 'Sarah Chen',
+      name: 'Sarah',
       title: 'Customer Success Manager',
       initials: 'SC',
+      avatarSrc: '/csm.png',
       context: "Acme's VP just called — onboarding is taking 3x longer than promised. Sarah needs to find the root cause across support tickets, engineering bugs, and internal docs.",
       searchingFor: 'Acme onboarding delays',
     },
@@ -166,9 +168,10 @@ export const SCENARIOS: Scenario[] = [
       [{ label: 'Last edited: Jan 12', icon: 'schedule', type: 'stale' }],
     ],
     persona: {
-      name: 'Rachel Torres',
+      name: 'Rachel',
       title: 'VP of Sales',
       initials: 'RT',
+      avatarSrc: '/vp.png',
       context: 'Board meeting in 30 minutes. Rachel needs the latest Q2 pipeline forecast — but the deck has been revised 6 times this week across multiple drafts.',
       searchingFor: 'Q2 pipeline forecast',
     },
@@ -210,9 +213,10 @@ export const SCENARIOS: Scenario[] = [
       { role: 'Compliance Analyst', connections: [{ resultIndex: 2, label: 'Posted by' }] },
     ],
     persona: {
-      name: 'David Park',
+      name: 'David',
       title: 'Account Executive',
       initials: 'DP',
+      avatarSrc: '/ae.jpg',
       context: 'Trying to close the Apex Corp deal, but a compliance review is stalling it. David needs the legal review notes and the hosting sign-off — fast.',
       searchingFor: 'compliance review Apex deal',
     },
@@ -223,20 +227,20 @@ export const SCENARIOS: Scenario[] = [
 
 export const BADGE_CONFIG: Record<MatchType, { label: string; icon: string; color: string; bg: string; border: string }> = {
   keyword:  { label: 'Keyword',  icon: 'text_fields',   color: '#D8FD49', bg: 'rgba(216,253,73,0.10)',  border: 'rgba(216,253,73,0.20)' },
-  semantic: { label: 'Semantic', icon: 'neurology',      color: '#8b5cf6', bg: 'rgba(139,92,246,0.12)',  border: 'rgba(139,92,246,0.25)' },
-  activity: { label: 'Activity', icon: 'trending_up',    color: '#f59e0b', bg: 'rgba(245,158,11,0.12)',  border: 'rgba(245,158,11,0.25)' },
-  people:   { label: 'People',   icon: 'person_search',  color: '#0ea5e9', bg: 'rgba(14,165,233,0.12)',  border: 'rgba(14,165,233,0.25)' },
-  entity:   { label: 'Entity',   icon: 'hub',            color: '#ec4899', bg: 'rgba(236,72,153,0.12)',  border: 'rgba(236,72,153,0.25)' },
+  semantic: { label: 'Semantic', icon: 'neurology',      color: '#343CED', bg: 'rgba(52,60,237,0.12)',   border: 'rgba(52,60,237,0.25)' },
+  activity: { label: 'Activity', icon: 'trending_up',    color: '#FF7E4C', bg: 'rgba(255,126,76,0.12)',  border: 'rgba(255,126,76,0.25)' },
+  people:   { label: 'People',   icon: 'person_search',  color: '#3FA3FF', bg: 'rgba(63,163,255,0.12)',  border: 'rgba(63,163,255,0.25)' },
+  entity:   { label: 'Entity',   icon: 'hub',            color: '#E16BFF', bg: 'rgba(225,107,255,0.12)', border: 'rgba(225,107,255,0.25)' },
 };
 
 /* ─── Match type colors (for SVG / graph use) ─── */
 
 export const MATCH_COLORS: Record<MatchType, string> = {
-  keyword: '#10b981',
-  semantic: '#8b5cf6',
-  activity: '#f59e0b',
-  people: '#0ea5e9',
-  entity: '#ec4899',
+  keyword: '#00B207',
+  semantic: '#343CED',
+  activity: '#FF7E4C',
+  people: '#3FA3FF',
+  entity: '#E16BFF',
 };
 
 /* ─── Shared Sub-components ─── */

@@ -40,7 +40,7 @@ export function StepIndicator({ currentStep, totalSteps, labels, onNext, onBack,
         Step {currentStep} · {labels[currentStep]}
       </span>
 
-      <button className="stepper-btn" onClick={onNext} disabled={currentStep === totalSteps - 1}>
+      <button className="stepper-btn stepper-btn-primary" onClick={onNext} disabled={currentStep === totalSteps - 1}>
         Next →
       </button>
     </div>

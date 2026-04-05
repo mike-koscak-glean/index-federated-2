@@ -209,7 +209,7 @@ function ActivitySignalsResults({ scenario, stepped }: { scenario: Scenario; ste
                     animate={{
                       opacity: 1,
                       scale: 1,
-                      ...(sig.type === 'hot' ? { boxShadow: ['0 0 0px rgba(245,158,11,0)', '0 0 8px rgba(245,158,11,0.4)', '0 0 0px rgba(245,158,11,0)'] } : {}),
+                      ...(sig.type === 'hot' ? { boxShadow: ['0 0 0px rgba(255,126,76,0)', '0 0 8px rgba(255,126,76,0.4)', '0 0 0px rgba(255,126,76,0)'] } : {}),
                     }}
                     transition={{
                       delay: (stepped ? 0.3 : T.signalStart) + i * (stepped ? 0.15 : T.signalStagger) + si * 0.15,
@@ -256,7 +256,7 @@ function TeamConnectionsHero({ scenario, stepped }: { scenario: Scenario; steppe
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: d + 0.1 + mi * 0.15, type: 'spring', stiffness: 300 }}
           >
-            <span className="material-symbols-rounded" style={{ fontSize: 18, color: '#0ea5e9' }}>person</span>
+            <span className="material-symbols-rounded" style={{ fontSize: 18, color: '#3FA3FF' }}>person</span>
           </motion.div>
         ))}
       </div>
@@ -342,7 +342,7 @@ function EntityThreadingHero({ scenario, stepped }: { scenario: Scenario; steppe
       animate={{
         opacity: 1,
         scale: 1,
-        boxShadow: ['0 0 0px rgba(236,72,153,0)', '0 0 16px rgba(236,72,153,0.4)', '0 0 8px rgba(236,72,153,0.2)'],
+        boxShadow: ['0 0 0px rgba(225,107,255,0)', '0 0 16px rgba(225,107,255,0.4)', '0 0 8px rgba(225,107,255,0.2)'],
       }}
       transition={{
         delay: d,

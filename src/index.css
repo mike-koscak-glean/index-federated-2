@@ -1,15 +1,59 @@
 :root {
-  --glean-blue: #343CED;
-  --glean-green: #D8FD49;
+  /* Primary */
+  --glean-electric-blue: #343CED;
+  --glean-bright-green: #D8FD49;
   --glean-oatmeal: #F6F3EB;
   --glean-black: #000000;
   --glean-white: #FFFFFF;
 
-  --glean-blue-dark: #2A31C4;
-  --glean-blue-light: #6B71F5;
-  --glean-green-dark: #B8D93E;
+  /* Greens */
+  --glean-green-dark: #00B207;
+  --glean-green-mid: #54D848;
+  --glean-light-green: #C3FF9E;
 
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Oranges (replaces reds) */
+  --glean-orange: #FF7E4C;
+  --glean-mandarin: #FFAC8C;
+  --glean-peach: #FFCFBC;
+
+  /* Magentas */
+  --glean-magenta: #9300B8;
+  --glean-pink: #E16BFF;
+  --glean-light-pink: #F1B7FF;
+
+  /* Blues */
+  --glean-dark-blue: #1017B1;
+  --glean-mid-blue: #3FA3FF;
+  --glean-light-blue: #B2E5EF;
+
+  /* Neutrals */
+  --glean-dark-cement: #777767;
+  --glean-cement: #C7C7AB;
+  --glean-off-white: #F8F8F8;
+
+  /* Gradients */
+  --glean-sky-blue: #A9E0FF;
+  --glean-light-lime: #EBFEA4;
+  --glean-deep-navy: #1E2287;
+
+  /* Semantic aliases (preserve backward compat) */
+  --glean-blue: var(--glean-electric-blue);
+  --glean-green: var(--glean-bright-green);
+  --glean-blue-dark: var(--glean-dark-blue);
+  --glean-blue-light: var(--glean-mid-blue);
+  --color-danger: var(--glean-orange);
+  --color-danger-text: var(--glean-mandarin);
+  --color-success: var(--glean-bright-green);
+  --color-success-dark: var(--glean-green-dark);
+
+  /* Surfaces */
+  --bg-base: var(--glean-deep-navy);
+  --bg-surface: rgba(30, 34, 135, 0.4);
+  --bg-elevated: rgba(52, 60, 237, 0.15);
+  --border-subtle: rgba(52, 60, 237, 0.25);
+  --border-faint: rgba(255, 255, 255, 0.08);
+
+  --font-family: 'DM Sans', sans-serif;
 
   --radius-sm: 8px;
   --radius-md: 12px;

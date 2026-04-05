@@ -22,13 +22,13 @@ const APPS = [
 ];
 
 const RINGS = [
-  { label: 'Content', r: 52, color: 'rgba(140,160,255,0.4)', angle: 20 },
+  { label: 'Content', r: 52, color: 'rgba(52,60,237,0.4)', angle: 20 },
   { label: 'ACLs', r: 70, color: 'rgba(216,253,73,0.3)', angle: 110 },
-  { label: 'People', r: 88, color: 'rgba(110,207,246,0.3)', angle: 205 },
-  { label: 'Activity', r: 106, color: 'rgba(255,184,108,0.3)', angle: 295 },
+  { label: 'People', r: 88, color: 'rgba(178,229,239,0.3)', angle: 205 },
+  { label: 'Activity', r: 106, color: 'rgba(255,172,140,0.3)', angle: 295 },
 ];
 
-const PCOL = ['#8ba0ff', '#D8FD49', '#6ecff6', '#ffb86c'];
+const PCOL = ['#3FA3FF', '#D8FD49', '#B2E5EF', '#FFAC8C'];
 
 const NODES = [
   { label: 'Acme Corp', x: 495, y: 158 },

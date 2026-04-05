@@ -33,7 +33,11 @@ export function StoryCard({ persona, animKey }: { persona: Persona; animKey: num
         transition={{ duration: 0.3, ease: 'easeOut' }}
       >
         <div className="sfp-story-avatar">
-          <span>{persona.initials}</span>
+          {persona.avatarSrc ? (
+            <img src={persona.avatarSrc} alt={`${persona.name} profile`} className="sfp-story-avatar-img" />
+          ) : (
+            <span>{persona.initials}</span>
+          )}
         </div>
         <div className="sfp-story-name">{persona.name}</div>
         <div className="sfp-story-title">{persona.title}</div>
@@ -166,9 +170,9 @@ export function SceneFedProblem() {
               transition={{ duration: 0.15 }}
             >
               <div className="s4b1-panel-header">
-                <span className="material-symbols-rounded" style={{ fontSize: 22, color: '#ff8080' }}>lan</span>
+                <span className="material-symbols-rounded" style={{ fontSize: 22, color: '#FF7E4C' }}>lan</span>
                 <div>
-                  <div className="s4b1-panel-title" style={{ color: '#ff8080' }}>Federated Search</div>
+                  <div className="s4b1-panel-title" style={{ color: '#FF7E4C' }}>Federated Search</div>
                   <div className="s4b1-panel-sub">Isolated keyword queries per app</div>
                 </div>
               </div>

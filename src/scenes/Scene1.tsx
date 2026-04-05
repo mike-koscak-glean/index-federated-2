@@ -52,7 +52,7 @@ export function Scene1() {
   }, []);
 
   const qualityColor =
-    qualityPct > 80 ? '#22c55e' : qualityPct > 70 ? '#eab308' : '#ef4444';
+    qualityPct > 80 ? '#54D848' : qualityPct > 70 ? '#FF7E4C' : '#FF7E4C';
 
   return (
     <div className="scene scene-fed">
@@ -155,14 +155,14 @@ export function Scene1() {
             className="fed-pile-stack"
             animate={{
               borderColor: [
-                'rgba(255,80,80,0.08)',
-                'rgba(255,80,80,0.4)',
-                'rgba(255,80,80,0.08)',
+                'rgba(255,126,76,0.08)',
+                'rgba(255,126,76,0.4)',
+                'rgba(255,126,76,0.08)',
               ],
               boxShadow: [
-                '0 0 0px rgba(255,80,80,0)',
-                '0 0 20px rgba(255,80,80,0.15)',
-                '0 0 0px rgba(255,80,80,0)',
+                '0 0 0px rgba(255,126,76,0)',
+                '0 0 20px rgba(255,126,76,0.15)',
+                '0 0 0px rgba(255,126,76,0)',
               ],
             }}
             transition={{
@@ -241,7 +241,7 @@ export function Scene1() {
           >
             <span
               className="material-symbols-rounded"
-              style={{ fontSize: 20, color: '#ef4444' }}
+              style={{ fontSize: 20, color: '#FF7E4C' }}
             >
               trending_down
             </span>
@@ -266,7 +266,7 @@ export function Scene1() {
           >
             <span
               className="material-symbols-rounded"
-              style={{ fontSize: 20, color: '#f97316' }}
+              style={{ fontSize: 20, color: '#FF7E4C' }}
             >
               trending_up
             </span>
@@ -295,9 +295,9 @@ export function Scene1() {
           className="fed-ai-icon"
           animate={{
             boxShadow: [
-              '0 0 0px rgba(255,80,80,0)',
-              '0 0 14px rgba(255,80,80,0.3)',
-              '0 0 0px rgba(255,80,80,0)',
+              '0 0 0px rgba(255,126,76,0)',
+              '0 0 14px rgba(255,126,76,0.3)',
+              '0 0 0px rgba(255,126,76,0)',
             ],
           }}
           transition={{

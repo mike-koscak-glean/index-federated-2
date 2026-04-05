@@ -3,7 +3,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(160deg, #0f1035 0%, #1a1e6e 100%);
+  background: linear-gradient(160deg, #0D1057 0%, #1E2287 100%);
   position: relative;
   overflow: hidden;
 }
@@ -68,7 +68,7 @@
 .pill-blue {
   background: rgba(52, 60, 237, 0.2);
   border: 1px solid rgba(52, 60, 237, 0.5);
-  color: #8b90ff;
+  color: var(--glean-mid-blue);
 }
 
 .pill-green {
@@ -78,9 +78,9 @@
 }
 
 .pill-red {
-  background: rgba(255, 80, 80, 0.15);
-  border: 1px solid rgba(255, 80, 80, 0.4);
-  color: #ff8080;
+  background: rgba(255, 126, 76, 0.15);
+  border: 1px solid rgba(255, 126, 76, 0.4);
+  color: var(--glean-orange);
 }
 
 .card {
@@ -154,7 +154,7 @@
 }
 
 .panel-header-red {
-  color: #ff8080;
+  color: var(--glean-orange);
 }
 
 .panel-header-green {

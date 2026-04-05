@@ -35,7 +35,7 @@ function FederatedPanel({ scenario }: { scenario: Scenario }) {
   return (
     <div className="s4b-panel s4b-panel-fed">
       <div className="s4b-panel-header">
-        <span className="material-symbols-rounded" style={{ fontSize: 22, color: '#ff8080' }}>lan</span>
+        <span className="material-symbols-rounded" style={{ fontSize: 22, color: '#FF7E4C' }}>lan</span>
         <div>
           <div className="s4b-panel-title s4b-fed-title">Federated Search</div>
           <div className="s4b-panel-sub">Each system's built-in keyword search</div>

@@ -14,7 +14,7 @@ const STACK_LAYERS = [
     sub: 'Content · ACLs · People · Activity — mirrored from every source',
     color: 'rgba(52,60,237,0.12)',
     border: 'rgba(52,60,237,0.35)',
-    textColor: '#8b90ff',
+    textColor: '#3FA3FF',
     icon: 'database',
   },
   {
@@ -29,12 +29,12 @@ const STACK_LAYERS = [
 ];
 
 const PRODUCTS = [
-  { icon: 'search', label: 'Search', color: '#8b90ff' },
+  { icon: 'search', label: 'Search', color: '#3FA3FF' },
   { icon: 'auto_awesome', label: 'Assistant', color: '#D8FD49' },
-  { icon: 'psychology', label: 'Agents', color: '#6ecff6' },
-  { icon: 'monitoring', label: 'Prism', color: '#ffb86c' },
-  { icon: 'account_tree', label: 'Workflows', color: '#ff79c6' },
-  { icon: 'person_pin', label: 'Personal AI', color: '#50fa7b' },
+  { icon: 'psychology', label: 'Agents', color: '#B2E5EF' },
+  { icon: 'monitoring', label: 'Prism', color: '#FFAC8C' },
+  { icon: 'account_tree', label: 'Workflows', color: '#E16BFF' },
+  { icon: 'person_pin', label: 'Personal AI', color: '#54D848' },
 ];
 
 export function Scene9() {
@@ -136,7 +136,7 @@ export function Scene9() {
           transition={{ delay: 3.2, duration: 1.0 }}
         >
           <p className="finale-message-main">
-            Federated gives your AI <span style={{ color: '#ff8080' }}>fragments</span>.<br />
+            Federated gives your AI <span style={{ color: '#FF7E4C' }}>fragments</span>.<br />
             An enterprise graph gives it <span className="final-highlight">understanding</span>.
           </p>
           <p className="finale-message-sub">

@@ -104,9 +104,9 @@ export function FederatedPanel({ scenario, instant }: { scenario: Scenario; inst
   return (
     <div className="s4b1-panel s4b1-panel-fed">
       <div className="s4b1-panel-header">
-        <span className="material-symbols-rounded" style={{ fontSize: 22, color: '#ff8080' }}>lan</span>
+        <span className="material-symbols-rounded" style={{ fontSize: 22, color: '#FF7E4C' }}>lan</span>
         <div>
-          <div className="s4b1-panel-title" style={{ color: '#ff8080' }}>Federated Search</div>
+          <div className="s4b1-panel-title" style={{ color: '#FF7E4C' }}>Federated Search</div>
           <div className="s4b1-panel-sub">Isolated keyword queries per app</div>
         </div>
       </div>
