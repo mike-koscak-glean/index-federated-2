@@ -41,7 +41,7 @@ export function Scene7() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        Step 6 — The Search Advantage
+        The Advantage
       </motion.div>
 
       <div className="compare-grid">

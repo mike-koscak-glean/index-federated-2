@@ -19,7 +19,7 @@ The narrative follows one enterprise question through two paths:
 |------|-------|---------------|
 | 0 | Cold Open | Typing query, two path cards |
 | 1 | Federated / MCP | Hub-spoke diagram with latency, messy results |
-| 2 | Glean Indexing | Connectors → index → enterprise knowledge graph |
+| 2 | Glean Indexing | Connectors → index → enterprise knowledge graph — see [Scene 2 prototypes](#scene-2-prototypes) |
 | 3 | Results Comparison | Side-by-side: bad AI answer vs Glean's synthesized Customer 360 |
 | 4 | Agent on Federated | Noisy context window, garbage-in-garbage-out |
 | 5 | Agent on Glean | Curated context, composed answer with actions |
@@ -40,6 +40,24 @@ Opens at http://localhost:5173. Use arrow keys, spacebar, or the bottom stepper 
 ## Presenter script
 
 See [`presenter-script.md`](./presenter-script.md) for a scene-by-scene verbal script (~5 minutes total).
+
+## Scene 2 prototypes
+
+Scene 2 ("The Glean Index") has three alternative visualizations. Only one is active at a time — swap it in `src/App.tsx` line 34:
+
+```typescript
+// Change Scene2B to Scene2A, Scene2, or Scene2C
+const scenes = [Scene0, Scene1, Scene2B, Scene4, ...];
+```
+
+| File | Approach | Visual concept |
+|------|----------|----------------|
+| `Scene2.tsx` | Radial (original) | Circular connector ring, concentric layer rings with flowing dashes, particle streams, knowledge graph nodes emerge from center |
+| `Scene2A.tsx` | Stacked Layers | Four translucent planes in CSS 3D perspective (`rotateX 55°`), each representing an index layer. Planes reveal sequentially, data dots materialize, knowledge graph overlays the stack |
+| `Scene2B.tsx` | Neural Mesh | Dense spider-web mesh radiating from center, illuminates progressively outward. Each quadrant lights up in a different layer color. Subtle flow dots travel from connectors to center |
+| `Scene2C.tsx` | Prism Flow | Left-to-right transformation: messy data fragments on the left pass through a hexagonal prism (Glean), emerge as organized color-coded beams feeding into the knowledge graph on the right |
+
+Once a winner is chosen, replace `Scene2.tsx` with it and delete the others.
 
 ## Tech stack
 

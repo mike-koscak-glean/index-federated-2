@@ -28,7 +28,7 @@ export function Scene4() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        Step 3 — LLM / Agent on Federated Data
+        What the Agent Actually Sees
       </motion.div>
 
       <div className="agent-layout agent-layout-vertical">

@@ -46,8 +46,8 @@ export function Scene0() {
       <div className="path-cards">
         <motion.div
           className="path-card path-card-left"
-          initial={{ x: -120, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
+          initial={{ opacity: 0, clipPath: 'inset(0 100% 0 0)' }}
+          animate={{ opacity: 1, clipPath: 'inset(0 0% 0 0)' }}
           transition={{ delay: 0.8, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="path-card-icon">
@@ -59,11 +59,10 @@ export function Scene0() {
 
         <motion.div
           className="path-card path-card-right"
-          initial={{ x: 120, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
+          initial={{ opacity: 0, clipPath: 'inset(0 0 0 100%)' }}
+          animate={{ opacity: 1, clipPath: 'inset(0 0 0 0%)' }}
           transition={{ delay: 1.0, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="path-card-glow" />
           <div className="path-card-icon path-card-icon-glean">
             <img src="https://app.glean.com/images/glean-logo2.svg" alt="Glean" style={{ width: 32, height: 32 }} />
           </div>

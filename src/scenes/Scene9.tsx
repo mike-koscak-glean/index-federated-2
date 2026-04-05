@@ -45,7 +45,7 @@ export function Scene9() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        Step 8 — The Full Picture
+        The Full Picture
       </motion.div>
 
       <div className="finale-layout">
@@ -97,7 +97,6 @@ export function Scene9() {
               animate={{ opacity: 1, y: 0, scaleX: 1 }}
               transition={{ delay: 0.4 + i * 0.35, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
-              {layer.highlight && <div className="finale-layer-glow" />}
               <div className="finale-layer-content">
                 <span className="material-symbols-rounded" style={{ fontSize: 22, color: layer.textColor }}>{layer.icon}</span>
                 <div>
@@ -132,9 +131,9 @@ export function Scene9() {
         {/* Closing message */}
         <motion.div
           className="finale-message"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 3.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 3.2, duration: 1.0 }}
         >
           <p className="finale-message-main">
             Federated gives your AI <span style={{ color: '#ff8080' }}>fragments</span>.<br />

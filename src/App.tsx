@@ -3,8 +3,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { StepIndicator } from './components/StepIndicator';
 import { Scene0 } from './scenes/Scene0';
 import { Scene1 } from './scenes/Scene1';
+import { SceneFedProblem } from './scenes/SceneFedProblem';
 import { Scene2 } from './scenes/Scene2';
-import { Scene4 } from './scenes/Scene4';
+import { Scene4B1 } from './scenes/Scene4B1';
 import { Scene5 } from './scenes/Scene5';
 import { Scene6 } from './scenes/Scene6';
 import { Scene7 } from './scenes/Scene7';
@@ -13,13 +14,14 @@ import { Scene9 } from './scenes/Scene9';
 import './App.css';
 import './scenes/scenes.css';
 
-const TOTAL_STEPS = 9;
+const TOTAL_STEPS = 10;
 
 const STEP_LABELS = [
   'Question',
   'Federated',
+  'Fed Problem',
   'Index',
-  'Agent + Fed.',
+  'Search Gap',
   'Agent + Glean',
   'MCP + Glean',
   'Search Win',
@@ -27,7 +29,7 @@ const STEP_LABELS = [
   'Full Picture',
 ];
 
-const scenes = [Scene0, Scene1, Scene2, Scene4, Scene5, Scene6, Scene7, Scene8, Scene9];
+const scenes = [Scene0, Scene1, SceneFedProblem, Scene2, Scene4B1, Scene5, Scene6, Scene7, Scene8, Scene9];
 
 export default function App() {
   const [currentStep, setCurrentStep] = useState(0);
