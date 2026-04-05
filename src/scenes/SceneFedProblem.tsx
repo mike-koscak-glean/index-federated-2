@@ -84,36 +84,36 @@ export function SceneFedProblem() {
         The Federated Search Problem
       </motion.div>
 
-      {/* Scenario tabs */}
-      <motion.div
-        className="s4b-tabs"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-      >
-        {SCENARIOS.map((s, i) => (
-          <button
-            key={s.id}
-            className={`s4b-tab ${i === activeTab ? 's4b-tab-active' : ''}`}
-            onClick={() => handleTab(i)}
-          >
-            <span className="s4b-tab-num">{i + 1}</span>
-            {s.tab}
-            {i === activeTab && (
-              <motion.div className="s4b-tab-indicator" layoutId="sfp-tab-pill" />
-            )}
-          </button>
-        ))}
-      </motion.div>
+      <div className="scene-with-sidebar">
+        <motion.div
+          className="s4b-tabs-vertical"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <span className="s4b-tabs-vertical-label">Scenarios</span>
+          {SCENARIOS.map((s, i) => (
+            <button
+              key={s.id}
+              className={`s4b-tab ${i === activeTab ? 's4b-tab-active' : ''}`}
+              onClick={() => handleTab(i)}
+            >
+              <span className="s4b-tab-num">{i + 1}</span>
+              {s.tab}
+              {i === activeTab && (
+                <motion.div className="s4b-tab-indicator" layoutId="sfp-tab-pill" />
+              )}
+            </button>
+          ))}
+        </motion.div>
 
-      <PromptToQuery prompt={scenario.prompt} query={scenario.query} animKey={animKey} />
+        <div className="scene-sidebar-content">
+          <PromptToQuery prompt={scenario.prompt} query={scenario.query} animKey={animKey} />
 
-      <div className="sfp-body-split">
-        {/* Left: Persona story card */}
-        <StoryCard persona={scenario.persona} animKey={animKey} />
+          <div className="sfp-body-split">
+            <StoryCard persona={scenario.persona} animKey={animKey} />
 
-        {/* Right: Stepper + animation panel */}
-        <div className="sfp-body-right">
+            <div className="sfp-body-right">
           {/* Inner stepper controls */}
           <div className="sfp-stepper">
             <button
@@ -365,8 +365,10 @@ export function SceneFedProblem() {
               </AnimatePresence>
             </motion.div>
           </AnimatePresence>
+          </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

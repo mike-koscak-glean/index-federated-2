@@ -1,6 +1,4 @@
-/* ========================================
-   Scene 0 — Title / Cold Open
-   ======================================== */
+/* Scene 0 — Title / Cold Open */
 
 .search-bar {
   display: flex;
@@ -86,9 +84,7 @@
   line-height: 1.5;
 }
 
-/* ========================================
-   Scene 1 — Federated / MCP (waterfall)
-   ======================================== */
+/* Scene 1 — Federated / MCP (waterfall) */
 
 .fed-waterfall {
   display: grid;
@@ -193,10 +189,11 @@
 }
 
 .fed-pile-label {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  text-transform: none;
+  font-variant: small-caps;
+  letter-spacing: 0.3px;
   color: rgba(255, 255, 255, 0.35);
 }
 
@@ -265,9 +262,7 @@
   text-align: right;
 }
 
-/* ========================================
-   Scene 1 — Federated Overhaul
-   ======================================== */
+/* Scene 1 — Federated Overhaul */
 
 .scene-fed {
   justify-content: flex-start;
@@ -447,7 +442,7 @@
   padding: 12px 22px;
   background: rgba(255, 80, 80, 0.04);
   border: 1px solid rgba(255, 80, 80, 0.15);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-lg);
   max-width: 620px;
   align-self: center;
 }
@@ -489,7 +484,8 @@
   gap: 12px;
   padding: 14px 16px;
   background: rgba(255, 80, 80, 0.04);
-  border: 1px solid rgba(255, 80, 80, 0.15);
+  border: none;
+  border-top: 2px solid rgba(255, 80, 80, 0.2);
   border-radius: var(--radius-md);
 }
 
@@ -519,9 +515,7 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
-/* ========================================
-   Scene 2 — Glean Indexing (Radial)
-   ======================================== */
+/* Scene 2 — Glean Indexing (Radial) */
 
 .idx-radial {
   position: relative;
@@ -635,9 +629,7 @@
   pointer-events: none;
 }
 
-/* ========================================
-   Scene 2A — Stacked Layers (Exploded 3D)
-   ======================================== */
+/* Scene 2A — Stacked Layers (Exploded 3D) */
 
 .s2a-connectors {
   display: flex;
@@ -757,9 +749,7 @@
   white-space: nowrap;
 }
 
-/* ========================================
-   Scene 2B — Neural Mesh Illumination
-   ======================================== */
+/* Scene 2B — Neural Mesh Illumination */
 
 @keyframes s2b-illuminate {
   from { opacity: 0; }
@@ -771,9 +761,7 @@
   animation: s2b-illuminate 0.8s ease-out forwards;
 }
 
-/* ========================================
-   Scene 2C — Prism Transformation Flow
-   ======================================== */
+/* Scene 2C — Prism Transformation Flow */
 
 .s2c-main {
   position: relative;
@@ -834,9 +822,7 @@
   white-space: nowrap;
 }
 
-/* ========================================
-   Scene 3 — Comparison Results
-   ======================================== */
+/* Scene 3 — Comparison Results */
 
 .results-stack {
   display: flex;
@@ -1081,9 +1067,25 @@
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* ========================================
-   Scene 4B — Search Gap Demo (4 scenarios)
-   ======================================== */
+/* Scene 4B — Search Gap Demo (4 scenarios) */
+
+.scene-with-sidebar {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.scene-sidebar-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
 
 .s4b-tabs {
   display: flex;
@@ -1092,6 +1094,40 @@
   background: rgba(0, 0, 0, 0.35);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-pill);
+}
+
+.s4b-tabs-vertical {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  z-index: 5;
+}
+
+.s4b-tabs-vertical-label {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: rgba(255, 255, 255, 0.3);
+  padding: 4px 8px 2px;
+}
+
+.s4b-tabs-vertical .s4b-tab {
+  justify-content: flex-start;
+  text-align: left;
+  font-size: 13px;
+  padding: 7px 14px;
+}
+
+.s4b-tabs-vertical .s4b-tab-indicator {
+  border-radius: 10px;
 }
 
 .s4b-tab {
@@ -1157,7 +1193,7 @@
   padding: 10px 22px;
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-lg);
   max-width: 480px;
   width: 100%;
   overflow: hidden;
@@ -1178,7 +1214,7 @@
 .s4b-query-glow {
   position: absolute;
   inset: -1px;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-lg);
   border: 1.5px solid var(--glean-green);
   pointer-events: none;
 }
@@ -1204,7 +1240,7 @@
   padding: 9px 20px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-lg);
   width: 100%;
 }
 
@@ -1268,12 +1304,12 @@
 }
 
 .s4b-panel-fed {
-  background: rgba(255, 80, 80, 0.03);
+  background: rgba(10, 12, 40, 0.7);
   border: 1px solid rgba(255, 80, 80, 0.12);
 }
 
 .s4b-panel-glean {
-  background: rgba(52, 60, 237, 0.05);
+  background: rgba(10, 12, 40, 0.7);
   border: 1px solid rgba(216, 253, 73, 0.12);
 }
 
@@ -1573,9 +1609,7 @@
   color: var(--glean-green);
 }
 
-/* ========================================
-   Scene 4B1 — Federated vs Glean (Overhauled v2)
-   ======================================== */
+/* Scene 4B1 — Federated vs Glean (Overhauled v2) */
 
 .s4b1-split {
   display: grid;
@@ -2431,9 +2465,7 @@
   pointer-events: none;
 }
 
-/* ========================================
-   SceneFedProblem — Full-width Fed Problem
-   ======================================== */
+/* SceneFedProblem — Full-width Fed Problem */
 
 .sfp-body-split {
   display: grid;
@@ -2463,7 +2495,8 @@
   gap: 14px;
   padding: 28px 24px;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: none;
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-lg);
   text-align: center;
 }
@@ -2600,9 +2633,7 @@
   font-family: 'SF Mono', 'Fira Code', monospace;
 }
 
-/* ========================================
-   Scene 4B3 — Live Scorecard + Waterfall
-   ======================================== */
+/* Scene 4B3 — Live Scorecard + Waterfall */
 
 .s4b3-body {
   display: flex;
@@ -2807,9 +2838,7 @@
   gap: 16px;
 }
 
-/* ========================================
-   Scene 4B2 — Spotlight Sweep
-   ======================================== */
+/* Scene 4B2 — Spotlight Sweep */
 
 .s4b2-toggle-row {
   display: flex;
@@ -2981,9 +3010,7 @@
   color: var(--glean-green);
 }
 
-/* ========================================
-   Scene 4 & 5 — Agent layouts
-   ======================================== */
+/* Scene 4 & 5 — Agent layouts */
 
 .agent-layout {
   display: flex;
@@ -3029,12 +3056,12 @@
 }
 
 .agent-box-fed {
-  background: rgba(255, 80, 80, 0.05);
+  background: rgba(10, 12, 40, 0.7);
   border: 1px solid rgba(255, 80, 80, 0.15);
 }
 
 .agent-box-glean {
-  background: rgba(52, 60, 237, 0.08);
+  background: rgba(10, 12, 40, 0.7);
   border: 1px solid rgba(216, 253, 73, 0.15);
 }
 
@@ -3254,9 +3281,7 @@
   white-space: nowrap;
 }
 
-/* ========================================
-   ML Relevance Engine panel (Scene 5)
-   ======================================== */
+/* ML Relevance Engine panel (Scene 5) */
 
 .agent-layout-horizontal {
   flex-direction: row;
@@ -3459,9 +3484,7 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
-/* ========================================
-   Scene 6 — Architecture
-   ======================================== */
+/* Scene 6 — Architecture */
 
 .arch-layout {
   display: flex;
@@ -3515,7 +3538,7 @@
   text-align: center;
   background: rgba(255, 255, 255, 0.04);
   border: 1px dashed rgba(255, 255, 255, 0.15);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-md);
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
@@ -3578,9 +3601,7 @@
   background: var(--glean-green);
 }
 
-/* ========================================
-   Scene 7 — Final Comparison
-   ======================================== */
+/* Scene 7 — Final Comparison */
 
 .compare-grid {
   display: flex;
@@ -3634,17 +3655,20 @@
   padding: 10px 14px;
   border-radius: 8px;
   line-height: 1.35;
+  border: none;
 }
 
 .compare-cell-fed {
   background: rgba(255, 80, 80, 0.1);
-  border: 1px solid rgba(255, 80, 80, 0.2);
+  border: none;
+  border-top: 2px solid rgba(255, 80, 80, 0.25);
   color: rgba(255, 180, 180, 0.85);
 }
 
 .compare-cell-glean {
   background: rgba(216, 253, 73, 0.08);
-  border: 1px solid rgba(216, 253, 73, 0.2);
+  border: none;
+  border-top: 2px solid rgba(216, 253, 73, 0.25);
   color: rgba(216, 253, 73, 0.95);
 }
 
@@ -3673,7 +3697,7 @@
   padding: 14px 28px;
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(216, 253, 73, 0.3);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-lg);
   font-size: 16px;
   font-weight: 700;
   color: var(--glean-green);
@@ -3690,9 +3714,7 @@
   letter-spacing: 0.3px;
 }
 
-/* ========================================
-   Scene 8 — Beyond Search (Tiered Layout)
-   ======================================== */
+/* Scene 8 — Beyond Search (Tiered Layout) */
 
 .beyond-scene {
   gap: 20px;
@@ -3718,10 +3740,11 @@
 }
 
 .beyond-tier-label {
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
+  text-transform: none;
+  font-variant: small-caps;
+  letter-spacing: 0.8px;
   color: rgba(255, 255, 255, 0.25);
 }
 
@@ -3957,9 +3980,7 @@
   animation-delay: 3.5s;
 }
 
-/* ========================================
-   Scene 9 — Grand Finale
-   ======================================== */
+/* Scene 9 — Grand Finale */
 
 .finale-layout {
   display: flex;

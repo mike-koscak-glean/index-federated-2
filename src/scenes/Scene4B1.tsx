@@ -51,87 +51,92 @@ export function Scene4B1() {
         Why Retrieval Method Matters
       </motion.div>
 
-      <motion.div
-        className="s4b-tabs"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-      >
-        {SCENARIOS.map((s, i) => (
-          <button
-            key={s.id}
-            className={`s4b-tab ${i === activeTab ? 's4b-tab-active' : ''}`}
-            onClick={() => handleTab(i)}
-          >
-            <span className="s4b-tab-num">{i + 1}</span>
-            {s.tab}
-            {i === activeTab && (
-              <motion.div className="s4b-tab-indicator" layoutId="s4b1-tab-pill" />
-            )}
-          </button>
-        ))}
-      </motion.div>
-
-      <PromptToQuery prompt={scenario.prompt} query={scenario.query} animKey={animKey} />
-
-      <AnimatePresence mode="wait">
+      <div className="scene-with-sidebar">
         <motion.div
-          key={`body-${animKey}`}
-          className="s4b1-body"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.15 }}
+          className="s4b-tabs-vertical"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1 }}
         >
-          <StoryCard persona={scenario.persona} animKey={animKey} />
-
-          <FederatedPanel scenario={scenario} instant />
-
-          <div className="s4b1-body-right">
-            <div className="s4b1-stepper">
-              <button
-                className="sfp-step-btn"
-                onClick={retreat}
-                disabled={stopIdx <= 0}
-              >
-                <span className="material-symbols-rounded" style={{ fontSize: 16 }}>chevron_left</span>
-              </button>
-
-              <AnimatePresence mode="wait">
-                {!atEnd ? (
-                  <motion.button
-                    key={`advance-${animKey}`}
-                    className="sfp-step-btn s4b1-step-btn-primary"
-                    onClick={advance}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    {STEP_HINTS[subStep]}
-                    <span className="material-symbols-rounded" style={{ fontSize: 16 }}>chevron_right</span>
-                  </motion.button>
-                ) : (
-                  <motion.span
-                    key={`done-${animKey}`}
-                    className="sfp-step-done s4b1-step-done"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <span className="material-symbols-rounded" style={{ fontSize: 14 }}>check_circle</span>
-                    Complete
-                  </motion.span>
-                )}
-              </AnimatePresence>
-
-              <span className="sfp-step-count">{stopIdx}/{STEP_STOPS.length - 1}</span>
-            </div>
-
-            <GleanPanel scenario={scenario} tabIndex={activeTab} subStep={subStep} />
-          </div>
+          <span className="s4b-tabs-vertical-label">Scenarios</span>
+          {SCENARIOS.map((s, i) => (
+            <button
+              key={s.id}
+              className={`s4b-tab ${i === activeTab ? 's4b-tab-active' : ''}`}
+              onClick={() => handleTab(i)}
+            >
+              <span className="s4b-tab-num">{i + 1}</span>
+              {s.tab}
+              {i === activeTab && (
+                <motion.div className="s4b-tab-indicator" layoutId="s4b1-tab-pill" />
+              )}
+            </button>
+          ))}
         </motion.div>
-      </AnimatePresence>
+
+        <div className="scene-sidebar-content">
+          <PromptToQuery prompt={scenario.prompt} query={scenario.query} animKey={animKey} />
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`body-${animKey}`}
+              className="s4b1-body"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
+              <StoryCard persona={scenario.persona} animKey={animKey} />
+
+              <FederatedPanel scenario={scenario} instant />
+
+              <div className="s4b1-body-right">
+                <div className="s4b1-stepper">
+                  <button
+                    className="sfp-step-btn"
+                    onClick={retreat}
+                    disabled={stopIdx <= 0}
+                  >
+                    <span className="material-symbols-rounded" style={{ fontSize: 16 }}>chevron_left</span>
+                  </button>
+
+                  <AnimatePresence mode="wait">
+                    {!atEnd ? (
+                      <motion.button
+                        key={`advance-${animKey}`}
+                        className="sfp-step-btn s4b1-step-btn-primary"
+                        onClick={advance}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.15 }}
+                      >
+                        {STEP_HINTS[subStep]}
+                        <span className="material-symbols-rounded" style={{ fontSize: 16 }}>chevron_right</span>
+                      </motion.button>
+                    ) : (
+                      <motion.span
+                        key={`done-${animKey}`}
+                        className="sfp-step-done s4b1-step-done"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <span className="material-symbols-rounded" style={{ fontSize: 14 }}>check_circle</span>
+                        Complete
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+
+                  <span className="sfp-step-count">{stopIdx}/{STEP_STOPS.length - 1}</span>
+                </div>
+
+                <GleanPanel scenario={scenario} tabIndex={activeTab} subStep={subStep} />
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
     </div>
   );
 }
