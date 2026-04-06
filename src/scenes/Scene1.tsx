@@ -12,7 +12,7 @@ const APPS = [
   { name: 'Gong', logo: LOGOS.gong, result: 'Gong call — Q3 check-in' },
 ];
 
-const CALL_DURATION = 0.8;
+const CALL_DURATION = 2.7;
 const CALL_START = 0.6;
 
 function callDelay(i: number) {
