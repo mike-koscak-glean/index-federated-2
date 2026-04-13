@@ -60,7 +60,7 @@ export function Scene7() {
         <div className="compare-header-row">
           <div className="compare-metric-label" />
           <div className="compare-col-header panel-header-red">Federated Only + MCP</div>
-          <div className="compare-col-header panel-header-green">Glean Index &amp; Enterprise Graph + MCP</div>
+          <div className="compare-col-header panel-header-green">Glean Search Index &amp; Enterprise Graph + MCP</div>
         </div>
 
         {DIMENSIONS.map((d, i) => (
@@ -115,7 +115,7 @@ export function Scene7() {
         transition={{ delay: 3.3, duration: 1.0 }}
       >
         <span className="material-symbols-rounded" style={{ fontSize: 20 }}>arrow_forward</span>
-        Better search is just the beginning of what an enterprise graph unlocks
+        Better search is just the beginning of what an Enterprise Graph unlocks
       </motion.div>
     </div>
   );

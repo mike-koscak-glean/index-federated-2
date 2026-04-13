@@ -388,7 +388,7 @@ export function Scene8() {
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5, duration: 0.5 }}
           >
-            Enterprise Knowledge Graph
+            Enterprise Graph
           </motion.div>
         </motion.div>
 

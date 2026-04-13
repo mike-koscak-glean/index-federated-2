@@ -1,4 +1,4 @@
-# Presenter Script — Why Enterprises Need an Indexed Knowledge Graph
+# Presenter Script — Why Enterprises Need a Search Index + Enterprise Graph
 
 > "Provide a Customer 360 for Acme: recent deals, support issues, key contacts, risks, and next best actions."
 
@@ -30,15 +30,15 @@ For a question like Customer 360 — where the value is in the *connections* bet
 
 ---
 
-## Scene 2 — How Glean Indexing Works
+## Scene 2 — How the Glean Search Index Works
 
 **~35 seconds**
 
 Now, the other path. Glean connects to over 100 enterprise systems and deeply crawls each one — not just content, but permissions, people, org structure, and activity signals.
 
-All of that feeds into a single, permission-aware enterprise index. Glean mirrors the exact access controls from every source system. If you shouldn't see it in Salesforce, you won't see it in Glean.
+All of that feeds into a single, permission-aware search index. Glean mirrors the exact access controls from every source system. If you shouldn't see it in Salesforce, you won't see it in Glean.
 
-On top of this index, Glean builds an enterprise knowledge graph. It doesn't just know a document exists — it knows who owns it, who's read it, which team it belongs to, and how it connects to your accounts, projects, and people. That graph powers hybrid search with over 60 ranking signals, tuned on *your* data.
+On top of this search index, Glean builds the Enterprise Graph. It doesn't just know a document exists — it knows who owns it, who's read it, which team it belongs to, and how it connects to your accounts, projects, and people. That graph powers hybrid search with over 60 ranking signals, tuned on *your* data.
 
 This is the difference between a pile of documents and actual understanding.
 
@@ -56,11 +56,11 @@ With federated retrieval, the context window fills up fast — but it's mostly n
 
 ---
 
-## Scene 4 — LLM / Agent on Glean Index
+## Scene 4 — LLM / Agent on Glean Search Index
 
 **~40 seconds**
 
-Now compare. Same question, but the agent calls into Glean's index.
+Now compare. Same question, but the agent calls into Glean's search index.
 
 Before the LLM sees a single token, Glean runs a purpose-built ML ranking pipeline — over 60 signals trained on *your* data. Semantic matching, personalization based on your role and activity, popularity, recency. Out of 200+ candidates, ML narrows it to four — curated, permission-checked, verified.
 
@@ -88,9 +88,9 @@ MCP gives you openness. Glean gives you intelligence and governance.
 
 **~20 seconds**
 
-Latency, relevance, coverage, governance, agent reliability — across every dimension, the gap is stark. An indexed enterprise graph gives your agents a brain.
+Latency, relevance, coverage, governance, agent reliability — across every dimension, the gap is stark. An Enterprise Graph gives your agents a brain.
 
-But better search and better AI answers? That's just the starting point. A real knowledge graph unlocks an entirely new category of intelligence.
+But better search and better AI answers? That's just the starting point. A real Enterprise Graph unlocks an entirely new category of intelligence.
 
 ---
 
@@ -98,7 +98,7 @@ But better search and better AI answers? That's just the starting point. A real 
 
 **~30 seconds**
 
-This is what the enterprise graph makes possible — and it's the foundation for every advanced use case we're building. You've already seen agents and workflow automation in action. But the same graph also powers **Prism** — real-time entity views like account health and deal risk, built automatically from signals across Gong, Slack, Jira, and Salesforce. **Personal Graph** infers your tasks, projects, and collaborators from your activity, so every interaction is contextual. And **Proactive Intelligence** surfaces what matters — churn alerts, recommendations, next steps — before you even ask.
+This is what the Enterprise Graph makes possible — and it's the foundation for every advanced use case we're building. You've already seen agents and workflow automation in action. But the same graph also powers **Prism** — real-time entity views like account health and deal risk, built automatically from signals across Gong, Slack, Jira, and Salesforce. **Personal graph** infers your tasks, projects, and collaborators from your activity, so every interaction is contextual. And **Proactive Intelligence** surfaces what matters — churn alerts, recommendations, next steps — before you even ask.
 
 Every one of these capabilities compounds on the same permission-aware graph. No re-indexing. No re-integration. One foundation that keeps unlocking new value.
 
@@ -108,8 +108,8 @@ Every one of these capabilities compounds on the same permission-aware graph. No
 
 **~30 seconds**
 
-Here's the full picture. At the base: 100+ enterprise systems. Above that: a unified, permission-aware index. On top: the enterprise knowledge graph — entities, relationships, and signals tuned on *your* data.
+Here's the full picture. At the base: 100+ enterprise systems. Above that: a unified, permission-aware search index. On top: the Enterprise Graph — entities, relationships, and signals tuned on *your* data.
 
 From that one foundation, you ship an entire platform: Search, AI Assistant, Agents, Prism, Workflow Automation, Personal AI. All governed, all from one index.
 
-Federated gives your AI fragments. An enterprise graph gives it understanding. **Index once. Unlock everything.**
+Federated gives your AI fragments. An Enterprise Graph gives it understanding. **Index once. Unlock everything.**

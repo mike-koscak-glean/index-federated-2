@@ -1,11 +1,25 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { LOGOS } from '../logos';
 
-const CX = 400;
-const CY = 250;
-const CONN_R = 200;
 const VW = 800;
 const VH = 500;
+
+type NodeType = 'content' | 'people' | 'activity' | 'acl';
+
+const TYPE_COLORS: Record<NodeType, string> = {
+  content: '#3FA3FF',
+  people: '#D8FD49',
+  activity: '#FFAC8C',
+  acl: '#B2E5EF',
+};
+
+const TYPE_LABELS: Record<NodeType, string> = {
+  content: 'Content',
+  people: 'People / Teams',
+  activity: 'Activity',
+  acl: 'ACLs',
+};
 
 const APPS = [
   { logo: LOGOS.gdrive, name: 'Drive' },
@@ -21,45 +35,99 @@ const APPS = [
   { logo: LOGOS.tableau, name: 'Tableau' },
 ];
 
-const RINGS = [
-  { label: 'Content', r: 52, color: 'rgba(52,60,237,0.4)', angle: 20 },
-  { label: 'ACLs', r: 70, color: 'rgba(216,253,73,0.3)', angle: 110 },
-  { label: 'People', r: 88, color: 'rgba(178,229,239,0.3)', angle: 205 },
-  { label: 'Activity', r: 106, color: 'rgba(255,172,140,0.3)', angle: 295 },
-];
-
-const PCOL = ['#3FA3FF', '#D8FD49', '#B2E5EF', '#FFAC8C'];
-
-const NODES = [
-  { label: 'Acme Corp', x: 495, y: 158 },
-  { label: 'Sales Team', x: 280, y: 178 },
-  { label: 'Q4 Pipeline', x: 518, y: 290 },
-  { label: 'Support', x: 475, y: 372 },
-  { label: 'Engineering', x: 290, y: 338 },
-  { label: 'Onboarding', x: 378, y: 398 },
-];
-
-const EDGES: [number, number][] = [[0, 1], [0, 2], [0, 3], [1, 4], [2, 3], [3, 5], [4, 5]];
-
-const BADGES = [
-  { nodeIdx: 0, text: 'Owner: J. Smith' },
-  { nodeIdx: 1, text: 'Viewed 124\u00d7' },
-  { nodeIdx: 2, text: 'Recent' },
-  { nodeIdx: 3, text: 'Team: Sales' },
-];
-
-const N_CONN = APPS.length + 1;
-
-function cPos(i: number) {
-  const a = (i / N_CONN) * Math.PI * 2 - Math.PI / 2;
-  return { x: CX + CONN_R * Math.cos(a), y: CY + CONN_R * Math.sin(a) };
+// Connector positions — flat arc across the top
+function connPos(i: number, total: number) {
+  const startAngle = -Math.PI * 0.85;
+  const endAngle = -Math.PI * 0.15;
+  const a = startAngle + (i / (total - 1)) * (endAngle - startAngle);
+  const rx = 340;
+  const ry = 80;
+  return { x: VW / 2 + rx * Math.cos(a), y: 70 + ry * Math.sin(a) + ry };
 }
+
+const NODES: { label: string; x: number; y: number; type: NodeType; r: number }[] = [
+  { label: 'Acme Corp',          x: 430, y: 200, type: 'content',  r: 16 },
+  { label: 'Sales Team',         x: 280, y: 225, type: 'people',   r: 14 },
+  { label: 'Q4 Pipeline',        x: 540, y: 280, type: 'activity', r: 15 },
+  { label: 'Support',            x: 530, y: 370, type: 'people',   r: 11 },
+  { label: 'Engineering',        x: 320, y: 340, type: 'people',   r: 15 },
+  { label: 'Onboarding',         x: 420, y: 380, type: 'content',  r: 13 },
+  { label: 'Setup Flow',         x: 200, y: 290, type: 'content',  r: 10 },
+  { label: 'Provisioning',       x: 195, y: 390, type: 'acl',      r: 9  },
+  { label: 'NA Launch',          x: 620, y: 210, type: 'activity', r: 9  },
+  { label: 'Compliance Review',  x: 380, y: 290, type: 'acl',      r: 10 },
+];
+
+const EDGES: [number, number][] = [
+  [0, 2], [2, 1], [0, 1],      // Acme-Q4-Sales triangle
+  [5, 6], [6, 4], [4, 7],      // Onboarding-Setup-Eng-Provisioning chain
+  [3, 5],                       // Support-Onboarding
+  [4, 9],                       // Engineering-Compliance
+  [2, 8],                       // Q4-NA Launch
+  [0, 3],                       // Acme-Support
+  [5, 9],                       // Onboarding-Compliance
+  [1, 4],                       // Sales-Engineering
+];
+
+interface MiniCard {
+  emoji: string;
+  label: string;
+  appIdx: number;
+  targetNode: number;
+}
+
+const MINI_CARDS: MiniCard[] = [
+  { emoji: '📄', label: 'Onboarding Plan',   appIdx: 0, targetNode: 5 },
+  { emoji: '🎫', label: 'ENG-4521',          appIdx: 1, targetNode: 4 },
+  { emoji: '☁',  label: 'Acme Corp Opp',     appIdx: 2, targetNode: 0 },
+  { emoji: '💬', label: '#acme channel',      appIdx: 3, targetNode: 1 },
+  { emoji: '📝', label: 'Runbook',            appIdx: 4, targetNode: 9 },
+  { emoji: '🟢', label: 'P3 Incident',        appIdx: 5, targetNode: 3 },
+  { emoji: '✉️', label: 'Onboard invite',     appIdx: 6, targetNode: 5 },
+  { emoji: '🎙', label: 'Q3 check-in',        appIdx: 7, targetNode: 2 },
+  { emoji: '📋', label: 'Compliance doc',     appIdx: 8, targetNode: 9 },
+  { emoji: '📊', label: 'Pipeline review',    appIdx: 9, targetNode: 2 },
+  { emoji: '🗂', label: 'Setup flow doc',     appIdx: 0, targetNode: 6 },
+  { emoji: '🚀', label: 'NA Launch brief',    appIdx: 2, targetNode: 8 },
+  { emoji: '🔧', label: 'Provision request',  appIdx: 5, targetNode: 7 },
+];
+
+const BADGES: { nodeIdx: number; text: string; offsetY?: number }[] = [
+  { nodeIdx: 9, text: 'Viewed 124×' },
+  { nodeIdx: 0, text: 'Owner: J. Smith' },
+  { nodeIdx: 1, text: 'Team: Sales' },
+  { nodeIdx: 5, text: 'Recent' },
+  { nodeIdx: 3, text: 'Role: PM' },
+  { nodeIdx: 4, text: 'ACL: Engineering' },
+];
 
 function pct(x: number, y: number): React.CSSProperties {
   return { left: `${(x / VW) * 100}%`, top: `${(y / VH) * 100}%` };
 }
 
+// Phase timing constants
+const CARD_STAGGER_START = 0.4;
+const CARD_STAGGER_GAP = 0.15;
+const CARD_FLY_DURATION = 1.0;
+const EDGE_DRAW_START = 2.8;
+const EDGE_STAGGER = 0.08;
+const CAPTION1_DELAY = 4.5;
+const PHASE2_START = 6.0;
+const BADGE_STAGGER = 0.2;
+const CAPTION2_DELAY = PHASE2_START + BADGES.length * BADGE_STAGGER + 0.5;
+
 export function Scene2() {
+  const [phase, setPhase] = useState(0); // 0=building, 1=caption1, 2=signals, 3=idle
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setPhase(1), CAPTION1_DELAY * 1000);
+    const t2 = setTimeout(() => setPhase(2), PHASE2_START * 1000);
+    const t3 = setTimeout(() => setPhase(3), (CAPTION2_DELAY + 1.0) * 1000);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, []);
+
+  const N_CONN = APPS.length + 1;
+
   return (
     <div className="scene">
       <motion.div
@@ -68,232 +136,319 @@ export function Scene2() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.1 }}
       >
-        The Glean Index
+        The Glean Search Index
       </motion.div>
 
-      <div className="idx-radial">
-        {/* SVG layer: rings, particles, graph edges/nodes, pulses */}
+      <div className="idx-stage">
+        {/* SVG network graph layer */}
         <svg
           className="idx-radial-svg"
           viewBox={`0 0 ${VW} ${VH}`}
           preserveAspectRatio="xMidYMid meet"
         >
           <defs>
-            <linearGradient id="eGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#343CED" stopOpacity={0.6} />
-              <stop offset="100%" stopColor="#D8FD49" stopOpacity={0.6} />
-            </linearGradient>
-            <radialGradient id="cGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#343CED" stopOpacity={0.3} />
-              <stop offset="60%" stopColor="#343CED" stopOpacity={0.08} />
-              <stop offset="100%" stopColor="transparent" />
-            </radialGradient>
+            <filter id="edgeGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            {Object.entries(TYPE_COLORS).map(([type, color]) => (
+              <radialGradient key={type} id={`nodeGrad-${type}`} cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor={color} stopOpacity={0.35} />
+                <stop offset="100%" stopColor={color} stopOpacity={0.08} />
+              </radialGradient>
+            ))}
           </defs>
 
-          {/* Breathing core glow */}
-          <motion.circle
-            cx={CX} cy={CY} r={45}
-            fill="url(#cGlow)"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0.5, 0.9, 0.5] }}
-            transition={{ delay: 0.5, duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-          />
-
-          {/* Concentric layer rings with flowing dashes */}
-          {RINGS.map((ring, i) => (
-            <motion.circle
-              key={`r${i}`}
-              cx={CX} cy={CY} r={ring.r}
-              fill="none"
-              stroke={ring.color}
-              strokeWidth={0.8}
-              strokeDasharray={`${ring.r * 0.22} ${ring.r * 0.11}`}
-              className={`idx-ring idx-ring-${i}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.0 + i * 0.18, duration: 0.6 }}
-            />
-          ))}
-
-          {/* Particle streams from each connector toward center */}
-          {APPS.map((_, ci) => {
-            const p = cPos(ci);
-            return [0, 1].map(pi => (
-              <motion.circle
-                key={`pt${ci}-${pi}`}
-                r={1.8}
-                fill={PCOL[ci % 4]}
-                initial={{ cx: p.x, cy: p.y, opacity: 0 }}
-                animate={{
-                  cx: [p.x, CX],
-                  cy: [p.y, CY],
-                  opacity: [0, 0.7, 0],
-                }}
-                transition={{
-                  delay: 1.5 + ci * 0.1 + pi * 1.0,
-                  duration: 2.2,
-                  ease: 'easeIn',
-                  repeat: Infinity,
-                  repeatDelay: 1.0 + pi * 0.6,
-                }}
-              />
-            ));
+          {/* Edges — draw in after nodes arrive */}
+          {EDGES.map(([a, b], i) => {
+            const na = NODES[a], nb = NODES[b];
+            const dx = nb.x - na.x, dy = nb.y - na.y;
+            const len = Math.sqrt(dx * dx + dy * dy);
+            return (
+              <g key={`e${i}`} filter="url(#edgeGlow)">
+                <motion.line
+                  x1={na.x} y1={na.y} x2={nb.x} y2={nb.y}
+                  stroke="rgba(216,253,73,0.25)"
+                  strokeWidth={1.2}
+                  strokeDasharray={len}
+                  strokeDashoffset={len}
+                  initial={{ strokeDashoffset: len, opacity: 0 }}
+                  animate={{ strokeDashoffset: 0, opacity: 1 }}
+                  transition={{
+                    delay: EDGE_DRAW_START + i * EDGE_STAGGER,
+                    duration: 0.6,
+                    ease: 'easeOut',
+                  }}
+                />
+              </g>
+            );
           })}
 
-          {/* Graph edges drawn after nodes emerge */}
-          {EDGES.map(([a, b], i) => (
+          {/* Idle edge pulses (after phase 3) */}
+          {phase >= 3 && EDGES.map(([a, b], i) => (
             <motion.line
-              key={`e${i}`}
+              key={`ep${i}`}
               x1={NODES[a].x} y1={NODES[a].y}
               x2={NODES[b].x} y2={NODES[b].y}
-              stroke="url(#eGrad)"
-              strokeWidth={1}
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ delay: 4.2 + i * 0.1, duration: 0.5 }}
-            />
-          ))}
-
-          {/* Neural pulses traveling along edges */}
-          {EDGES.map(([a, b], i) => (
-            <motion.circle
-              key={`np${i}`}
-              r={2.2}
-              fill="#D8FD49"
+              stroke="rgba(216,253,73,0.12)"
+              strokeWidth={3}
               initial={{ opacity: 0 }}
-              animate={{
-                cx: [NODES[a].x, NODES[b].x],
-                cy: [NODES[a].y, NODES[b].y],
-                opacity: [0, 0.8, 0.8, 0],
-              }}
+              animate={{ opacity: [0, 0.4, 0] }}
               transition={{
-                delay: 5.0 + i * 0.3,
-                duration: 1.4,
-                ease: 'linear',
+                delay: i * 0.4,
+                duration: 2.5,
+                ease: 'easeInOut',
                 repeat: Infinity,
-                repeatDelay: 2.0 + (i % 3) * 0.5,
-                times: [0, 0.1, 0.9, 1],
+                repeatDelay: 3 + (i % 3),
               }}
             />
           ))}
 
-          {/* Graph nodes — emerge outward from center */}
-          {NODES.map((n, i) => (
-            <motion.g key={`gn${i}`}>
-              <motion.circle
-                r={14}
-                fill="rgba(52,60,237,0.2)"
-                initial={{ cx: CX, cy: CY, opacity: 0 }}
-                animate={{ cx: n.x, cy: n.y, opacity: 0.8 }}
-                transition={{ delay: 3.5 + i * 0.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              />
-              <motion.circle
-                r={8}
-                fill="rgba(52,60,237,0.65)"
-                stroke="rgba(216,253,73,0.45)"
-                strokeWidth={0.8}
-                initial={{ cx: CX, cy: CY, opacity: 0 }}
-                animate={{ cx: n.x, cy: n.y, opacity: 1 }}
-                transition={{ delay: 3.5 + i * 0.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              />
-            </motion.g>
-          ))}
+          {/* Graph nodes — placed by mini-card arrivals */}
+          {NODES.map((n, i) => {
+            const arrivalDelay = (() => {
+              const card = MINI_CARDS.find(c => c.targetNode === i);
+              if (card) {
+                const cardIdx = MINI_CARDS.indexOf(card);
+                return CARD_STAGGER_START + cardIdx * CARD_STAGGER_GAP + CARD_FLY_DURATION;
+              }
+              return CARD_STAGGER_START + MINI_CARDS.length * CARD_STAGGER_GAP + CARD_FLY_DURATION;
+            })();
+            const color = TYPE_COLORS[n.type];
+            return (
+              <motion.g key={`gn${i}`}>
+                {/* Outer halo */}
+                <motion.circle
+                  cx={n.x} cy={n.y} r={n.r + 6}
+                  fill={`url(#nodeGrad-${n.type})`}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 0.8, scale: 1 }}
+                  transition={{ delay: arrivalDelay, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  style={{ transformOrigin: `${n.x}px ${n.y}px` } as React.CSSProperties}
+                />
+                {/* Type-colored ring */}
+                <motion.circle
+                  cx={n.x} cy={n.y} r={n.r}
+                  fill="rgba(13,16,87,0.9)"
+                  stroke={color}
+                  strokeWidth={1.5}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: arrivalDelay, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  style={{ transformOrigin: `${n.x}px ${n.y}px` } as React.CSSProperties}
+                />
+                {/* Inner fill */}
+                <motion.circle
+                  cx={n.x} cy={n.y} r={n.r - 3}
+                  fill={color}
+                  fillOpacity={0.15}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: arrivalDelay + 0.2, duration: 0.3 }}
+                />
+                {/* Node label — in SVG so it stays aligned with the circle */}
+                <motion.text
+                  x={n.x}
+                  y={n.y + n.r + 14}
+                  textAnchor="middle"
+                  dominantBaseline="hanging"
+                  fill="rgba(255,255,255,0.75)"
+                  fontSize={9}
+                  fontWeight={600}
+                  style={{ pointerEvents: 'none' }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: arrivalDelay + 0.1, duration: 0.4 }}
+                >
+                  {n.label}
+                </motion.text>
+              </motion.g>
+            );
+          })}
+
+          {/* Signal badges — in SVG for perfect node alignment */}
+          {phase >= 2 && BADGES.map((b, i) => {
+            const n = NODES[b.nodeIdx];
+            const badgeY = n.y - n.r - 16;
+            const textLen = b.text.length * 4.2 + 12;
+            return (
+              <motion.g
+                key={`b${i}`}
+                initial={{ opacity: 0, scale: 0.3 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                  delay: i * BADGE_STAGGER,
+                  duration: 0.35,
+                  type: 'spring',
+                  stiffness: 300,
+                  damping: 20,
+                }}
+                style={{ transformOrigin: `${n.x}px ${badgeY}px` } as React.CSSProperties}
+              >
+                <rect
+                  x={n.x - textLen / 2}
+                  y={badgeY - 8}
+                  width={textLen}
+                  height={16}
+                  rx={8}
+                  fill="rgba(216,253,73,0.12)"
+                  stroke="rgba(216,253,73,0.25)"
+                  strokeWidth={1}
+                />
+                <text
+                  x={n.x}
+                  y={badgeY}
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  fill="#D8FD49"
+                  fontSize={8}
+                  fontWeight={600}
+                  style={{ pointerEvents: 'none' }}
+                >
+                  {b.text}
+                </text>
+              </motion.g>
+            );
+          })}
         </svg>
 
-        {/* HTML overlay layer for text and logos */}
+        {/* HTML overlay */}
         <div className="idx-radial-over">
-          {/* Connector app logos arranged in a ring */}
+          {/* Connector icons in arc */}
           {APPS.map((app, i) => {
-            const p = cPos(i);
+            const p = connPos(i, N_CONN);
+            const cardDeparted = MINI_CARDS.some(c => c.appIdx === i);
+            const dimDelay = (() => {
+              const cards = MINI_CARDS.filter(c => c.appIdx === i);
+              if (cards.length === 0) return 999;
+              const lastIdx = Math.max(...cards.map(c => MINI_CARDS.indexOf(c)));
+              return CARD_STAGGER_START + lastIdx * CARD_STAGGER_GAP + 0.3;
+            })();
             return (
               <motion.div
                 key={app.name}
                 className="idx-conn"
                 style={pct(p.x, p.y)}
                 initial={{ opacity: 0, scale: 0.4 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.15 + i * 0.07 }}
+                animate={{
+                  opacity: cardDeparted ? [1, 1, 0.4] : 1,
+                  scale: 1,
+                }}
+                transition={
+                  cardDeparted
+                    ? { opacity: { times: [0, 0.01, 1], duration: dimDelay + 0.5, ease: 'easeOut' }, scale: { duration: 0.3 } }
+                    : { delay: 0.15 + i * 0.07 }
+                }
               >
                 <img src={app.logo} alt={app.name} className="app-icon-sm" />
               </motion.div>
             );
           })}
 
-          {/* "+90 more" indicator */}
-          <motion.div
-            className="idx-conn idx-conn-more"
-            style={pct(cPos(APPS.length).x, cPos(APPS.length).y)}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.0 }}
-          >
-            +90
-          </motion.div>
-
-          {/* Layer ring labels positioned along each ring */}
-          {RINGS.map((ring, i) => {
-            const rad = (ring.angle * Math.PI) / 180;
+          {/* +90 overflow */}
+          {(() => {
+            const p = connPos(APPS.length, N_CONN);
             return (
               <motion.div
-                key={ring.label}
-                className="idx-ring-label"
-                style={pct(CX + ring.r * Math.cos(rad), CY + ring.r * Math.sin(rad))}
+                className="idx-conn idx-conn-more"
+                style={pct(p.x, p.y)}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.8 + i * 0.15 }}
+                transition={{ delay: 0.5 }}
               >
-                {ring.label}
+                +90
               </motion.div>
             );
-          })}
+          })()}
 
-          {/* Graph node labels */}
-          {NODES.map((n, i) => (
-            <motion.div
-              key={`nl${i}`}
-              className="idx-node-label"
-              style={pct(n.x, n.y + 16)}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 3.9 + i * 0.1 }}
-            >
-              {n.label}
-            </motion.div>
-          ))}
-
-          {/* Enrichment badges near nodes */}
-          {BADGES.map((b, i) => {
-            const n = NODES[b.nodeIdx];
+          {/* Mini-cards flying from connectors to nodes */}
+          {MINI_CARDS.map((card, ci) => {
+            const from = connPos(card.appIdx, N_CONN);
+            const to = NODES[card.targetNode];
+            const delay = CARD_STAGGER_START + ci * CARD_STAGGER_GAP;
             return (
               <motion.div
-                key={`b${i}`}
-                className="idx-badge"
-                style={pct(n.x, n.y - 20)}
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 5.6 + i * 0.18, type: 'spring' }}
+                key={`mc${ci}`}
+                className="idx-mini-card"
+                initial={{
+                  left: `${(from.x / VW) * 100}%`,
+                  top: `${(from.y / VH) * 100}%`,
+                  opacity: 0,
+                  scale: 1,
+                }}
+                animate={{
+                  left: [`${(from.x / VW) * 100}%`, `${(to.x / VW) * 100}%`],
+                  top: [`${(from.y / VH) * 100}%`, `${(to.y / VH) * 100}%`],
+                  opacity: [0, 1, 1, 0],
+                  scale: [1, 1, 0.6, 0],
+                }}
+                transition={{
+                  delay,
+                  duration: CARD_FLY_DURATION,
+                  ease: [0.22, 1, 0.36, 1],
+                  times: [0, 0.15, 0.75, 1],
+                }}
               >
-                {b.text}
+                <span className="idx-mini-card-emoji">{card.emoji}</span>
+                <span className="idx-mini-card-label">{card.label}</span>
               </motion.div>
             );
           })}
+
+          {/* Node labels and signal badges are now rendered in the SVG layer above */}
         </div>
       </div>
 
-      <motion.div
-        className="callout-list"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 6.0 }}
-        style={{ alignSelf: 'center' }}
-      >
-        <div className="callout">
-          100+ connectors feed content, permissions, people, and activity into one unified graph.
+      {/* Bottom bar: captions left, legend right */}
+      <div className="idx-bottom-bar">
+        <div className="idx-captions">
+          <AnimatePresence>
+            {phase >= 1 && (
+              <motion.div
+                key="cap1"
+                className="idx-caption"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
+              >
+                100+ connectors &rarr; one unified graph
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <AnimatePresence>
+            {phase >= 2 && (
+              <motion.div
+                key="cap2"
+                className="idx-caption"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ delay: phase === 2 ? BADGES.length * BADGE_STAGGER + 0.3 : 0, duration: 0.5, ease: 'easeOut' }}
+              >
+                60+ enterprise signals power every ranking
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-        <div className="callout">
-          ML models trained on 60+ enterprise signals rank and connect everything — not generic web relevance.
-        </div>
-      </motion.div>
+
+        <motion.div
+          className="idx-legend"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: EDGE_DRAW_START + EDGES.length * EDGE_STAGGER + 0.3, duration: 0.5 }}
+        >
+          {(Object.keys(TYPE_COLORS) as NodeType[]).map(type => (
+            <div key={type} className="idx-legend-item">
+              <span className="idx-legend-dot" style={{ background: TYPE_COLORS[type] }} />
+              <span>{TYPE_LABELS[type]}</span>
+            </div>
+          ))}
+        </motion.div>
+      </div>
     </div>
   );
 }

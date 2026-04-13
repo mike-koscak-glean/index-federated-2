@@ -48,7 +48,7 @@ export function Scene4B1() {
   return (
     <div className="scene">
       <motion.div className="scene-title" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-        What Changes With a Unified Index
+        What Changes With a Unified Search Index
       </motion.div>
 
       <div className="scene-with-sidebar">

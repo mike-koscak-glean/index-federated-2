@@ -470,8 +470,8 @@ export function GleanPanel({ scenario, tabIndex, subStep }: { scenario: Scenario
       <div className="s4b1-panel-header">
         <img src={LOGOS.glean} alt="Glean" style={{ width: 22, height: 22 }} />
         <div>
-          <div className="s4b1-panel-title" style={{ color: 'var(--glean-green)' }}>Glean Indexed Search</div>
-          <div className="s4b1-panel-sub">Knowledge graph with unified index</div>
+          <div className="s4b1-panel-title" style={{ color: 'var(--glean-green)' }}>Glean Search Index</div>
+          <div className="s4b1-panel-sub">Enterprise Graph with unified search index</div>
         </div>
       </div>
 

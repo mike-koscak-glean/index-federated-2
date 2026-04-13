@@ -10,7 +10,7 @@ const STACK_LAYERS = [
     icon: 'cloud',
   },
   {
-    label: 'Unified, Permission-Aware Index',
+    label: 'Unified, Permission-Aware Search Index',
     sub: 'Content · ACLs · People · Activity — mirrored from every source',
     color: 'rgba(52,60,237,0.12)',
     border: 'rgba(52,60,237,0.35)',
@@ -18,7 +18,7 @@ const STACK_LAYERS = [
     icon: 'database',
   },
   {
-    label: 'Enterprise Knowledge Graph',
+    label: 'Enterprise Graph',
     sub: 'Entities, relationships, and 60+ ranking signals tuned on your data',
     color: 'rgba(52,60,237,0.2)',
     border: 'rgba(216,253,73,0.35)',
@@ -137,7 +137,7 @@ export function Scene9() {
         >
           <p className="finale-message-main">
             Federated gives your AI <span style={{ color: '#FF7E4C' }}>fragments</span>.<br />
-            An enterprise graph gives it <span className="final-highlight">understanding</span>.
+            An Enterprise Graph gives it <span className="final-highlight">understanding</span>.
           </p>
           <p className="finale-message-sub">
             Search, agents, analytics, and proactive intelligence —<br />

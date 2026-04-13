@@ -211,8 +211,8 @@ function GleanPanel({ scenario }: { scenario: Scenario }) {
       <div className="s4b-panel-header">
         <img src={LOGOS.glean} alt="Glean" style={{ width: 22, height: 22 }} />
         <div>
-          <div className="s4b-panel-title s4b-glean-title">Glean Indexed Search</div>
-          <div className="s4b-panel-sub">Unified index with knowledge graph</div>
+          <div className="s4b-panel-title s4b-glean-title">Glean Search Index</div>
+          <div className="s4b-panel-sub">Unified search index with Enterprise Graph</div>
         </div>
       </div>
 
