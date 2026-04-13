@@ -4,14 +4,20 @@ const DIMENSIONS = [
   {
     label: 'Latency',
     icon: 'speed',
-    fed: 'Sequential API calls at query time',
+    fed: 'Only as fast as its slowest API call',
     glean: 'Pre-indexed, instant retrieval',
   },
   {
     label: 'Relevance',
     icon: 'target',
-    fed: 'Keyword matching, per source',
-    glean: 'Semantic ranking across all data',
+    fed: 'Per source, large variance in search quality',
+    glean: 'Custom lexical and semantic ranking per enterprise',
+  },
+  {
+    label: 'Cost',
+    icon: 'payments',
+    fed: 'Overfetching and multiple tool calls',
+    glean: 'Lower tool calls, precise context',
   },
   {
     label: 'Coverage',
@@ -26,10 +32,16 @@ const DIMENSIONS = [
     glean: 'Centralized permissions, always enforced',
   },
   {
-    label: 'Agent Reliability',
+    label: 'Reliability',
     icon: 'psychology',
-    fed: 'Fragile multi-hop chains',
-    glean: 'Single trusted source of truth',
+    fed: 'Fragile, multi-hop chains',
+    glean: 'Cross-app relationship and process understanding',
+  },
+  {
+    label: 'Quality',
+    icon: 'verified',
+    fed: 'No quality guarantees from host',
+    glean: 'Team of 350+ engineers dedicated to quality',
   },
 ];
 
@@ -47,8 +59,8 @@ export function Scene7() {
       <div className="compare-grid">
         <div className="compare-header-row">
           <div className="compare-metric-label" />
-          <div className="compare-col-header panel-header-red">MCP / Federated-only</div>
-          <div className="compare-col-header panel-header-green">Glean Indexed + MCP</div>
+          <div className="compare-col-header panel-header-red">Federated Only + MCP</div>
+          <div className="compare-col-header panel-header-green">Glean Index &amp; Enterprise Graph + MCP</div>
         </div>
 
         {DIMENSIONS.map((d, i) => (
@@ -89,10 +101,10 @@ export function Scene7() {
         className="final-quote"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2.2, duration: 0.6 }}
+        transition={{ delay: 2.5, duration: 0.6 }}
       >
         <p className="final-quote-main">
-          An indexed enterprise graph gives your agents a <span className="final-highlight">brain</span>.
+          The Glean Enterprise Graph gives your agents a <span className="final-highlight">brain</span>.
         </p>
       </motion.div>
 
@@ -100,10 +112,10 @@ export function Scene7() {
         className="transition-tease"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: [0, 0.7, 1], y: 0 }}
-        transition={{ delay: 3.0, duration: 1.0 }}
+        transition={{ delay: 3.3, duration: 1.0 }}
       >
         <span className="material-symbols-rounded" style={{ fontSize: 20 }}>arrow_forward</span>
-        But better search is just the beginning of what an enterprise graph unlocks…
+        Better search is just the beginning of what an enterprise graph unlocks
       </motion.div>
     </div>
   );

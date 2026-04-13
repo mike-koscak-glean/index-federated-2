@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, Component, type ReactNode, type ErrorInfo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { StepIndicator } from './components/StepIndicator';
 import { Scene0 } from './scenes/Scene0';
@@ -13,6 +13,32 @@ import { Scene8 } from './scenes/Scene8';
 import { Scene9 } from './scenes/Scene9';
 import './App.css';
 import './scenes/scenes.css';
+
+class SceneErrorBoundary extends Component<
+  { children: ReactNode; resetKey: number },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    console.error('Scene render error:', error, info);
+  }
+
+  componentDidUpdate(prev: { resetKey: number }) {
+    if (prev.resetKey !== this.props.resetKey && this.state.hasError) {
+      this.setState({ hasError: false });
+    }
+  }
+
+  render() {
+    if (this.state.hasError) return null;
+    return this.props.children;
+  }
+}
 
 const TOTAL_STEPS = 10;
 
@@ -67,7 +93,7 @@ export default function App() {
   return (
     <div className="app">
       <div className="scene-viewport">
-        <AnimatePresence mode="wait" custom={direction}>
+        <AnimatePresence mode="sync" initial={false} custom={direction}>
           <motion.div
             key={currentStep}
             className="scene-wrapper"
@@ -95,7 +121,9 @@ export default function App() {
               }),
             }}
           >
-            <SceneComponent />
+            <SceneErrorBoundary resetKey={currentStep}>
+              <SceneComponent />
+            </SceneErrorBoundary>
           </motion.div>
         </AnimatePresence>
       </div>

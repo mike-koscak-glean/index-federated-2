@@ -295,25 +295,25 @@ function FlowChart() {
 
 const ZONES = [
   {
-    headline: 'Knows Your Business',
+    headline: 'Knows Your Data',
     subtitle:
-      'Fuses signals across CRM, support, calls, and chat into live entity models — predicting churn, scoring deals, and surfacing risk before it hits',
+      'Fuses signals across CRM, support, calls, and chat into models that predict churn, score deals, and surface risk before it hits',
     position: 'top' as const,
     delay: 1.8,
     MicroComponent: HealthGauge,
   },
   {
-    headline: 'Knows You',
+    headline: 'Knows Your People',
     subtitle:
-      'Learns your projects, priorities, and patterns across every tool — then anticipates tasks and acts on your behalf',
+      'Learns your projects, priorities, and patterns based on how you use business apps, then anticipates tasks and acts on your behalf',
     position: 'bottom-right' as const,
     delay: 2.2,
     MicroComponent: TaskCards,
   },
   {
-    headline: 'Knows How Work Flows',
+    headline: 'Knows Your Processes',
     subtitle:
-      'Discovers how processes actually run across your org — identifies bottlenecks and recommends what to automate next',
+      'Discovers how processes actually run across your org so you can have agents automate the way your teams work',
     position: 'bottom-left' as const,
     delay: 2.6,
     MicroComponent: FlowChart,
@@ -338,7 +338,7 @@ export function Scene8() {
         transition={{ delay: 0.3, duration: 0.5 }}
         style={{ fontSize: 28, maxWidth: 700 }}
       >
-        What only an enterprise graph makes{' '}
+        What only the Glean Enterprise Graph makes{' '}
         <span className="final-highlight">possible</span>.
       </motion.h2>
 
@@ -414,8 +414,8 @@ export function Scene8() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 5.0, duration: 0.6 }}
       >
-        Federated gives your AI fragments. An enterprise graph gives it{' '}
-        <span className="beyond2-foresight">foresight</span>.
+        Federated models stitch together fragments, but lack a unified understanding of your data, processes, and people. They don't function as an{' '}
+        <span className="beyond2-foresight">enterprise brain</span>.
       </motion.div>
     </div>
   );

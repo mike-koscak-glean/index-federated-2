@@ -4,7 +4,7 @@ import { LOGOS } from '../logos';
 
 /* ─── Types ─── */
 
-export type MatchType = 'keyword' | 'semantic' | 'activity' | 'people' | 'entity';
+export type MatchType = 'keyword' | 'semantic' | 'activity' | 'people' | 'entity' | 'personalized';
 
 export interface FedResult {
   title: string;
@@ -15,6 +15,7 @@ export interface FedResult {
   callout?: string;
   calloutType?: 'mismatch' | 'warning' | 'info';
   keywordMismatch?: { searched: string; found: string };
+  badgeText?: string;
 }
 
 export interface GleanResult {
@@ -24,6 +25,7 @@ export interface GleanResult {
   matchTypes: MatchType[];
   reason: string;
   rankedLast?: boolean;
+  subNote?: string;
 }
 
 export interface SemanticBridge {
@@ -46,6 +48,11 @@ export interface TeamMember {
 export interface EntityConnection {
   resultIndex: number;
   relationship: string;
+}
+
+export interface PersonalizationSignal {
+  label: string;
+  icon: string;
 }
 
 export interface Persona {
@@ -79,6 +86,7 @@ export interface Scenario {
   teamMembers?: TeamMember[];
   entityName?: string;
   entityConnections?: EntityConnection[];
+  personalizationSignals?: PersonalizationSignal[];
   persona: Persona;
 }
 
@@ -177,48 +185,48 @@ export const SCENARIOS: Scenario[] = [
     },
   },
   {
-    id: 'team-blind',
-    tab: 'Team Blind Spot',
-    prompt: "What's blocking the compliance review on the Apex deal?",
-    query: 'compliance review Apex deal',
-    keywords: ['compliance', 'review', 'Apex'],
-    capabilities: ['keyword', 'semantic', 'activity', 'people'],
+    id: 'personalization-gap',
+    tab: 'Personalization Gap',
+    prompt: "What's our latest positioning on the enterprise tier?",
+    query: 'enterprise tier positioning latest',
+    keywords: ['enterprise', 'tier', 'positioning'],
+    capabilities: ['keyword', 'semantic', 'personalized'],
     queryApps: [
       { name: 'Drive', logo: LOGOS.gdrive, color: '#0F9D58' },
+      { name: 'Confluence', logo: LOGOS.confluence, color: '#1868DB' },
       { name: 'Salesforce', logo: LOGOS.salesforce, color: '#00A1E0' },
       { name: 'Teams', logo: LOGOS.teams, color: '#6264A7' },
-      { name: 'Drive', logo: LOGOS.gdrive, color: '#0F9D58' },
     ],
     fedResults: [
-      { title: 'General Compliance Checklist Template', app: 'Drive', logo: LOGOS.gdrive, status: 'stale', reason: 'Matches "compliance" + "review" — but generic, not deal-specific', callout: 'Generic template — not deal-specific', calloutType: 'warning' },
-      { title: 'Legal Review Tracker — Pending Approval', app: 'Salesforce', logo: LOGOS.salesforce, status: 'missed', reason: 'CRM record metadata not returned by search API' },
-      { title: '#legal-reviews: "EU hosting constraint — need sign-off"', app: 'Teams', logo: LOGOS.teams, status: 'missed', reason: '"hosting constraint" — no keyword overlap', keywordMismatch: { searched: 'compliance review', found: 'hosting constraint' } },
-      { title: 'Apex Corp — Legal Review Notes', app: 'Drive', logo: LOGOS.gdrive, status: 'found', reason: 'Matches "Apex" + "review" — but ranked same as generic template' },
+      { title: 'Enterprise Tier — Pricing Overview (APAC)', app: 'Drive', logo: LOGOS.gdrive, status: 'stale', reason: 'Keyword "enterprise tier" matches but this is APAC team\'s doc, not David\'s product/region', badgeText: 'Wrong region', callout: 'APAC team doc — wrong region for David', calloutType: 'warning' },
+      { title: 'Enterprise Tier Feature Comparison (2024)', app: 'Confluence', logo: LOGOS.confluence, status: 'stale', reason: 'Outdated doc from last year, keyword match only', badgeText: 'Stale' },
+      { title: 'Q1 Marketing — Enterprise Messaging Brief', app: 'Drive', logo: LOGOS.gdrive, status: 'missed', reason: 'Marketing team doc, not product positioning' },
+      { title: 'Enterprise Tier Expansion — Acme Corp', app: 'Salesforce', logo: LOGOS.salesforce, status: 'missed', reason: 'Sales opp record, not a positioning doc' },
     ],
     gleanResults: [
-      { title: 'Apex Corp — Legal Review Notes', app: 'Drive', logo: LOGOS.gdrive, matchTypes: ['people'], reason: 'Author is assigned counsel for Apex deal' },
-      { title: 'Legal Review Tracker — Pending Approval', app: 'Salesforce', logo: LOGOS.salesforce, matchTypes: ['people'], reason: 'Updated by Apex deal owner in CRM' },
-      { title: '#legal-reviews: "EU hosting constraint — need sign-off"', app: 'Teams', logo: LOGOS.teams, matchTypes: ['people', 'semantic'], reason: 'Posted by compliance analyst + semantic' },
-      { title: 'General Compliance Checklist Template', app: 'Drive', logo: LOGOS.gdrive, matchTypes: ['keyword'], reason: 'Keyword match — ranked last (generic)', rankedLast: true },
+      { title: 'Platform Team — Enterprise Tier Positioning (NA Launch)', app: 'Drive', logo: LOGOS.gdrive, matchTypes: ['personalized'], reason: 'Your team\'s doc · Last edited 3 days ago', subNote: 'Your team\'s doc · Last edited 3 days ago' },
+      { title: '#platform-launch: "Updated enterprise positioning per David\'s feedback"', app: 'Teams', logo: LOGOS.teams, matchTypes: ['personalized'], reason: 'Your channel · Mentioned by name', subNote: 'Your channel · Mentioned by name' },
+      { title: 'Enterprise Tier Feature Comparison (2024)', app: 'Confluence', logo: LOGOS.confluence, matchTypes: ['keyword'], reason: 'Keyword match — deprioritized (stale, cross-team)', rankedLast: true, subNote: 'Deprioritized — stale, cross-team' },
+      { title: 'Enterprise Tier — Pricing Overview (APAC)', app: 'Drive', logo: LOGOS.gdrive, matchTypes: ['keyword'], reason: 'Keyword match — deprioritized (wrong region)', rankedLast: true, subNote: 'Deprioritized — wrong region' },
     ],
-    fedOutcome: 'Found 2 of 4 — generic template ranked above deal notes',
-    gleanOutcome: 'Found 4 of 4, prioritized by deal-team relevance',
-    fedScore: 1,
+    fedOutcome: '⚠ Found 0 of 4 relevant to David\'s team or role — no identity context',
+    gleanOutcome: 'Found 4 of 4, ranked by identity and relevance',
+    fedScore: 0,
     gleanScore: 4,
-    fedScoreText: 'Generic template outranks deal-specific notes',
-    gleanScoreText: 'Prioritized by deal-team relevance',
-    teamName: 'Apex Deal Team',
-    teamMembers: [
-      { role: 'Legal Counsel', connections: [{ resultIndex: 0, label: 'Author' }, { resultIndex: 1, label: 'Updated' }] },
-      { role: 'Compliance Analyst', connections: [{ resultIndex: 2, label: 'Posted by' }] },
+    fedScoreText: 'No identity context — same results for everyone',
+    gleanScoreText: 'Personalized by team, role, and activity',
+    personalizationSignals: [
+      { label: 'David → Platform Team', icon: 'group' },
+      { label: 'David → Recently edited NA Launch Deck', icon: 'edit_note' },
+      { label: 'David → Role: Product Manager', icon: 'badge' },
     ],
     persona: {
       name: 'David',
-      title: 'Account Executive',
+      title: 'Product Manager',
       initials: 'DP',
       avatarSrc: '/ae.jpg',
-      context: 'Trying to close the Apex Corp deal, but a compliance review is stalling it. David needs the legal review notes and the hosting sign-off — fast.',
-      searchingFor: 'compliance review Apex deal',
+      context: 'Preparing the NA enterprise launch, but a search for positioning docs returns results from every team and region — federated search doesn\'t know who\'s asking.',
+      searchingFor: 'enterprise tier positioning latest',
     },
   },
 ];
@@ -230,7 +238,8 @@ export const BADGE_CONFIG: Record<MatchType, { label: string; icon: string; colo
   semantic: { label: 'Semantic', icon: 'neurology',      color: '#343CED', bg: 'rgba(52,60,237,0.12)',   border: 'rgba(52,60,237,0.25)' },
   activity: { label: 'Activity', icon: 'trending_up',    color: '#FF7E4C', bg: 'rgba(255,126,76,0.12)',  border: 'rgba(255,126,76,0.25)' },
   people:   { label: 'People',   icon: 'person_search',  color: '#3FA3FF', bg: 'rgba(63,163,255,0.12)',  border: 'rgba(63,163,255,0.25)' },
-  entity:   { label: 'Entity',   icon: 'hub',            color: '#E16BFF', bg: 'rgba(225,107,255,0.12)', border: 'rgba(225,107,255,0.25)' },
+  entity:       { label: 'Entity',       icon: 'hub',            color: '#E16BFF', bg: 'rgba(225,107,255,0.12)', border: 'rgba(225,107,255,0.25)' },
+  personalized: { label: 'Personalized', icon: 'person_pin',     color: '#D8FD49', bg: 'rgba(216,253,73,0.12)',  border: 'rgba(216,253,73,0.25)' },
 };
 
 /* ─── Match type colors (for SVG / graph use) ─── */
@@ -241,6 +250,7 @@ export const MATCH_COLORS: Record<MatchType, string> = {
   activity: '#FF7E4C',
   people: '#3FA3FF',
   entity: '#E16BFF',
+  personalized: '#D8FD49',
 };
 
 /* ─── Shared Sub-components ─── */
@@ -250,16 +260,19 @@ export function Typewriter({ text, delay }: { text: string; delay: number }) {
 
   useEffect(() => {
     setCount(0);
+    let iv: ReturnType<typeof setInterval> | undefined;
     const start = setTimeout(() => {
       let i = 0;
-      const iv = setInterval(() => {
+      iv = setInterval(() => {
         i++;
         setCount(i);
-        if (i >= text.length) clearInterval(iv);
+        if (i >= text.length) clearInterval(iv!);
       }, 28);
-      return () => clearInterval(iv);
     }, delay * 1000);
-    return () => clearTimeout(start);
+    return () => {
+      clearTimeout(start);
+      if (iv) clearInterval(iv);
+    };
   }, [text, delay]);
 
   return (
@@ -297,6 +310,41 @@ export function MatchBadge({ type }: { type: MatchType }) {
       {cfg.label}
     </span>
   );
+}
+
+/* ─── Outcome Text with Count-Up ─── */
+
+export function OutcomeText({ text, delay }: { text: string; delay: number }) {
+  const match = text.match(/^(.*?)(\d+)(\s+of\s+)(\d+)(.*)$/);
+  if (!match) return <>{text}</>;
+
+  const [, prefix, numStr, sep, totalStr, suffix] = match;
+  const target = parseInt(numStr, 10);
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    setCount(0);
+    setStarted(false);
+    let iv: ReturnType<typeof setInterval> | undefined;
+    const timer = setTimeout(() => {
+      setStarted(true);
+      if (target === 0) return;
+      let i = 0;
+      iv = setInterval(() => {
+        i++;
+        setCount(i);
+        if (i >= target) clearInterval(iv!);
+      }, 150);
+    }, delay * 1000);
+    return () => {
+      clearTimeout(timer);
+      if (iv) clearInterval(iv);
+    };
+  }, [text, delay, target]);
+
+  if (!started) return null;
+  return <>{prefix}{count}{sep}{totalStr}{suffix}</>;
 }
 
 /* ─── Prompt → Query Flow ─── */

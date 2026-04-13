@@ -3,6 +3,7 @@ import { LOGOS } from '../logos';
 import {
   BADGE_CONFIG,
   MatchBadge,
+  OutcomeText,
   type MatchType,
   type Scenario,
 } from './scene4bData';
@@ -31,6 +32,8 @@ function GleanResultCard({
   dimmed,
   className,
   children,
+  pulseDelay,
+  pulseColor,
 }: {
   result: { title: string; app: string; logo: string; matchTypes: MatchType[]; reason: string; rankedLast?: boolean };
   index: number;
@@ -38,13 +41,23 @@ function GleanResultCard({
   dimmed?: boolean;
   className?: string;
   children?: React.ReactNode;
+  pulseDelay?: number;
+  pulseColor?: string;
 }) {
+  const baseShadow = '0 0 0px rgba(0,0,0,0)';
+  const pulseAnim = pulseDelay !== undefined && pulseColor
+    ? { boxShadow: [baseShadow, `0 0 16px ${pulseColor}`, baseShadow] }
+    : {};
+  const pulseTransition = pulseDelay !== undefined
+    ? { boxShadow: { delay: pulseDelay, duration: 0.8 } }
+    : {};
+
   return (
     <motion.div
       className={`s4b1-glean-card ${dimmed || result.rankedLast ? 's4b1-glean-card-dim' : ''} ${className || ''}`}
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: dimmed || result.rankedLast ? 0.5 : 1, x: 0 }}
-      transition={{ delay, duration: 0.4, ease: 'easeOut' }}
+      initial={{ opacity: 0, x: 20, boxShadow: baseShadow }}
+      animate={{ opacity: dimmed || result.rankedLast ? 0.5 : 1, x: 0, ...pulseAnim }}
+      transition={{ delay, duration: 0.4, ease: 'easeOut', ...pulseTransition }}
       data-result-index={index}
     >
       <div className="s4b1-glean-card-row">
@@ -123,15 +136,25 @@ function SemanticBridgesResults({ scenario, stepped }: { scenario: Scenario; ste
   const results = scenario.gleanResults;
   const baseDelay = stepped ? 0.15 : T.cardStart;
   const stagger = stepped ? 0.3 : T.cardStagger;
+  const heroDelay = stepped ? 0.15 : T.heroStart;
 
   return (
     <div className="s4b1-glean-results">
       {results.map((result, i) => {
         const bridge = bridges.find(b => b.resultIndex === i);
+        const bi = bridges.indexOf(bridge!);
         const cardDelay = baseDelay + i * stagger;
+        const bridgePulseDelay = bridge ? heroDelay + 0.5 + bi * T.bridgeStagger + 0.4 : undefined;
 
         return (
-          <GleanResultCard key={i} result={result} index={i} delay={cardDelay}>
+          <GleanResultCard
+            key={i}
+            result={result}
+            index={i}
+            delay={cardDelay}
+            pulseDelay={bridgePulseDelay}
+            pulseColor="rgba(52,60,237,0.5)"
+          >
             {bridge && (
               <motion.div
                 className="s4b1-bridge-annotation"
@@ -233,61 +256,61 @@ function ActivitySignalsResults({ scenario, stepped }: { scenario: Scenario; ste
 }
 
 /* ═══════════════════════════════════════════════
-   Tab 3 — Team / People Connections
+   Tab 3 — Personalization Signals
    ═══════════════════════════════════════════════ */
 
-function TeamConnectionsHero({ scenario, stepped }: { scenario: Scenario; stepped: boolean }) {
-  const teamName = scenario.teamName || 'Team';
-  const d = stepped ? 0.15 : T.teamAvatarStart;
+function PersonalizationSignalsHero({ scenario, stepped }: { scenario: Scenario; stepped: boolean }) {
+  const signals = scenario.personalizationSignals || [];
+  const d = stepped ? 0.15 : T.heroStart;
 
   return (
     <motion.div
-      className="s4b1-team-banner"
-      initial={{ opacity: 0, y: -10 }}
+      className="s4b1-personalization-hero"
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: d, duration: 0.4 }}
     >
-      <div className="s4b1-team-avatars">
-        {[0, 1, 2].map(mi => (
+      <div className="s4b1-personalization-hero-title">Personalization Signals</div>
+      {signals.map((sig, si) => (
+        <motion.div
+          key={si}
+          className="s4b1-personalization-row"
+          initial={{ opacity: 0, x: -12 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: d + 0.3 + si * 0.4, duration: 0.4, ease: 'easeOut' }}
+        >
+          <span className="material-symbols-rounded s4b1-personalization-icon" style={{ fontSize: 16 }}>{sig.icon}</span>
           <motion.div
-            key={mi}
-            className="s4b1-team-avatar"
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: d + 0.1 + mi * 0.15, type: 'spring', stiffness: 300 }}
+            className="s4b1-personalization-connector"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: d + 0.5 + si * 0.4, duration: 0.4, ease: 'easeOut' }}
+            style={{ transformOrigin: 'left' }}
           >
-            <span className="material-symbols-rounded" style={{ fontSize: 18, color: '#3FA3FF' }}>person</span>
+            <span className="s4b1-personalization-line" />
           </motion.div>
-        ))}
-      </div>
-      <div className="s4b1-team-banner-info">
-        <div className="s4b1-team-banner-name">{teamName}</div>
-        <div className="s4b1-team-banner-sub">Glean knows who works on this deal</div>
-      </div>
+          <span className="s4b1-personalization-label">{sig.label}</span>
+        </motion.div>
+      ))}
     </motion.div>
   );
 }
 
-function TeamConnectionsResults({ scenario, stepped }: { scenario: Scenario; stepped: boolean }) {
-  const members = scenario.teamMembers || [];
+function PersonalizationResults({ scenario, stepped }: { scenario: Scenario; stepped: boolean }) {
   const results = scenario.gleanResults;
+  const signals = scenario.personalizationSignals || [];
   const baseDelay = stepped ? 0.15 : T.cardStart;
   const stagger = stepped ? 0.3 : T.cardStagger;
+  const heroDelay = stepped ? 0.15 : T.heroStart;
 
   return (
     <div className="s4b1-glean-results">
       {results.map((result, i) => {
         const cardDelay = baseDelay + i * stagger;
-        const connections: { memberRole: string; label: string }[] = [];
-        members.forEach(m => {
-          m.connections.forEach(c => {
-            if (c.resultIndex === i) connections.push({ memberRole: m.role, label: c.label });
-          });
-        });
-
-        const isGeneric = result.rankedLast;
-        const borderClass = isGeneric ? 's4b1-glean-card-gray-border' :
-          connections.length > 0 ? 's4b1-glean-card-blue-border' : '';
+        const isPersonalized = result.matchTypes.includes('personalized');
+        const signalPulseDelay = isPersonalized && i < signals.length
+          ? heroDelay + 0.5 + i * 0.4 + 0.3
+          : undefined;
 
         return (
           <GleanResultCard
@@ -295,30 +318,20 @@ function TeamConnectionsResults({ scenario, stepped }: { scenario: Scenario; ste
             result={result}
             index={i}
             delay={cardDelay}
-            dimmed={isGeneric}
-            className={borderClass}
+            dimmed={result.rankedLast}
+            className={isPersonalized ? 's4b1-glean-card-personalized' : ''}
+            pulseDelay={signalPulseDelay}
+            pulseColor="rgba(216,253,73,0.4)"
           >
-            {connections.length > 0 && (
-              <div className="s4b1-team-connections">
-                {connections.map((conn, ci) => (
-                  <motion.div
-                    key={ci}
-                    className="s4b1-team-conn-line"
-                    initial={{ opacity: 0, width: 0 }}
-                    animate={{ opacity: 1, width: '100%' }}
-                    transition={{ delay: (stepped ? 0.3 : T.teamLineStart) + i * (stepped ? 0.25 : T.teamLineStagger) + ci * 0.2, duration: 0.5 }}
-                  >
-                    <span className="s4b1-team-conn-dot" />
-                    <span className="s4b1-team-conn-dash" />
-                    <span className="s4b1-team-conn-label">
-                      {conn.label}: {conn.memberRole}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-            {isGeneric && (
-              <div className="s4b1-glean-card-no-team">No team connection — generic template</div>
+            {result.subNote && (
+              <motion.div
+                className={`s4b1-personalization-subnote ${result.rankedLast ? 's4b1-personalization-subnote-dim' : ''}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: result.rankedLast ? 0.5 : 0.8 }}
+                transition={{ delay: cardDelay + 0.25 }}
+              >
+                {result.subNote}
+              </motion.div>
             )}
           </GleanResultCard>
         );
@@ -432,8 +445,8 @@ export function GleanPanel({ scenario, tabIndex, subStep }: { scenario: Scenario
     switch (scenario.id) {
       case 'keyword-gap':
         return <SemanticBridgesHero scenario={scenario} stepped={stepped} />;
-      case 'team-blind':
-        return <TeamConnectionsHero scenario={scenario} stepped={stepped} />;
+      case 'personalization-gap':
+        return <PersonalizationSignalsHero scenario={scenario} stepped={stepped} />;
       default:
         return null;
     }
@@ -445,8 +458,8 @@ export function GleanPanel({ scenario, tabIndex, subStep }: { scenario: Scenario
         return <SemanticBridgesResults scenario={scenario} stepped={stepped} />;
       case 'activity-blind':
         return <ActivitySignalsResults scenario={scenario} stepped={stepped} />;
-      case 'team-blind':
-        return <TeamConnectionsResults scenario={scenario} stepped={stepped} />;
+      case 'personalization-gap':
+        return <PersonalizationResults scenario={scenario} stepped={stepped} />;
       default:
         return null;
     }
@@ -534,7 +547,7 @@ export function GleanPanel({ scenario, tabIndex, subStep }: { scenario: Scenario
             transition={{ duration: 0.3 }}
           >
             <span className="material-symbols-rounded" style={{ fontSize: 16 }}>check_circle</span>
-            {scenario.gleanOutcome}
+            <OutcomeText text={scenario.gleanOutcome} delay={0} />
           </motion.div>
         )}
       </AnimatePresence>

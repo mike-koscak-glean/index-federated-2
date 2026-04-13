@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SCENARIOS, PromptToQuery } from './scene4bData';
+import { SCENARIOS, PromptToQuery, OutcomeText } from './scene4bData';
 import type { Scenario, FedResult, Persona } from './scene4bData';
 
 function getFoundResults(s: Scenario): FedResult[] {
@@ -12,7 +12,7 @@ function getMissedResults(s: Scenario): FedResult[] {
 }
 
 function isAmberScenario(id: string): boolean {
-  return id === 'activity-blind' || id === 'team-blind';
+  return id === 'activity-blind' || id === 'personalization-gap';
 }
 
 const STEP_STOPS = [0, 2, 5] as const;
@@ -21,26 +21,30 @@ const STEP_HINTS: Record<number, string> = {
   2: 'Show what matched',
 };
 
-export function StoryCard({ persona, animKey }: { persona: Persona; animKey: number }) {
+export function StoryCard({ persona, animKey, dimmed }: { persona: Persona; animKey: number; dimmed?: boolean }) {
   return (
     <AnimatePresence mode="wait">
       <motion.div
-        key={`story-${animKey}`}
+        key={`story-${animKey}-${persona.name}`}
         className="sfp-story-card"
-        initial={{ opacity: 0, x: -12 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: -12 }}
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: dimmed ? 0.55 : 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
       >
-        <div className="sfp-story-avatar">
-          {persona.avatarSrc ? (
-            <img src={persona.avatarSrc} alt={`${persona.name} profile`} className="sfp-story-avatar-img" />
-          ) : (
-            <span>{persona.initials}</span>
-          )}
+        <div className="sfp-story-header">
+          <div className="sfp-story-avatar">
+            {persona.avatarSrc ? (
+              <img src={persona.avatarSrc} alt={`${persona.name} profile`} className="sfp-story-avatar-img" />
+            ) : (
+              <span>{persona.initials}</span>
+            )}
+          </div>
+          <div className="sfp-story-info">
+            <div className="sfp-story-name">{persona.name}</div>
+            <div className="sfp-story-title">{persona.title}</div>
+          </div>
         </div>
-        <div className="sfp-story-name">{persona.name}</div>
-        <div className="sfp-story-title">{persona.title}</div>
         <div className="sfp-story-context">{persona.context}</div>
       </motion.div>
     </AnimatePresence>
@@ -85,7 +89,7 @@ export function SceneFedProblem() {
   return (
     <div className="scene">
       <motion.div className="scene-title" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-        The Federated Search Problem
+        What Federated Search Actually Does
       </motion.div>
 
       <div className="scene-with-sidebar">
@@ -112,12 +116,12 @@ export function SceneFedProblem() {
         </motion.div>
 
         <div className="scene-sidebar-content">
-          <PromptToQuery prompt={scenario.prompt} query={scenario.query} animKey={animKey} />
+          <div className="sfp-top-row">
+            <StoryCard persona={scenario.persona} animKey={animKey} dimmed={subStep >= 2} />
+            <PromptToQuery prompt={scenario.prompt} query={scenario.query} animKey={animKey} />
+          </div>
 
-          <div className="sfp-body-split">
-            <StoryCard persona={scenario.persona} animKey={animKey} />
-
-            <div className="sfp-body-right">
+          <div className="sfp-body-full">
           {/* Inner stepper controls */}
           <div className="sfp-stepper">
             <button
@@ -187,6 +191,18 @@ export function SceneFedProblem() {
                 Keyword Only
               </motion.div>
 
+              {scenario.id === 'personalization-gap' && (
+                <motion.div
+                  className="s4b1-fed-badge s4b1-fed-badge-warn"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.35, type: 'spring', stiffness: 300 }}
+                >
+                  <span className="material-symbols-rounded" style={{ fontSize: 14 }}>person_off</span>
+                  No identity context
+                </motion.div>
+              )}
+
               {/* Click 1 group: Keywords + Silo strip */}
               <AnimatePresence>
                 {subStep >= 2 && (
@@ -204,7 +220,7 @@ export function SceneFedProblem() {
                         className="s4b1-fed-token"
                         initial={{ opacity: 0, y: -6 }}
                         animate={{ opacity: 0.8, y: 0 }}
-                        transition={{ delay: i * 0.1 }}
+                        transition={{ delay: i * 0.25 }}
                       >
                         "{kw}"
                       </motion.span>
@@ -251,6 +267,7 @@ export function SceneFedProblem() {
               <AnimatePresence>
                 {subStep >= 5 && foundResults.map((result, i) => {
                   const amber = isAmberScenario(scenario.id) || result.status === 'stale';
+                  const cardDelay = i * 0.5;
                   return (
                     <motion.div
                       key={`found-${i}`}
@@ -258,18 +275,28 @@ export function SceneFedProblem() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
-                      transition={{ delay: i * 0.2, duration: 0.35 }}
+                      transition={{ delay: cardDelay, duration: 0.35 }}
                     >
                       <div className="s4b1-fed-found-row">
                         <img src={result.logo} alt={result.app} className="s4b1-fed-found-logo" />
                         <span className="s4b1-fed-found-title">{result.title}</span>
                         <motion.span
                           className={`s4b1-fed-found-chip ${amber ? 's4b1-fed-found-chip-amber' : ''}`}
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ delay: 0.15, type: 'spring', stiffness: 400 }}
+                          initial={{ scale: 0, boxShadow: '0 0 0px rgba(0,0,0,0)' }}
+                          animate={{
+                            scale: 1,
+                            boxShadow: amber
+                              ? ['0 0 0px rgba(255,126,76,0)', '0 0 12px rgba(255,126,76,0.6)', '0 0 0px rgba(255,126,76,0)']
+                              : ['0 0 0px rgba(0,178,7,0)', '0 0 12px rgba(0,178,7,0.6)', '0 0 0px rgba(0,178,7,0)'],
+                          }}
+                          transition={{
+                            delay: cardDelay + 0.2,
+                            type: 'spring',
+                            stiffness: 400,
+                            boxShadow: { delay: cardDelay + 0.35, duration: 0.8 },
+                          }}
                         >
-                          {amber ? '⚠' : '✓'} {result.status === 'stale' ? 'Stale match' : 'Keyword match'}
+                          {amber ? '⚠' : '✓'} {result.badgeText || (result.status === 'stale' ? 'Stale match' : 'Keyword match')}
                         </motion.span>
                       </div>
                       {result.callout && (
@@ -277,7 +304,7 @@ export function SceneFedProblem() {
                           className="s4b1-fed-found-callout"
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
-                          transition={{ delay: 0.3 }}
+                          transition={{ delay: cardDelay + 0.4 }}
                         >
                           ⚠ {result.callout}
                         </motion.div>
@@ -313,13 +340,15 @@ export function SceneFedProblem() {
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ delay: 0.5, duration: 0.3 }}
                   >
-                    {missedResults.map((result, i) => (
+                    {missedResults.map((result, i) => {
+                      const rowDelay = 0.5 + i * 0.5;
+                      return (
                       <motion.div
                         key={`fail-${i}`}
                         className="s4b1-fed-fail-row"
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.5 + i * 0.35, duration: 0.3 }}
+                        transition={{ delay: rowDelay, duration: 0.3 }}
                       >
                         <div className="s4b1-fed-fail-top">
                           <img src={result.logo} alt={result.app} className="s4b1-fed-fail-logo" />
@@ -329,9 +358,18 @@ export function SceneFedProblem() {
                         {result.keywordMismatch ? (
                           <motion.div
                             className="s4b1-fed-fail-chip"
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.5 + i * 0.35 + 0.25, type: 'spring', stiffness: 300 }}
+                            initial={{ opacity: 0, scale: 0.8, boxShadow: '0 0 0px rgba(0,0,0,0)' }}
+                            animate={{
+                              opacity: 1,
+                              scale: 1,
+                              boxShadow: ['0 0 0px rgba(239,68,68,0)', '0 0 12px rgba(239,68,68,0.6)', '0 0 0px rgba(239,68,68,0)'],
+                            }}
+                            transition={{
+                              delay: rowDelay + 0.2,
+                              type: 'spring',
+                              stiffness: 300,
+                              boxShadow: { delay: rowDelay + 0.35, duration: 0.8 },
+                            }}
                           >
                             <span className="s4b1-fed-mismatch-ne">≠</span>
                             "{result.keywordMismatch.searched}" ≠ "{result.keywordMismatch.found}"
@@ -341,13 +379,14 @@ export function SceneFedProblem() {
                             className="s4b1-fed-fail-reason"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ delay: 0.5 + i * 0.35 + 0.25 }}
+                            transition={{ delay: rowDelay + 0.2 }}
                           >
                             {result.reason}
                           </motion.div>
                         )}
                       </motion.div>
-                    ))}
+                      );
+                    })}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -360,10 +399,10 @@ export function SceneFedProblem() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
-                    transition={{ delay: 0.5 + missedResults.length * 0.35 + 0.3, duration: 0.3 }}
+                    transition={{ delay: 0.5 + missedResults.length * 0.5 + 0.3, duration: 0.3 }}
                   >
                     <span className="material-symbols-rounded" style={{ fontSize: 16 }}>error</span>
-                    {scenario.fedOutcome}
+                    <OutcomeText text={scenario.fedOutcome} delay={0} />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -372,7 +411,6 @@ export function SceneFedProblem() {
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }

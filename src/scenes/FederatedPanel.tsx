@@ -20,7 +20,7 @@ function getMissedResults(scenario: Scenario): FedResult[] {
 }
 
 function isAmberScenario(id: string): boolean {
-  return id === 'activity-blind' || id === 'team-blind';
+  return id === 'activity-blind' || id === 'personalization-gap';
 }
 
 function FoundCard({ result, scenario, delay, instant }: { result: FedResult; scenario: Scenario; delay: number; instant?: boolean }) {
@@ -42,7 +42,7 @@ function FoundCard({ result, scenario, delay, instant }: { result: FedResult; sc
           animate={{ scale: 1 }}
           transition={instant ? { duration: 0 } : { delay: delay + 0.15, type: 'spring', stiffness: 400 }}
         >
-          {amber ? '⚠' : '✓'} {result.status === 'stale' ? 'Stale match' : 'Keyword match'}
+          {amber ? '⚠' : '✓'} {result.badgeText || (result.status === 'stale' ? 'Stale match' : 'Keyword match')}
         </motion.span>
       </div>
       {result.callout && (
@@ -120,6 +120,18 @@ export function FederatedPanel({ scenario, instant }: { scenario: Scenario; inst
         <span className="material-symbols-rounded" style={{ fontSize: 14 }}>text_fields</span>
         Keyword Only
       </motion.div>
+
+      {scenario.id === 'personalization-gap' && (
+        <motion.div
+          className="s4b1-fed-badge s4b1-fed-badge-warn"
+          initial={instant ? false : { opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={instant ? { duration: 0 } : { delay: 0.3, type: 'spring', stiffness: 300 }}
+        >
+          <span className="material-symbols-rounded" style={{ fontSize: 14 }}>person_off</span>
+          No identity context
+        </motion.div>
+      )}
 
       <motion.div
         className="s4b1-fed-tokens"

@@ -48,7 +48,7 @@ export function Scene4B1() {
   return (
     <div className="scene">
       <motion.div className="scene-title" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-        Why Retrieval Method Matters
+        What Changes With a Unified Index
       </motion.div>
 
       <div className="scene-with-sidebar">
@@ -75,7 +75,10 @@ export function Scene4B1() {
         </motion.div>
 
         <div className="scene-sidebar-content">
-          <PromptToQuery prompt={scenario.prompt} query={scenario.query} animKey={animKey} />
+          <div className="sfp-top-row">
+            <StoryCard persona={scenario.persona} animKey={animKey} dimmed />
+            <PromptToQuery prompt={scenario.prompt} query={scenario.query} animKey={animKey} />
+          </div>
 
           <AnimatePresence mode="wait">
             <motion.div
@@ -86,8 +89,6 @@ export function Scene4B1() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
             >
-              <StoryCard persona={scenario.persona} animKey={animKey} />
-
               <FederatedPanel scenario={scenario} instant />
 
               <div className="s4b1-body-right">

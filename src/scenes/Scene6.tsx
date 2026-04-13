@@ -2,11 +2,17 @@ import { motion } from 'framer-motion';
 import { LOGOS } from '../logos';
 
 const CLIENTS = [
-  { label: 'Cursor IDE', icon: 'code', x: 15, y: 10 },
-  { label: 'Desktop Agent', icon: 'computer', x: 50, y: 5 },
-  { label: 'Internal Tools', icon: 'dashboard', x: 85, y: 10 },
-  { label: 'Slack Bot', icon: 'chat', x: 25, y: 25 },
-  { label: 'Custom App', icon: 'widgets', x: 75, y: 25 },
+  { label: 'Cursor IDE', icon: 'code', x: 15, y: 8 },
+  { label: 'Desktop Agent', icon: 'computer', x: 50, y: 3 },
+  { label: 'Internal Tools', icon: 'dashboard', x: 85, y: 8 },
+  { label: 'Slack Bot', icon: 'chat', x: 25, y: 22 },
+  { label: 'Custom App', icon: 'widgets', x: 75, y: 22 },
+];
+
+const PILLARS = [
+  { label: 'People', icon: 'group', color: 'var(--glean-mid-blue)' },
+  { label: 'Content', icon: 'description', color: 'var(--glean-green)' },
+  { label: 'Process', icon: 'account_tree', color: 'var(--glean-pink)' },
 ];
 
 export function Scene6() {
@@ -22,7 +28,6 @@ export function Scene6() {
 
       <div className="arch-layout">
         <div className="arch-visual">
-          {/* Clients */}
           {CLIENTS.map((client, i) => (
             <motion.div
               key={client.label}
@@ -37,7 +42,6 @@ export function Scene6() {
             </motion.div>
           ))}
 
-          {/* MCP Rails */}
           <svg className="arch-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
             {CLIENTS.map((client, i) => (
               <motion.line
@@ -45,7 +49,7 @@ export function Scene6() {
                 x1={client.x}
                 y1={client.y + 12}
                 x2={50}
-                y2={52}
+                y2={50}
                 stroke="rgba(255,255,255,0.15)"
                 strokeWidth={0.3}
                 strokeDasharray="2,2"
@@ -56,7 +60,6 @@ export function Scene6() {
             ))}
           </svg>
 
-          {/* MCP label band */}
           <motion.div
             className="arch-mcp-band"
             initial={{ opacity: 0, scaleX: 0 }}
@@ -66,20 +69,6 @@ export function Scene6() {
             MCP / Actions Layer
           </motion.div>
 
-          {/* Central Glean index */}
-          <motion.div
-            className="arch-glean-core"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.3, type: 'spring' }}
-          >
-            <div className="arch-glean-glow" />
-            <img src={LOGOS.glean} alt="Glean" style={{ width: 36, height: 36, position: 'relative', zIndex: 1 }} />
-            <span className="arch-glean-label">Enterprise Knowledge Graph</span>
-            <span className="arch-glean-sub">Content · Permissions · People · Activity</span>
-          </motion.div>
-
-          {/* Packets animation */}
           {CLIENTS.map((client, i) => (
             <motion.div
               key={`packet-${i}`}
@@ -87,7 +76,7 @@ export function Scene6() {
               style={{ left: `${client.x}%` }}
               initial={{ top: `${client.y + 12}%`, opacity: 0 }}
               animate={{
-                top: ['20%', '48%'],
+                top: ['20%', '46%'],
                 opacity: [0, 1, 1, 0],
                 left: [`${client.x}%`, '50%'],
               }}
@@ -101,7 +90,6 @@ export function Scene6() {
             />
           ))}
 
-          {/* Response packets going back */}
           {CLIENTS.map((client, i) => (
             <motion.div
               key={`resp-${i}`}
@@ -124,19 +112,47 @@ export function Scene6() {
           ))}
         </div>
 
+        {/* Enterprise Graph section */}
         <motion.div
-          className="callout-list"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.8 }}
-          style={{ alignSelf: 'center' }}
+          className="arch-graph-section"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.3, type: 'spring' }}
         >
-          <div className="callout">
-            MCP is a great port for tools — not a replacement for an enterprise index.
+          <div className="arch-graph-header">
+            <img src={LOGOS.glean} alt="Glean" className="arch-graph-logo" />
+            <span className="arch-graph-title">Enterprise Graph</span>
           </div>
-          <div className="callout">
-            With Glean, all MCP hosts share one governed, permission-aware graph.
+
+          <div className="arch-graph-pillars">
+            {PILLARS.map((pillar, i) => (
+              <motion.div
+                key={pillar.label}
+                className="arch-pillar"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.6 + i * 0.15 }}
+              >
+                <span
+                  className="material-symbols-rounded arch-pillar-icon"
+                  style={{ color: pillar.color }}
+                >
+                  {pillar.icon}
+                </span>
+                <span className="arch-pillar-label">{pillar.label}</span>
+              </motion.div>
+            ))}
           </div>
+
+          <motion.p
+            className="arch-graph-explainer"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.2 }}
+          >
+            MCP is the USB-C for AI — but it does nothing about underlying tool quality.
+            With Glean, all MCP hosts share one governed, permissions-enforced graph.
+          </motion.p>
         </motion.div>
       </div>
     </div>
