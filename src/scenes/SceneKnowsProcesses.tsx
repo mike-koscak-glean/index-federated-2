@@ -3,32 +3,28 @@ import { useEffect, useState } from 'react';
 import { LOGOS } from '../logos';
 
 /* ═══════════════════════════════════════════════
-   Process trace definitions — raw messy steps
+   App icon definitions for process trace pills
    ═══════════════════════════════════════════════ */
 
-const RAW_STEPS = ['Open ROAD board', 'Check status', 'Compare dates', 'Flag stale', 'Update fields', 'Notify PM'];
+const APP_COLORS: Record<string, string> = {
+  JI: '#2684FF',
+  CF: '#1868DB',
+  SL: '#E01E5A',
+  SH: '#34A853',
+};
 
-const TRACE_PATHS: number[][] = [
-  [0, 1, 2, 3, 4, 5],       // full process — one person does it right
-  [0, 1, 3, 4, 5],           // skips "Compare dates", eyeballs it
-  [0, 1, 2, 3, 4],           // flags + updates but forgets to notify
-  [0, 1, 3, 4],              // skips compare AND notify
-  [0, 1, 2, 3, 1, 3, 4, 5], // re-checks status mid-way, messy loop
-  [0, 1, 4, 5],              // jumps straight from status to update
-  [0, 1, 2, 3, 3, 4, 5],    // double-flags before updating
-  [0, 1, 2, 4, 5],           // skips flagging, updates directly
+/* ═══════════════════════════════════════════════
+   Trace lane definitions — each person's messy path
+   ═══════════════════════════════════════════════ */
+
+const TRACE_LANES = [
+  { name: 'Sarah', color: '#3FA3FF', avatar: '/vp.png', apps: ['JI', 'JI', 'CF', 'SL', 'JI', 'SH'] },
+  { name: 'Mark', color: '#E16BFF', avatar: '/other.png', apps: ['SL', 'JI', 'JI', 'SL', 'CF', 'JI'] },
+  { name: 'Priya', color: '#D8FD49', avatar: '/csm.png', apps: ['JI', 'SH', 'JI', 'CF', 'JI'] },
+  { name: 'Dev', color: '#FF7E4C', avatar: '/ae.jpg', apps: ['SL', 'SL', 'JI', 'JI', 'CF', 'SH', 'JI'] },
 ];
 
-const TRACE_COLORS = [
-  'rgba(63,163,255,0.35)',
-  'rgba(225,107,255,0.3)',
-  'rgba(216,253,73,0.3)',
-  'rgba(255,126,76,0.25)',
-  'rgba(84,216,72,0.3)',
-  'rgba(169,224,255,0.25)',
-  'rgba(241,183,255,0.3)',
-  'rgba(255,172,140,0.25)',
-];
+const DISTILLED_STEPS = ['Open ROAD board', 'Check status', 'Compare dates', 'Flag stale', 'Update fields', 'Notify PM'];
 
 /* ═══════════════════════════════════════════════
    Abstracted / clustered process labels
@@ -160,115 +156,181 @@ function AssistantPanel() {
 }
 
 /* ═══════════════════════════════════════════════
-   Process traces SVG (individual messy paths)
+   App icon pill
    ═══════════════════════════════════════════════ */
 
-function ProcessTraces() {
-  const stepX = (idx: number) => 8 + idx * (84 / (RAW_STEPS.length - 1));
-  const svgH = 100;
-  const traceSpacing = svgH / (TRACE_PATHS.length + 1);
-
+function AppPill({ app, muted, highlight }: { app: string; muted?: boolean; highlight?: boolean }) {
+  const color = APP_COLORS[app] ?? '#888';
   return (
-    <div className="kp-traces">
-      <div className="kp-traces-header">
-        <span className="material-symbols-rounded" style={{ fontSize: 13 }}>timeline</span>
-        How your team updates ROAD tickets today
-      </div>
-
-      <div className="kp-step-labels">
-        {RAW_STEPS.map((s, i) => (
-          <motion.span
-            key={i}
-            className="kp-step-label"
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 + i * 0.08, duration: 0.3 }}
-          >
-            {s}
-          </motion.span>
-        ))}
-      </div>
-
-      <svg className="kp-traces-svg" viewBox={`0 0 100 ${svgH}`} preserveAspectRatio="none">
-        {TRACE_PATHS.map((path, ti) => {
-          const baseY = (ti + 1) * traceSpacing;
-          const points = path.map((stepIdx, pi) => {
-            const x = stepX(stepIdx);
-            const jitter = (ti * 3.7 + pi * 2.1) % 5 - 2.5;
-            const y = baseY + jitter;
-            return `${x},${y}`;
-          }).join(' ');
-
-          return (
-            <motion.polyline
-              key={ti}
-              points={points}
-              fill="none"
-              stroke={TRACE_COLORS[ti]}
-              strokeWidth="1.2"
-              vectorEffect="non-scaling-stroke"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              pathLength={1}
-              strokeDasharray="1"
-              initial={{ strokeDashoffset: 1, opacity: 0 }}
-              animate={{ strokeDashoffset: 0, opacity: 1 }}
-              transition={{ delay: 0.8 + ti * 0.15, duration: 0.8, ease: 'easeOut' }}
-            />
-          );
-        })}
-
-        {TRACE_PATHS.map((path, ti) => {
-          const baseY = (ti + 1) * traceSpacing;
-          const lastStep = path[path.length - 1];
-          const x = stepX(lastStep);
-          const jitter = (ti * 3.7 + (path.length - 1) * 2.1) % 5 - 2.5;
-          const y = baseY + jitter;
-
-          return (
-            <motion.circle
-              key={`dot-${ti}`}
-              cx={x}
-              cy={y}
-              r="1.5"
-              fill={TRACE_COLORS[ti]}
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 0.8, scale: 1 }}
-              transition={{ delay: 1.6 + ti * 0.15, duration: 0.3 }}
-            />
-          );
-        })}
-      </svg>
-    </div>
+    <span
+      className={`kp-app-pill ${muted ? 'kp-app-pill-muted' : ''} ${highlight ? 'kp-app-pill-highlight' : ''}`}
+      style={{ '--pill-color': color } as React.CSSProperties}
+    >
+      <span className="kp-app-dot" style={{ background: color }} />
+      <span className="kp-app-abbr">{app}</span>
+    </span>
   );
 }
 
 /* ═══════════════════════════════════════════════
-   Abstraction arrow
+   Phase 1 — Chaotic trace lanes
    ═══════════════════════════════════════════════ */
 
-function AbstractionArrow() {
+function TraceLanes({ phase }: { phase: number }) {
+  const converged = phase >= 2;
+  const faded = phase >= 3;
+
   return (
     <motion.div
-      className="kp-abstraction-arrow"
-      initial={{ opacity: 0, scaleY: 0 }}
-      animate={{ opacity: 1, scaleY: 1 }}
-      transition={{ delay: 2.4, duration: 0.4, ease: 'easeOut' }}
+      className="kp-lanes-wrap"
+      animate={{ opacity: faded ? 0.3 : 1 }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="kp-arrow-line" />
-      <span className="material-symbols-rounded kp-arrow-icon">keyboard_double_arrow_down</span>
-      <span className="kp-arrow-label">Glean observes + learns</span>
+      <motion.div
+        className="kp-lanes-header"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.55, duration: 0.33 }}
+      >
+        <span className="material-symbols-rounded" style={{ fontSize: 13 }}>timeline</span>
+        How your team does it today
+      </motion.div>
+
+      <div className="kp-lanes">
+        {TRACE_LANES.map((lane, li) => {
+          const laneDelay = 0.66 + li * 0.55;
+          const centerOffset = converged ? (li - (TRACE_LANES.length - 1) / 2) * -8 : 0;
+
+          return (
+            <motion.div
+              key={lane.name}
+              className="kp-trace-lane"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0, y: centerOffset }}
+              transition={{
+                opacity: { delay: laneDelay, duration: 0.39 },
+                x: { delay: laneDelay, duration: 0.39, ease: [0.22, 1, 0.36, 1] },
+                y: { duration: 0.88, ease: [0.22, 1, 0.36, 1] },
+              }}
+            >
+              <img src={lane.avatar} alt={lane.name} className="kp-avatar" />
+              <span className="kp-lane-name">{lane.name}</span>
+              <div className="kp-lane-pills">
+                {lane.apps.map((app, pi) => {
+                  const pillDelay = laneDelay + 0.17 + pi * 0.13;
+                  const isCommon = ['JI', 'CF'].includes(app);
+                  return (
+                    <motion.span
+                      key={`${lane.name}-${pi}`}
+                      className="kp-pill-slot"
+                      initial={{ opacity: 0, scale: 0.7 }}
+                      animate={{
+                        opacity: converged && !isCommon ? 0.15 : 1,
+                        scale: 1,
+                      }}
+                      transition={{
+                        opacity: { delay: converged ? 0 : pillDelay, duration: 0.33 },
+                        scale: { delay: pillDelay, duration: 0.28, type: 'spring', stiffness: 300, damping: 22 },
+                      }}
+                    >
+                      <AppPill app={app} muted={converged && !isCommon} highlight={converged && isCommon} />
+                    </motion.span>
+                  );
+                })}
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Scan line — sweeps during phase 2 */}
+      {phase >= 2 && (
+        <motion.div
+          className="kp-scan-line"
+          initial={{ left: '-4%', opacity: 0 }}
+          animate={{ left: '104%', opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 2.06, ease: 'easeInOut' }}
+        />
+      )}
     </motion.div>
   );
 }
 
 /* ═══════════════════════════════════════════════
-   Clustered processes (abstracted)
+   Phase 2 — Observe label
    ═══════════════════════════════════════════════ */
 
-function ClusteredProcesses() {
+function ObserveLabel({ visible }: { visible: boolean }) {
+  if (!visible) return null;
   return (
-    <div className="kp-clusters">
+    <motion.div
+      className="kp-observe-label"
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.66, duration: 0.44 }}
+    >
+      <span className="material-symbols-rounded" style={{ fontSize: 14 }}>auto_awesome</span>
+      Glean observes + learns
+    </motion.div>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   Phase 3 — Distilled pipeline
+   ═══════════════════════════════════════════════ */
+
+function DistilledPipeline({ visible }: { visible: boolean }) {
+  if (!visible) return null;
+  return (
+    <motion.div
+      className="kp-pipeline-section"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.55 }}
+    >
+      <motion.div
+        className="kp-pipeline-header"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.17, duration: 0.33 }}
+      >
+        <span className="material-symbols-rounded" style={{ fontSize: 13 }}>conversion_path</span>
+        Distilled process
+      </motion.div>
+
+      <div className="kp-pipeline">
+        {DISTILLED_STEPS.map((step, i) => (
+          <motion.div
+            key={step}
+            className="kp-pipeline-step-wrap"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.22 + i * 0.13, duration: 0.39, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <span className="kp-pipeline-step">{step}</span>
+            {i < DISTILLED_STEPS.length - 1 && (
+              <span className="material-symbols-rounded kp-pipeline-arrow">east</span>
+            )}
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   Phase 3 — Skill pattern cards
+   ═══════════════════════════════════════════════ */
+
+function SkillCards({ visible }: { visible: boolean }) {
+  if (!visible) return null;
+  return (
+    <motion.div
+      className="kp-clusters"
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.88, duration: 0.44 }}
+    >
       <div className="kp-traces-header">
         <span className="material-symbols-rounded" style={{ fontSize: 13 }}>hub</span>
         Learned skill patterns
@@ -282,7 +344,7 @@ function ClusteredProcesses() {
             style={{ borderColor: `color-mix(in srgb, ${c.color} 30%, transparent)` }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 2.8 + i * 0.18, duration: 0.4 }}
+            transition={{ delay: 1.1 + i * 0.2, duration: 0.44 }}
           >
             <div className="kp-cluster-name">{c.label}</div>
             <div className="kp-cluster-traces">
@@ -293,7 +355,7 @@ function ClusteredProcesses() {
                   style={{ background: c.color }}
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
-                  transition={{ delay: 3.0 + i * 0.18 + j * 0.1, duration: 0.35, ease: 'easeOut' }}
+                  transition={{ delay: 1.32 + i * 0.2 + j * 0.11, duration: 0.39, ease: 'easeOut' }}
                 />
               ))}
             </div>
@@ -302,32 +364,48 @@ function ClusteredProcesses() {
               style={{ color: c.color }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 3.2 + i * 0.18 }}
+              transition={{ delay: 1.54 + i * 0.2 }}
             >
               {c.count} trace{c.count > 1 ? 's' : ''}
             </motion.span>
           </motion.div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 /* ═══════════════════════════════════════════════
-   Right panel: Process discovery
+   Right panel: Process Mining Replay (looping 3-phase)
    ═══════════════════════════════════════════════ */
 
-function ProcessPanel() {
+function ProcessMiningReplay() {
+  const [phase, setPhase] = useState(1);
+  const [cycle, setCycle] = useState(0);
+
+  useEffect(() => {
+    const t2 = setTimeout(() => setPhase(2), 3850);
+    const t3 = setTimeout(() => setPhase(3), 6600);
+    const tReset = setTimeout(() => {
+      setPhase(1);
+      setCycle(c => c + 1);
+    }, 12500);
+    return () => { clearTimeout(t2); clearTimeout(t3); clearTimeout(tReset); };
+  }, [cycle]);
+
   return (
     <motion.div
       className="kd-data-panel"
       initial={{ opacity: 0, x: 30 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: 0.3, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ delay: 0.33, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
     >
-      <ProcessTraces />
-      <AbstractionArrow />
-      <ClusteredProcesses />
+      <div key={cycle} className="kp-replay-cycle">
+        <TraceLanes phase={phase} />
+        <ObserveLabel visible={phase >= 2} />
+        <DistilledPipeline visible={phase >= 3} />
+        <SkillCards visible={phase >= 3} />
+      </div>
     </motion.div>
   );
 }
@@ -369,7 +447,7 @@ export function SceneKnowsProcesses() {
 
       <div className="kd-split">
         <AssistantPanel />
-        <ProcessPanel />
+        <ProcessMiningReplay />
       </div>
     </div>
   );

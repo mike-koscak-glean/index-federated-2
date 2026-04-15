@@ -4912,19 +4912,7 @@
   color: rgba(255, 255, 255, 0.3);
 }
 
-/* -- Process traces (right panel) -- */
-
-.kp-traces {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 10px 12px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 10px;
-  flex: 1;
-  min-height: 0;
-}
+/* -- Process mining replay (right panel) -- */
 
 .kp-traces-header {
   display: flex;
@@ -4937,55 +4925,203 @@
   color: rgba(255, 255, 255, 0.4);
 }
 
-.kp-step-labels {
+.kp-lanes-wrap {
+  position: relative;
   display: flex;
-  justify-content: space-between;
-  padding: 0 4px;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.kp-step-label {
-  font-size: 10px;
+.kp-lanes-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.kp-lanes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kp-trace-lane {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kp-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+}
+
+.kp-lane-name {
+  font-size: 11px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.3);
-  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  width: 38px;
+  flex-shrink: 0;
+}
+
+.kp-lane-pills {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex: 1;
   min-width: 0;
 }
 
-.kp-traces-svg {
-  width: 100%;
+.kp-pill-slot {
+  display: inline-flex;
+}
+
+.kp-app-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--pill-color) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--pill-color) 18%, transparent);
+  transition: border-color 0.5s, box-shadow 0.5s, opacity 0.5s;
+}
+
+.kp-app-pill-muted {
+  opacity: 0.25;
+}
+
+.kp-app-pill-highlight {
+  border-color: var(--glean-green);
+  box-shadow: 0 0 8px rgba(216, 253, 73, 0.25);
+}
+
+.kp-app-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.kp-app-abbr {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* -- Scan line (phase 2 sweep) -- */
+
+.kp-scan-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--glean-green) 30%,
+    var(--glean-green) 70%,
+    transparent 100%
+  );
+  box-shadow: 0 0 12px rgba(216, 253, 73, 0.5);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* -- Replay cycle wrapper -- */
+
+.kp-replay-cycle {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   flex: 1;
   min-height: 0;
 }
 
-/* -- Abstraction arrow -- */
+/* -- Observe + learns label (phase 2) -- */
 
-.kp-abstraction-arrow {
+.kp-observe-label {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 4px 0;
-  transform-origin: top;
-  flex-shrink: 0;
-}
-
-.kp-arrow-line {
-  width: 1px;
-  height: 12px;
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.kp-arrow-icon {
-  font-size: 16px;
-  color: var(--glean-green);
-}
-
-.kp-arrow-label {
+  gap: 6px;
+  padding: 6px 0;
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--glean-green);
+}
+
+/* -- Distilled pipeline (phase 3) -- */
+
+.kp-pipeline-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(216, 253, 73, 0.12);
+  border-radius: 10px;
+}
+
+.kp-pipeline-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
   letter-spacing: 0.8px;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--glean-green);
+}
+
+.kp-pipeline {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.kp-pipeline-step-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+}
+
+.kp-pipeline-step {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(216, 253, 73, 0.06);
+  border: 1px solid rgba(216, 253, 73, 0.22);
+  border-radius: 20px;
+  white-space: nowrap;
+  box-shadow: 0 0 10px rgba(216, 253, 73, 0.08);
+}
+
+.kp-pipeline-arrow {
+  font-size: 14px;
+  color: rgba(216, 253, 73, 0.35);
+  margin: 0 2px;
+  flex-shrink: 0;
 }
 
 /* -- Clustered processes -- */
