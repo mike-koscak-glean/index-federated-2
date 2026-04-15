@@ -6,17 +6,17 @@ import { LOGOS } from '../logos';
    Process trace definitions — raw messy steps
    ═══════════════════════════════════════════════ */
 
-const RAW_STEPS = ['View doc', 'Edit', 'Comment', 'Escalate', 'Approve', 'Close'];
+const RAW_STEPS = ['Open ROAD board', 'Check status', 'Compare dates', 'Flag stale', 'Update fields', 'Notify PM'];
 
 const TRACE_PATHS: number[][] = [
-  [0, 1, 2, 4, 5],
-  [0, 2, 3, 4, 5],
-  [0, 1, 2, 3, 4, 5],
-  [0, 1, 4, 5],
-  [0, 2, 3, 2, 4, 5],
-  [0, 1, 2, 1, 2, 4, 5],
-  [0, 3, 4, 5],
-  [0, 1, 2, 3, 2, 4, 5],
+  [0, 1, 2, 3, 4, 5],       // full process — one person does it right
+  [0, 1, 3, 4, 5],           // skips "Compare dates", eyeballs it
+  [0, 1, 2, 3, 4],           // flags + updates but forgets to notify
+  [0, 1, 3, 4],              // skips compare AND notify
+  [0, 1, 2, 3, 1, 3, 4, 5], // re-checks status mid-way, messy loop
+  [0, 1, 4, 5],              // jumps straight from status to update
+  [0, 1, 2, 3, 3, 4, 5],    // double-flags before updating
+  [0, 1, 2, 4, 5],           // skips flagging, updates directly
 ];
 
 const TRACE_COLORS = [
@@ -35,10 +35,8 @@ const TRACE_COLORS = [
    ═══════════════════════════════════════════════ */
 
 const CLUSTERS = [
-  { label: 'investigate_alert', count: 3, color: 'var(--glean-mid-blue)' },
-  { label: 'draft_spec', count: 2, color: 'var(--glean-pink)' },
-  { label: 'negotiate_contract', count: 2, color: 'var(--glean-green)' },
-  { label: 'onboard_customer', count: 1, color: 'var(--glean-orange)' },
+  { label: 'biweekly_roadmap_cleanup', count: 5, color: 'var(--glean-green)' },
+  { label: 'sprint_retro_followup', count: 2, color: 'var(--glean-mid-blue)' },
 ];
 
 /* ═══════════════════════════════════════════════
@@ -174,7 +172,7 @@ function ProcessTraces() {
     <div className="kp-traces">
       <div className="kp-traces-header">
         <span className="material-symbols-rounded" style={{ fontSize: 13 }}>timeline</span>
-        Individual process traces
+        How your team updates ROAD tickets today
       </div>
 
       <div className="kp-step-labels">
@@ -259,7 +257,7 @@ function AbstractionArrow() {
     >
       <div className="kp-arrow-line" />
       <span className="material-symbols-rounded kp-arrow-icon">keyboard_double_arrow_down</span>
-      <span className="kp-arrow-label">normalize + cluster</span>
+      <span className="kp-arrow-label">Glean observes + learns</span>
     </motion.div>
   );
 }
@@ -273,7 +271,7 @@ function ClusteredProcesses() {
     <div className="kp-clusters">
       <div className="kp-traces-header">
         <span className="material-symbols-rounded" style={{ fontSize: 13 }}>hub</span>
-        Abstracted process patterns
+        Learned skill patterns
       </div>
 
       <div className="kp-cluster-grid">
