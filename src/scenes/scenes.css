@@ -1156,37 +1156,45 @@
 }
 
 .s4b-tabs-vertical {
-  position: absolute;
+  position: fixed;
   left: 0;
-  bottom: 0;
+  bottom: 104px;
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  padding: 6px;
+  gap: 2px;
+  padding: 4px;
   background: rgba(0, 0, 0, 0.35);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
+  border-radius: 0 10px 0 0;
+  border-left: none;
+  border-bottom: none;
   z-index: 5;
 }
 
 .s4b-tabs-vertical-label {
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.2px;
-  color: rgba(255, 255, 255, 0.3);
-  padding: 4px 8px 2px;
+  color: rgba(255, 255, 255, 0.25);
+  padding: 2px 6px 1px;
 }
 
 .s4b-tabs-vertical .s4b-tab {
   justify-content: flex-start;
   text-align: left;
-  font-size: 13px;
-  padding: 7px 14px;
+  font-size: 11px;
+  padding: 4px 10px;
 }
 
 .s4b-tabs-vertical .s4b-tab-indicator {
-  border-radius: 10px;
+  border-radius: 8px;
+}
+
+.s4b-tabs-vertical .s4b-tab-num {
+  width: 14px;
+  height: 14px;
+  font-size: 8px;
 }
 
 .s4b-tab {
