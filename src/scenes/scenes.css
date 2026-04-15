@@ -4351,16 +4351,16 @@
 }
 
 .kd-headline {
-  font-size: 30px;
+  font-size: 38px;
   font-weight: 800;
   margin: 0;
   line-height: 1.15;
 }
 
 .kd-subtitle {
-  font-size: 13px;
+  font-size: 15px;
   color: rgba(255, 255, 255, 0.55);
-  max-width: 620px;
+  max-width: 680px;
   text-align: center;
   line-height: 1.5;
   margin: 0 0 4px;
@@ -4404,7 +4404,7 @@
 }
 
 .kd-assistant-title {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.8);
   flex: 1;
@@ -4430,7 +4430,7 @@
 }
 
 .kd-query-text {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.75);
 }
@@ -4445,14 +4445,14 @@
 }
 
 .kd-stream-heading {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.9);
   margin-bottom: 4px;
 }
 
 .kd-stream-subheading {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--glean-green);
   text-transform: uppercase;
@@ -4461,7 +4461,7 @@
 }
 
 .kd-stream-body {
-  font-size: 13px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.55);
   line-height: 1.5;
 }
@@ -4474,19 +4474,19 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 4px 8px;
+  padding: 5px 8px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.04);
   border-radius: 6px;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .kd-stream-risk {
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.4px;
-  padding: 2px 6px;
+  padding: 2px 7px;
   border-radius: var(--radius-pill);
   flex-shrink: 0;
 }
@@ -4512,7 +4512,7 @@
 .kd-stream-date {
   color: rgba(255, 255, 255, 0.3);
   font-family: 'SF Mono', 'Fira Code', monospace;
-  font-size: 9px;
+  font-size: 10px;
   flex-shrink: 0;
 }
 
@@ -4543,6 +4543,7 @@
   gap: 0;
   flex: 1;
   min-height: 0;
+  padding-top: 8px;
 }
 
 .kd-funnel-columns {
@@ -4564,7 +4565,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.8px;
@@ -4586,11 +4587,11 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 8px;
+  padding: 5px 10px;
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 7px;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .kd-source-chip-blue {
@@ -4624,11 +4625,11 @@
 }
 
 .kd-source-tag {
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.05);
-  padding: 1px 5px;
+  padding: 2px 6px;
   border-radius: var(--radius-pill);
   flex-shrink: 0;
 }
@@ -4665,7 +4666,7 @@
 }
 
 .kd-model-label {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.9);
 }
@@ -4693,7 +4694,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -4735,10 +4736,10 @@
 }
 
 .kd-risk-score {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 800;
   font-family: 'SF Mono', 'Fira Code', monospace;
-  min-width: 28px;
+  min-width: 30px;
   flex-shrink: 0;
 }
 
@@ -4751,7 +4752,7 @@
 }
 
 .kd-risk-label {
-  font-size: 9px;
+  font-size: 11px;
   color: rgba(255, 255, 255, 0.5);
   line-height: 1.3;
 }
