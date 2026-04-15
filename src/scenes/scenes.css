@@ -573,6 +573,32 @@
   letter-spacing: 0.2px;
 }
 
+/* Index foundation strip */
+.idx-foundation {
+  width: 100%;
+  max-width: 850px;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0 4px;
+  position: relative;
+  transform-origin: center;
+}
+
+.idx-foundation-label {
+  position: relative;
+  padding: 6px 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: rgba(216, 253, 73, 0.7);
+  background: rgba(216, 253, 73, 0.06);
+  border: 1px solid rgba(216, 253, 73, 0.15);
+  border-radius: 20px;
+}
+
 /* Bottom bar — captions + legend side-by-side */
 .idx-bottom-bar {
   display: flex;
@@ -627,6 +653,39 @@
   height: 8px;
   border-radius: 50%;
   flex-shrink: 0;
+}
+
+/* Scene 2 — Phase 3 Query Time */
+
+.idx-search-prompt {
+  position: absolute;
+  left: 50%;
+  bottom: 2%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  backdrop-filter: blur(8px);
+  z-index: 12;
+  pointer-events: none;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+}
+
+.idx-search-icon {
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.idx-search-text {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;
+  font-style: italic;
 }
 
 /* Scene 2A — Stacked Layers (Exploded 3D) */
@@ -3666,7 +3725,7 @@
 
 .arch-mcp-band {
   position: absolute;
-  top: 42%;
+  top: 55%;
   left: 10%;
   right: 10%;
   padding: 8px 0;
@@ -4272,6 +4331,706 @@
   .beyond2-spoke-headline {
     font-size: 18px;
   }
+}
+
+/* ═══════════════════════════════════════════════
+   Knows Your Data / People / Processes scenes
+   ═══════════════════════════════════════════════ */
+
+.kd-scene {
+  gap: 8px;
+  justify-content: flex-start;
+}
+
+.kd-headline {
+  font-size: 30px;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.kd-subtitle {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  max-width: 620px;
+  text-align: center;
+  line-height: 1.5;
+  margin: 0 0 4px;
+}
+
+/* ---- Split layout ---- */
+
+.kd-split {
+  display: flex;
+  gap: 16px;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+/* ---- Left: Assistant panel ---- */
+
+.kd-assistant {
+  flex: 0 0 38%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.kd-assistant-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.kd-assistant-logo {
+  width: 18px;
+  height: 18px;
+}
+
+.kd-assistant-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.8);
+  flex: 1;
+}
+
+.kd-assistant-sparkle {
+  font-size: 16px;
+  color: var(--glean-green);
+}
+
+.kd-query-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.kd-query-icon {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.kd-query-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.kd-stream-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kd-stream-heading {
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 4px;
+}
+
+.kd-stream-subheading {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--glean-green);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+.kd-stream-body {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.5;
+}
+
+.kd-stream-spacer {
+  height: 6px;
+}
+
+.kd-stream-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 6px;
+  font-size: 10px;
+}
+
+.kd-stream-risk {
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 2px 6px;
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+}
+
+.kd-stream-risk-high {
+  background: rgba(255, 126, 76, 0.15);
+  color: var(--glean-mandarin);
+  border: 1px solid rgba(255, 126, 76, 0.25);
+}
+
+.kd-stream-risk-medium {
+  background: rgba(255, 200, 60, 0.12);
+  color: #ffd966;
+  border: 1px solid rgba(255, 200, 60, 0.2);
+}
+
+.kd-stream-account {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  min-width: 72px;
+}
+
+.kd-stream-date {
+  color: rgba(255, 255, 255, 0.3);
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 9px;
+  flex-shrink: 0;
+}
+
+.kd-stream-driver {
+  color: rgba(255, 255, 255, 0.45);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---- Right: Data panel ---- */
+
+.kd-data-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+}
+
+.kd-funnel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  flex: 1;
+  min-height: 0;
+}
+
+.kd-funnel-columns {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.kd-funnel-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kd-col-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 4px 0;
+  margin-bottom: 2px;
+}
+
+.kd-col-header-structured {
+  color: var(--glean-mid-blue);
+}
+
+.kd-col-header-unstructured {
+  color: var(--glean-pink);
+}
+
+/* ---- Source chips ---- */
+
+.kd-source-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 7px;
+  font-size: 10px;
+}
+
+.kd-source-chip-blue {
+  border-color: rgba(63, 163, 255, 0.12);
+}
+
+.kd-source-chip-pink {
+  border-color: rgba(225, 107, 255, 0.12);
+}
+
+.kd-source-logo {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.kd-source-icon {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  flex-shrink: 0;
+}
+
+.kd-source-label {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kd-source-tag {
+  font-size: 8px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1px 5px;
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+}
+
+/* ---- Connector SVG ---- */
+
+.kd-connectors-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ---- Model node ---- */
+
+.kd-model-node {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: rgba(52, 60, 237, 0.15);
+  border: 1.5px solid rgba(52, 60, 237, 0.4);
+  border-radius: var(--radius-pill);
+  position: relative;
+  z-index: 3;
+  margin-top: -8px;
+}
+
+.kd-model-icon {
+  font-size: 18px;
+  color: var(--glean-green);
+}
+
+.kd-model-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ---- Risk scoring panel ---- */
+
+.kd-risk-panel {
+  display: flex;
+  gap: 12px;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.kd-risk-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.kd-risk-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 4px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.kd-risk-header-neg {
+  color: var(--glean-mandarin);
+}
+
+.kd-risk-header-pos {
+  color: var(--glean-green);
+}
+
+.kd-risk-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+}
+
+.kd-risk-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.kd-risk-dot-neg {
+  background: var(--glean-orange);
+  box-shadow: 0 0 6px rgba(255, 126, 76, 0.4);
+}
+
+.kd-risk-dot-pos {
+  background: var(--glean-bright-green);
+  box-shadow: 0 0 6px rgba(216, 253, 73, 0.3);
+}
+
+.kd-risk-score {
+  font-size: 11px;
+  font-weight: 800;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  min-width: 28px;
+  flex-shrink: 0;
+}
+
+.kd-risk-score-neg {
+  color: var(--glean-mandarin);
+}
+
+.kd-risk-score-pos {
+  color: var(--glean-bright-green);
+}
+
+.kd-risk-label {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.3;
+}
+
+/* ---- Placeholder scene (People / Processes) ---- */
+
+.kd-placeholder {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 500px;
+  align-self: center;
+}
+
+.kd-placeholder-icon {
+  font-size: 56px;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.kd-placeholder-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* ═══════════════════════════════════════════════
+   Knows Your Processes — assistant + traces
+   ═══════════════════════════════════════════════ */
+
+/* -- User message bubble -- */
+
+.kp-user-msg {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 7px 10px;
+  background: rgba(52, 60, 237, 0.1);
+  border: 1px solid rgba(52, 60, 237, 0.2);
+  border-radius: 8px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}
+
+.kp-user-icon {
+  font-size: 14px;
+  color: var(--glean-mid-blue);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* -- Thinking indicator -- */
+
+.kp-thinking {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.35);
+  padding: 2px 0;
+}
+
+/* -- Ticket row -- */
+
+.kp-ticket-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.kp-ticket-logo {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.kp-ticket-id {
+  font-weight: 700;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 11px;
+  color: var(--glean-mid-blue);
+  flex-shrink: 0;
+}
+
+.kp-ticket-name {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kp-ticket-flag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 126, 76, 0.12);
+  color: var(--glean-mandarin);
+  border: 1px solid rgba(255, 126, 76, 0.2);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* -- Action row (write actions) -- */
+
+.kp-action-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 8px;
+  background: rgba(216, 253, 73, 0.04);
+  border: 1px solid rgba(216, 253, 73, 0.1);
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.kp-action-icon {
+  font-size: 14px;
+  color: var(--glean-green);
+  flex-shrink: 0;
+}
+
+.kp-action-text {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  flex: 1;
+}
+
+.kp-action-status {
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.kp-action-status-done {
+  color: var(--glean-green);
+}
+
+.kp-action-status-pending {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* -- Process traces (right panel) -- */
+
+.kp-traces {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  flex: 1;
+  min-height: 0;
+}
+
+.kp-traces-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.kp-step-labels {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.kp-step-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.3);
+  text-align: center;
+  min-width: 0;
+}
+
+.kp-traces-svg {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+/* -- Abstraction arrow -- */
+
+.kp-abstraction-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 4px 0;
+  transform-origin: top;
+  flex-shrink: 0;
+}
+
+.kp-arrow-line {
+  width: 1px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.kp-arrow-icon {
+  font-size: 16px;
+  color: var(--glean-green);
+}
+
+.kp-arrow-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* -- Clustered processes -- */
+
+.kp-clusters {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.kp-cluster-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+.kp-cluster-card {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 7px 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+}
+
+.kp-cluster-name {
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.kp-cluster-traces {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.kp-cluster-trace-line {
+  height: 2px;
+  border-radius: 1px;
+  transform-origin: left;
+  width: 100%;
+}
+
+.kp-cluster-count {
+  font-size: 10px;
+  font-weight: 600;
 }
 
 /* Scene 9 — Grand Finale */

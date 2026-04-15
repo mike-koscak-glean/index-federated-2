@@ -73,17 +73,6 @@ function GleanResultCard({
         </div>
       </div>
       {children}
-      {result.rankedLast && (
-        <motion.div
-          className="s4b1-glean-ranked-last"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.6 }}
-          transition={{ delay: delay + 0.3 }}
-        >
-          <span className="material-symbols-rounded" style={{ fontSize: 14 }}>arrow_downward</span>
-          Ranked last
-        </motion.div>
-      )}
     </motion.div>
   );
 }

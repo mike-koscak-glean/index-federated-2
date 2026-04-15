@@ -115,15 +115,30 @@ const CAPTION1_DELAY = 4.5;
 const PHASE2_START = 6.0;
 const BADGE_STAGGER = 0.2;
 const CAPTION2_DELAY = PHASE2_START + BADGES.length * BADGE_STAGGER + 0.5;
+const PHASE4_START = 9.7;
+const PHASE5_START = 10.7;
+
+const QUERY_HIT_NODES = new Set([0, 5, 3, 4]);
+const QUERY_RESULTS = [
+  { nodeIdx: 0, text: '✓ Acme Onboarding Plan', dx: -125 },
+  { nodeIdx: 4, text: '✓ ENG-4521', dx: -100 },
+  { nodeIdx: 3, text: '✓ Support ticket', dx: 75 },
+];
+const BEAM_START = { x: 405, y: 486 };
+const BEAM_END = { x: 405, y: 456 };
+const GRAPH_CENTER = { x: 405, y: 295 };
+const BEAM_LEN = Math.abs(BEAM_START.y - BEAM_END.y);
 
 export function Scene2() {
-  const [phase, setPhase] = useState(0); // 0=building, 1=caption1, 2=signals, 3=idle
+  const [phase, setPhase] = useState(0); // 0=building, 1=caption1, 2=signals, 3=idle, 4=transition, 5=query
 
   useEffect(() => {
     const t1 = setTimeout(() => setPhase(1), CAPTION1_DELAY * 1000);
     const t2 = setTimeout(() => setPhase(2), PHASE2_START * 1000);
     const t3 = setTimeout(() => setPhase(3), (CAPTION2_DELAY + 1.0) * 1000);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    const t4 = setTimeout(() => setPhase(4), PHASE4_START * 1000);
+    const t5 = setTimeout(() => setPhase(5), PHASE5_START * 1000);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5); };
   }, []);
 
   const N_CONN = APPS.length + 1;
@@ -154,6 +169,10 @@ export function Scene2() {
                 <feMergeNode in="SourceGraphic" />
               </feMerge>
             </filter>
+            <linearGradient id="indexContainerGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="rgba(63,163,255,0.04)" />
+              <stop offset="100%" stopColor="rgba(63,163,255,0.01)" />
+            </linearGradient>
             {Object.entries(TYPE_COLORS).map(([type, color]) => (
               <radialGradient key={type} id={`nodeGrad-${type}`} cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stopColor={color} stopOpacity={0.35} />
@@ -162,11 +181,38 @@ export function Scene2() {
             ))}
           </defs>
 
+          {/* Index container — visual "shelf" behind the graph */}
+          <motion.rect
+            x={130} y={155} width={550} height={280} rx={16}
+            fill="url(#indexContainerGrad)"
+            stroke="rgba(63,163,255,0.12)"
+            strokeWidth={1}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: EDGE_DRAW_START - 0.3, duration: 1, ease: 'easeOut' }}
+          />
+          <motion.text
+            x={405} y={448}
+            textAnchor="middle"
+            fill="rgba(63,163,255,0.3)"
+            fontSize={9}
+            fontWeight={700}
+            letterSpacing={3}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: EDGE_DRAW_START + 0.3, duration: 0.8 }}
+          >
+            UNIFIED INDEX
+          </motion.text>
+
           {/* Edges — draw in after nodes arrive */}
           {EDGES.map(([a, b], i) => {
             const na = NODES[a], nb = NODES[b];
             const dx = nb.x - na.x, dy = nb.y - na.y;
             const len = Math.sqrt(dx * dx + dy * dy);
+            const edgeOp = phase >= 5
+              ? (QUERY_HIT_NODES.has(a) || QUERY_HIT_NODES.has(b) ? 0.4 : 0.1)
+              : 1;
             return (
               <g key={`e${i}`} filter="url(#edgeGlow)">
                 <motion.line
@@ -176,11 +222,10 @@ export function Scene2() {
                   strokeDasharray={len}
                   strokeDashoffset={len}
                   initial={{ strokeDashoffset: len, opacity: 0 }}
-                  animate={{ strokeDashoffset: 0, opacity: 1 }}
+                  animate={{ strokeDashoffset: 0, opacity: edgeOp }}
                   transition={{
-                    delay: EDGE_DRAW_START + i * EDGE_STAGGER,
-                    duration: 0.6,
-                    ease: 'easeOut',
+                    strokeDashoffset: { delay: EDGE_DRAW_START + i * EDGE_STAGGER, duration: 0.6, ease: 'easeOut' },
+                    opacity: { delay: phase >= 5 ? 0 : EDGE_DRAW_START + i * EDGE_STAGGER, duration: phase >= 5 ? 0.5 : 0.6, ease: 'easeOut' },
                   }}
                 />
               </g>
@@ -188,24 +233,27 @@ export function Scene2() {
           })}
 
           {/* Idle edge pulses (after phase 3) */}
-          {phase >= 3 && EDGES.map(([a, b], i) => (
-            <motion.line
-              key={`ep${i}`}
-              x1={NODES[a].x} y1={NODES[a].y}
-              x2={NODES[b].x} y2={NODES[b].y}
-              stroke="rgba(216,253,73,0.12)"
-              strokeWidth={3}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 0.4, 0] }}
-              transition={{
-                delay: i * 0.4,
-                duration: 2.5,
-                ease: 'easeInOut',
-                repeat: Infinity,
-                repeatDelay: 3 + (i % 3),
-              }}
-            />
-          ))}
+          {phase >= 3 && EDGES.map(([a, b], i) => {
+            if (phase >= 5 && !QUERY_HIT_NODES.has(a) && !QUERY_HIT_NODES.has(b)) return null;
+            return (
+              <motion.line
+                key={`ep${i}`}
+                x1={NODES[a].x} y1={NODES[a].y}
+                x2={NODES[b].x} y2={NODES[b].y}
+                stroke="rgba(216,253,73,0.12)"
+                strokeWidth={3}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 0.4, 0] }}
+                transition={{
+                  delay: i * 0.4,
+                  duration: 2.5,
+                  ease: 'easeInOut',
+                  repeat: Infinity,
+                  repeatDelay: 3 + (i % 3),
+                }}
+              />
+            );
+          })}
 
           {/* Graph nodes — placed by mini-card arrivals */}
           {NODES.map((n, i) => {
@@ -219,7 +267,11 @@ export function Scene2() {
             })();
             const color = TYPE_COLORS[n.type];
             return (
-              <motion.g key={`gn${i}`}>
+              <motion.g
+                key={`gn${i}`}
+                animate={{ opacity: phase >= 5 && !QUERY_HIT_NODES.has(i) ? 0.25 : 1 }}
+                transition={{ duration: 0.5 }}
+              >
                 {/* Outer halo */}
                 <motion.circle
                   cx={n.x} cy={n.y} r={n.r + 6}
@@ -278,7 +330,7 @@ export function Scene2() {
               <motion.g
                 key={`b${i}`}
                 initial={{ opacity: 0, scale: 0.3 }}
-                animate={{ opacity: 1, scale: 1 }}
+                animate={{ opacity: phase >= 5 && !QUERY_HIT_NODES.has(b.nodeIdx) ? 0.15 : 1, scale: 1 }}
                 transition={{
                   delay: i * BADGE_STAGGER,
                   duration: 0.35,
@@ -313,6 +365,171 @@ export function Scene2() {
               </motion.g>
             );
           })}
+
+          {/* ===== Phase 4+ — "Already indexed" label near connectors ===== */}
+          {phase >= 4 && (
+            <motion.text
+              x={405} y={142}
+              textAnchor="middle"
+              fill="rgba(255,255,255,0.22)"
+              fontSize={8}
+              fontWeight={700}
+              letterSpacing={2.5}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+            >
+              ALREADY INDEXED
+            </motion.text>
+          )}
+
+          {/* ===== Phase 5 — Query Time animations ===== */}
+          {phase >= 5 && (
+            <>
+              {/* Beam trail line — short vertical connector from prompt into index */}
+              <motion.line
+                x1={BEAM_START.x} y1={BEAM_START.y}
+                x2={BEAM_END.x} y2={BEAM_END.y}
+                stroke="#D8FD49"
+                strokeWidth={2}
+                strokeDasharray={BEAM_LEN}
+                initial={{ strokeDashoffset: BEAM_LEN, opacity: 0 }}
+                animate={{ strokeDashoffset: 0, opacity: [0, 0.7, 0.35] }}
+                transition={{ delay: 0.5, duration: 0.3, ease: 'easeIn', opacity: { times: [0, 0.3, 1] } }}
+              />
+              {/* Traveling pulse dot — enters the index from below */}
+              <motion.circle
+                r={5}
+                fill="#D8FD49"
+                filter="url(#edgeGlow)"
+                initial={{ cx: BEAM_START.x, cy: BEAM_START.y, opacity: 0 }}
+                animate={{
+                  cx: [BEAM_START.x, BEAM_END.x, GRAPH_CENTER.x],
+                  cy: [BEAM_START.y, BEAM_END.y, GRAPH_CENTER.y],
+                  opacity: [0, 1, 1, 0],
+                }}
+                transition={{
+                  delay: 0.5,
+                  duration: 0.5,
+                  ease: [0.22, 1, 0.36, 1],
+                  opacity: { times: [0, 0.05, 0.7, 1] },
+                }}
+              />
+              {/* Impact burst — primary ring */}
+              <motion.circle
+                cx={GRAPH_CENTER.x} cy={GRAPH_CENTER.y} r={30}
+                fill="none"
+                stroke="#D8FD49"
+                strokeWidth={2}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: [0, 1.5], opacity: [0.7, 0] }}
+                transition={{ delay: 0.9, duration: 0.5, ease: 'easeOut' }}
+                style={{ transformOrigin: `${GRAPH_CENTER.x}px ${GRAPH_CENTER.y}px` } as React.CSSProperties}
+              />
+              {/* Impact burst — secondary ring */}
+              <motion.circle
+                cx={GRAPH_CENTER.x} cy={GRAPH_CENTER.y} r={50}
+                fill="none"
+                stroke="rgba(216,253,73,0.3)"
+                strokeWidth={1}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: [0, 1.3], opacity: [0.5, 0] }}
+                transition={{ delay: 0.95, duration: 0.6, ease: 'easeOut' }}
+                style={{ transformOrigin: `${GRAPH_CENTER.x}px ${GRAPH_CENTER.y}px` } as React.CSSProperties}
+              />
+
+              {/* Highlighted edge overlays — bright re-draw between hit nodes */}
+              {EDGES.map(([a, b], ei) => {
+                if (!QUERY_HIT_NODES.has(a) || !QUERY_HIT_NODES.has(b)) return null;
+                return (
+                  <motion.line
+                    key={`qe${ei}`}
+                    x1={NODES[a].x} y1={NODES[a].y}
+                    x2={NODES[b].x} y2={NODES[b].y}
+                    stroke="rgba(216,253,73,0.65)"
+                    strokeWidth={2.5}
+                    filter="url(#edgeGlow)"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.0, duration: 0.4 }}
+                  />
+                );
+              })}
+
+              {/* Highlighted node glow rings + bright fills */}
+              {Array.from(QUERY_HIT_NODES).map((nodeIdx, idx) => {
+                const n = NODES[nodeIdx];
+                return (
+                  <motion.g key={`qn${nodeIdx}`}>
+                    <motion.circle
+                      cx={n.x} cy={n.y} r={n.r + 10}
+                      fill="none"
+                      stroke="#D8FD49"
+                      strokeWidth={1.5}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: [0, 0.6, 0.3, 0.6] }}
+                      transition={{
+                        delay: 1.0 + idx * 0.1,
+                        duration: 2.5,
+                        times: [0, 0.12, 0.55, 1],
+                        repeat: Infinity,
+                        repeatDelay: 0.5,
+                      }}
+                      style={{ transformOrigin: `${n.x}px ${n.y}px` } as React.CSSProperties}
+                    />
+                    <motion.circle
+                      cx={n.x} cy={n.y} r={n.r}
+                      fill={TYPE_COLORS[n.type]}
+                      fillOpacity={0.35}
+                      stroke="#D8FD49"
+                      strokeWidth={2}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 1.0 + idx * 0.1, duration: 0.3 }}
+                    />
+                  </motion.g>
+                );
+              })}
+
+              {/* Result preview labels beside highlighted nodes */}
+              {QUERY_RESULTS.map((r, ri) => {
+                const n = NODES[r.nodeIdx];
+                const lx = n.x + r.dx;
+                const ly = n.y;
+                const textLen = r.text.length * 4.5 + 16;
+                return (
+                  <motion.g
+                    key={`qr${ri}`}
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.3 + ri * 0.2, duration: 0.3, ease: 'easeOut' }}
+                  >
+                    <rect
+                      x={lx - textLen / 2}
+                      y={ly - 10}
+                      width={textLen}
+                      height={20}
+                      rx={10}
+                      fill="rgba(216,253,73,0.1)"
+                      stroke="rgba(216,253,73,0.3)"
+                      strokeWidth={1}
+                    />
+                    <text
+                      x={lx}
+                      y={ly}
+                      textAnchor="middle"
+                      dominantBaseline="central"
+                      fill="#D8FD49"
+                      fontSize={9}
+                      fontWeight={600}
+                    >
+                      {r.text}
+                    </text>
+                  </motion.g>
+                );
+              })}
+            </>
+          )}
         </svg>
 
         {/* HTML overlay */}
@@ -334,7 +551,7 @@ export function Scene2() {
                 style={pct(p.x, p.y)}
                 initial={{ opacity: 0, scale: 0.4 }}
                 animate={{
-                  opacity: cardDeparted ? [1, 1, 0.4] : 1,
+                  opacity: phase >= 4 ? 0.25 : (cardDeparted ? [1, 1, 0.4] : 1),
                   scale: 1,
                 }}
                 transition={
@@ -356,8 +573,8 @@ export function Scene2() {
                 className="idx-conn idx-conn-more"
                 style={pct(p.x, p.y)}
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
+                animate={{ opacity: phase >= 4 ? 0.25 : 1 }}
+                transition={{ delay: phase >= 4 ? 0 : 0.5, duration: 0.5 }}
               >
                 +90
               </motion.div>
@@ -399,8 +616,33 @@ export function Scene2() {
           })}
 
           {/* Node labels and signal badges are now rendered in the SVG layer above */}
+
+          {/* Query search prompt — Phase 5 */}
+          {phase >= 5 && (
+            <motion.div
+              className="idx-search-prompt"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <span className="idx-search-icon">🔍</span>
+              <span className="idx-search-text">
+                What's the status of the Acme onboarding rollout?
+              </span>
+            </motion.div>
+          )}
         </div>
       </div>
+
+      {/* Index foundation strip — appears in Phase 5 query time */}
+      <motion.div
+        className="idx-foundation"
+        initial={{ opacity: 0, scaleX: 0.3 }}
+        animate={phase >= 5 ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0.3 }}
+        transition={{ duration: 0.8, delay: phase >= 5 ? 2.0 : 0, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <span className="idx-foundation-label">Query the graph, not 100+ apps</span>
+      </motion.div>
 
       {/* Bottom bar: captions left, legend right */}
       <div className="idx-bottom-bar">
@@ -411,7 +653,7 @@ export function Scene2() {
                 key="cap1"
                 className="idx-caption"
                 initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
+                animate={{ opacity: phase >= 4 ? 0.35 : 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5, ease: 'easeOut' }}
               >
@@ -425,7 +667,7 @@ export function Scene2() {
                 key="cap2"
                 className="idx-caption"
                 initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
+                animate={{ opacity: phase >= 4 ? 0.35 : 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ delay: phase === 2 ? BADGES.length * BADGE_STAGGER + 0.3 : 0, duration: 0.5, ease: 'easeOut' }}
               >

@@ -32,7 +32,6 @@ const PRODUCTS = [
   { icon: 'search', label: 'Search', color: '#3FA3FF' },
   { icon: 'auto_awesome', label: 'Assistant', color: '#D8FD49' },
   { icon: 'psychology', label: 'Agents', color: '#B2E5EF' },
-  { icon: 'monitoring', label: 'Prism', color: '#FFAC8C' },
   { icon: 'account_tree', label: 'Workflows', color: '#E16BFF' },
   { icon: 'person_pin', label: 'Personal AI', color: '#54D848' },
 ];

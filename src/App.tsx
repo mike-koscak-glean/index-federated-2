@@ -10,6 +10,9 @@ import { Scene5 } from './scenes/Scene5';
 import { Scene6 } from './scenes/Scene6';
 import { Scene7 } from './scenes/Scene7';
 import { Scene8 } from './scenes/Scene8';
+import { SceneKnowsData } from './scenes/SceneKnowsData';
+import { SceneKnowsPeople } from './scenes/SceneKnowsPeople';
+import { SceneKnowsProcesses } from './scenes/SceneKnowsProcesses';
 import { Scene9 } from './scenes/Scene9';
 import './App.css';
 import './scenes/scenes.css';
@@ -40,7 +43,7 @@ class SceneErrorBoundary extends Component<
   }
 }
 
-const TOTAL_STEPS = 10;
+const TOTAL_STEPS = 13;
 
 const STEP_LABELS = [
   'Question',
@@ -52,10 +55,13 @@ const STEP_LABELS = [
   'MCP + Glean',
   'Search Win',
   'Beyond Search',
+  'Knows Your Data',
+  'Knows Your People',
+  'Knows Your Processes',
   'Full Picture',
 ];
 
-const scenes = [Scene0, Scene1, SceneFedProblem, Scene2, Scene4B1, Scene5, Scene6, Scene7, Scene8, Scene9];
+const scenes = [Scene0, Scene1, SceneFedProblem, Scene2, Scene4B1, Scene5, Scene6, Scene7, Scene8, SceneKnowsData, SceneKnowsPeople, SceneKnowsProcesses, Scene9];
 
 export default function App() {
   const [currentStep, setCurrentStep] = useState(0);

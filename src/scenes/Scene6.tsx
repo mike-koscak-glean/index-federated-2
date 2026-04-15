@@ -2,11 +2,11 @@ import { motion } from 'framer-motion';
 import { LOGOS } from '../logos';
 
 const CLIENTS = [
-  { label: 'Cursor IDE', icon: 'code', x: 15, y: 8 },
-  { label: 'Desktop Agent', icon: 'computer', x: 50, y: 3 },
-  { label: 'Internal Tools', icon: 'dashboard', x: 85, y: 8 },
-  { label: 'Slack Bot', icon: 'chat', x: 25, y: 22 },
-  { label: 'Custom App', icon: 'widgets', x: 75, y: 22 },
+  { label: 'Cursor IDE', icon: 'code', x: 15, y: 5 },
+  { label: 'Desktop Agent', icon: 'computer', x: 50, y: 0 },
+  { label: 'Internal Tools', icon: 'dashboard', x: 85, y: 5 },
+  { label: 'Slack Bot', icon: 'chat', x: 30, y: 16 },
+  { label: 'Custom App', icon: 'widgets', x: 70, y: 16 },
 ];
 
 const PILLARS = [
@@ -49,7 +49,7 @@ export function Scene6() {
                 x1={client.x}
                 y1={client.y + 12}
                 x2={50}
-                y2={50}
+                y2={60}
                 stroke="rgba(255,255,255,0.15)"
                 strokeWidth={0.3}
                 strokeDasharray="2,2"
@@ -76,7 +76,7 @@ export function Scene6() {
               style={{ left: `${client.x}%` }}
               initial={{ top: `${client.y + 12}%`, opacity: 0 }}
               animate={{
-                top: ['20%', '46%'],
+                top: ['20%', '58%'],
                 opacity: [0, 1, 1, 0],
                 left: [`${client.x}%`, '50%'],
               }}
@@ -95,9 +95,9 @@ export function Scene6() {
               key={`resp-${i}`}
               className="arch-packet arch-packet-resp"
               style={{ left: '50%' }}
-              initial={{ top: '55%', opacity: 0 }}
+              initial={{ top: '65%', opacity: 0 }}
               animate={{
-                top: ['55%', `${client.y + 12}%`],
+                top: ['65%', `${client.y + 12}%`],
                 opacity: [0, 1, 1, 0],
                 left: ['50%', `${client.x}%`],
               }}
