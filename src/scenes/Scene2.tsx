@@ -151,7 +151,7 @@ export function Scene2() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.1 }}
       >
-        The Glean Search Index
+        The Glean Search Index - Powering the Enterprise Graph
       </motion.div>
 
       <div className="idx-stage">

@@ -3686,160 +3686,387 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
-/* Scene 6 — Architecture */
+/* Scene 6 — MCP + Glean Architecture */
 
-.arch-layout {
-  display: flex;
-  flex-direction: column;
+.arch6-container {
+  display: grid;
+  grid-template-columns: 58fr 1px 42fr;
   gap: 24px;
   width: 100%;
-  align-items: center;
   flex: 1;
   min-height: 0;
 }
 
-.arch-visual {
-  width: 100%;
-  max-width: 800px;
-  flex: 0 0 auto;
-  position: relative;
-  height: 240px;
-}
-
-.arch-client {
-  position: absolute;
+.arch6-left {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  transform: translateX(-50%);
-  z-index: 2;
+  justify-content: center;
+  min-height: 0;
 }
 
-.arch-client-label {
-  font-size: 10px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.6);
-  white-space: nowrap;
-}
-
-.arch-svg {
-  position: absolute;
-  inset: 0;
+.arch6-hosts {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   width: 100%;
-  height: 100%;
-  z-index: 1;
+  flex-shrink: 0;
 }
 
-.arch-mcp-band {
-  position: absolute;
-  top: 55%;
-  left: 10%;
-  right: 10%;
-  padding: 8px 0;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px dashed rgba(255, 255, 255, 0.15);
-  border-radius: var(--radius-md);
+.arch6-host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.arch6-host-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.arch6-conn-svg {
+  width: 100%;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.arch6-mcp-bar {
+  width: 85%;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(216, 253, 73, 0.25);
+  background: rgba(216, 253, 73, 0.04);
+  border-radius: var(--radius-sm);
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  color: rgba(255, 255, 255, 0.4);
-  transform-origin: center;
-  z-index: 2;
-}
-
-.arch-graph-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  width: 100%;
-  max-width: 640px;
-}
-
-.arch-graph-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.arch-graph-logo {
-  width: 28px;
-  height: 28px;
-}
-
-.arch-graph-title {
-  font-size: 18px;
-  font-weight: 700;
   color: var(--glean-green);
-  letter-spacing: 0.3px;
+  transform-origin: center;
+  flex-shrink: 0;
 }
 
-.arch-graph-pillars {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+.arch6-pipe-svg {
+  width: 20px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.arch6-graph-card {
+  flex: 0 1 auto;
+  max-height: 240px;
+  min-height: 0;
   width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 10px 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.arch-pillar {
+.arch6-graph-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.arch6-graph-svg {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+}
+
+/* System icons below graph */
+.arch6-systems {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding: 20px 16px;
-  background: rgba(52, 60, 237, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-lg);
+  width: 100%;
+  flex-shrink: 0;
+  padding-top: 10px;
+}
+
+.arch6-systems-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.arch6-systems-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.arch6-systems-row .app-icon-sm {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+
+.arch6-systems-more {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Vertical divider */
+.arch6-divider {
+  width: 1px;
+  background: linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%);
+}
+
+/* Right panel */
+.arch6-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+}
+
+.arch6-above {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.arch6-above-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.arch6-plug-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.arch6-cord {
+  width: 3px;
+  height: 48px;
+  background: var(--glean-green);
+  border-radius: 2px;
   position: relative;
+  overflow: hidden;
+  transform-origin: top;
+  box-shadow: 0 0 8px rgba(216, 253, 73, 0.3);
+}
+
+.arch6-cord-pulse {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 12px;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.7), transparent);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.arch6-plug-head {
+  width: 28px;
+  height: 12px;
+  background: #3a3a48;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+}
+
+.arch6-prong {
+  width: 3px;
+  height: 10px;
+  background: #8a8a9a;
+  border-radius: 1px;
+  margin-bottom: -9px;
+}
+
+.arch6-outlet {
+  width: 90px;
+  height: 110px;
+  background: #e8e8ec;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+.arch6-outlet-slots {
+  display: flex;
+  gap: 16px;
+}
+
+.arch6-slot {
+  width: 4px;
+  height: 14px;
+  background: #b0b0ba;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.arch6-ground-slot {
+  width: 12px;
+  height: 7px;
+  border-radius: 50%;
+  background: #b0b0ba;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.arch6-power-led {
+  position: absolute;
+  bottom: 8px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--glean-green);
+  box-shadow: 0 0 6px var(--glean-green);
+}
+
+.arch6-iface-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--glean-green);
+}
+
+/* Wall divider */
+.arch6-wall {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 0;
+  flex-shrink: 0;
+}
+
+.arch6-wall-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.12) 50%, transparent 100%);
+}
+
+.arch6-wall-text {
+  font-size: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.6);
+  background: linear-gradient(160deg, #0D1057 0%, #1E2287 100%);
+  padding: 2px 10px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Below the wall — dense infrastructure */
+.arch6-below {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 0;
+}
+
+.arch6-tangle {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  min-height: 0;
   overflow: hidden;
 }
 
-.arch-pillar::before {
-  content: '';
+.arch6-tangle-lines {
   position: absolute;
-  inset: -20px;
-  background: radial-gradient(ellipse at center, rgba(52, 60, 237, 0.2) 0%, transparent 70%);
-  opacity: 0.6;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.arch6-infra-icon {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 255, 255, 0.6);
   pointer-events: none;
+  line-height: 1;
 }
 
-.arch-pillar-icon {
-  font-size: 28px;
-  position: relative;
-  z-index: 1;
-}
-
-.arch-pillar-label {
-  font-size: 13px;
+.arch6-tangle-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 7px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.8);
-  position: relative;
-  z-index: 1;
-}
-
-.arch-graph-explainer {
-  font-size: 13px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.55);
-  text-align: center;
-  max-width: 520px;
-}
-
-.arch-packet {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--glean-blue-light, #3FA3FF);
-  z-index: 4;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.4);
   pointer-events: none;
+  white-space: nowrap;
 }
 
-.arch-packet-resp {
-  background: var(--glean-green);
+.arch6-index-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--glean-mid-blue);
+  flex-shrink: 0;
+}
+
+.arch6-tagline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.arch6-tagline strong {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Footer */
+.arch6-footer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.65);
 }
 
 /* Scene 7 — Final Comparison */
@@ -5176,6 +5403,152 @@
 .kp-cluster-count {
   font-size: 10px;
   font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════
+   Knows Your People — assistant rows + graph
+   ═══════════════════════════════════════════════ */
+
+/* -- Person row (ranked list) -- */
+
+.kpe-person-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 7px;
+  font-size: 12px;
+}
+
+.kpe-rank-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(216, 253, 73, 0.12);
+  border: 1px solid rgba(216, 253, 73, 0.25);
+  color: var(--glean-green);
+  font-size: 10px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.kpe-person-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+}
+
+.kpe-person-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.kpe-person-name {
+  font-weight: 700;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.kpe-person-role {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.kpe-person-reason {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-left: auto;
+  text-align: right;
+  flex-shrink: 0;
+  max-width: 45%;
+  line-height: 1.3;
+}
+
+/* -- Collaboration graph -- */
+
+.kpe-graph-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.kpe-graph-svg {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+/* -- Legend -- */
+
+.kpe-legend {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 4px 0 0;
+}
+
+.kpe-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.3px;
+}
+
+.kpe-legend-swatch {
+  width: 8px;
+  height: 3px;
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+/* -- Signals section header -- */
+
+.kpe-signals-header {
+  color: var(--glean-mid-blue);
+}
+
+/* -- Signal row -- */
+
+.kpe-signal-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 3px 0;
+}
+
+.kpe-signal-type {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.kpe-signal-example {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1.3;
 }
 
 /* Scene 9 — Grand Finale */
