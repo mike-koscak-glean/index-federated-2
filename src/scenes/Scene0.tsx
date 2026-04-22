@@ -50,7 +50,7 @@ export function Scene0() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
       >
-        <span className="material-symbols-rounded" style={{ fontSize: 20, opacity: 0.5 }}>search</span>
+        <span className="material-symbols-rounded" style={{ fontSize: 25, opacity: 0.5 }}>search</span>
         <span className="search-text">
           {typed}
           <span className="cursor-blink">|</span>

@@ -530,18 +530,20 @@ export function SceneKnowsPeople() {
         Learns how your org actually collaborates so the right people and context show up automatically.
       </motion.p>
 
-      <div className="kd-split">
-        <AssistantPanel phase={phase} />
-        <motion.div
-          className="kd-data-panel"
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <OrgChart phase={phase} />
-          <InferLabel visible={phase >= 2} />
-          <SignalsPanel visible={phase >= 4} />
-        </motion.div>
+      <div className="kpe-content">
+        <div className="kd-split kpe-split-top">
+          <AssistantPanel phase={phase} />
+          <motion.div
+            className="kd-data-panel"
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <OrgChart phase={phase} />
+          </motion.div>
+        </div>
+        <InferLabel visible={phase >= 2} />
+        <SignalsPanel visible={phase >= 4} />
       </div>
     </div>
   );

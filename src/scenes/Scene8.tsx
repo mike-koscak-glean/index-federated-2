@@ -196,7 +196,7 @@ function HealthGauge() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 3.2, duration: 0.4 }}
       >
-        <span className="material-symbols-rounded" style={{ fontSize: 13 }}>warning</span>
+        <span className="material-symbols-rounded" style={{ fontSize: 15 }}>warning</span>
         Churn risk detected
       </motion.div>
     </div>
@@ -282,7 +282,7 @@ function FlowChart() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 4.6, type: 'spring', stiffness: 250, damping: 18 }}
               >
-                <span className="material-symbols-rounded" style={{ fontSize: 10 }}>bolt</span>
+                <span className="material-symbols-rounded" style={{ fontSize: 12 }}>bolt</span>
                 automated
               </motion.div>
             )}
@@ -336,7 +336,7 @@ export function Scene8() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.5 }}
-        style={{ fontSize: 28, maxWidth: 700 }}
+        style={{ fontSize: 34, maxWidth: 780 }}
       >
         What only the Glean Enterprise Graph makes{' '}
         <span className="final-highlight">possible</span>.

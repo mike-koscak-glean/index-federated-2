@@ -95,7 +95,7 @@ function NeuralNetVis() {
 
 export function Scene5() {
   return (
-    <div className="scene">
+    <div className="scene scene-s5">
       <motion.div
         className="scene-title"
         initial={{ opacity: 0 }}
@@ -113,7 +113,7 @@ export function Scene5() {
           transition={{ delay: 0.3, duration: 0.5 }}
         >
           <div className="ml-panel-header">
-            <span className="material-symbols-rounded" style={{ fontSize: 20, color: 'var(--glean-green)' }}>model_training</span>
+            <span className="material-symbols-rounded" style={{ fontSize: 24, color: 'var(--glean-green)' }}>model_training</span>
             <span>ML Relevance Engine</span>
           </div>
           <div className="ml-panel-sub">60+ ranking signals, trained on your enterprise</div>
@@ -128,7 +128,7 @@ export function Scene5() {
                 transition={{ delay: 0.6 + i * 0.18 }}
               >
                 <div className="ml-signal-icon">
-                  <span className="material-symbols-rounded" style={{ fontSize: 18 }}>{s.icon}</span>
+                  <span className="material-symbols-rounded" style={{ fontSize: 20 }}>{s.icon}</span>
                 </div>
                 <div className="ml-signal-info">
                   <div className="ml-signal-label">{s.label}</div>
@@ -152,7 +152,7 @@ export function Scene5() {
             animate={{ opacity: [0, 1, 0.6, 1] }}
             transition={{ delay: 1.8, duration: 1.5, repeat: Infinity, repeatDelay: 3 }}
           >
-            <span className="material-symbols-rounded" style={{ fontSize: 14 }}>check_circle</span>
+            <span className="material-symbols-rounded" style={{ fontSize: 16 }}>check_circle</span>
             Ranked &amp; filtered — 4 of 200+ results
           </motion.div>
         </motion.div>
@@ -199,7 +199,7 @@ export function Scene5() {
                   transition={{ delay: 1.0 + i * 0.15 }}
                 >
                   <span className="context-snippet-text">{s}</span>
-                  <span className="material-symbols-rounded" style={{ fontSize: 14, color: 'var(--glean-green)' }}>verified</span>
+                  <span className="material-symbols-rounded" style={{ fontSize: 16, color: 'var(--glean-green)' }}>verified</span>
                 </motion.div>
               ))}
             </div>
@@ -212,7 +212,7 @@ export function Scene5() {
             transition={{ delay: 1.8, duration: 0.5 }}
           >
             <div className="answer-header">
-              <span className="material-symbols-rounded" style={{ fontSize: 18 }}>auto_awesome</span>
+              <span className="material-symbols-rounded" style={{ fontSize: 20 }}>auto_awesome</span>
               Customer 360 — Acme Corp
             </div>
             <div className="answer-sections">
@@ -225,7 +225,7 @@ export function Scene5() {
                   transition={{ delay: 2.0 + i * 0.2 }}
                 >
                   <div className="answer-section-label">
-                    <span className="material-symbols-rounded" style={{ fontSize: 16 }}>{section.icon}</span>
+                    <span className="material-symbols-rounded" style={{ fontSize: 18 }}>{section.icon}</span>
                     {section.label}
                   </div>
                   <div className="answer-section-text">{section.text}</div>

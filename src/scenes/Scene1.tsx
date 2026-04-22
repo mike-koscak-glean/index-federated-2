@@ -219,7 +219,7 @@ export function Scene1() {
           <div className="fed-overload">
             <div className="fed-gauge-row">
               <div className="fed-gauge-label">
-                <span className="material-symbols-rounded" style={{ fontSize: 16 }}>
+                <span className="material-symbols-rounded" style={{ fontSize: 20 }}>
                   memory
                 </span>
                 AI Context Window
@@ -251,7 +251,7 @@ export function Scene1() {
               >
                 <span
                   className="material-symbols-rounded"
-                  style={{ fontSize: 20, color: '#FF7E4C' }}
+                  style={{ fontSize: 25, color: '#FF7E4C' }}
                 >
                   trending_down
                 </span>
@@ -276,7 +276,7 @@ export function Scene1() {
               >
                 <span
                   className="material-symbols-rounded"
-                  style={{ fontSize: 20, color: '#FF7E4C' }}
+                  style={{ fontSize: 25, color: '#FF7E4C' }}
                 >
                   trending_up
                 </span>
@@ -305,7 +305,7 @@ export function Scene1() {
       >
         <div className="fed-takeaway-card">
           <div className="fed-takeaway-icon">
-            <span className="material-symbols-rounded" style={{ fontSize: 22 }}>
+            <span className="material-symbols-rounded" style={{ fontSize: 28 }}>
               shuffle
             </span>
           </div>
@@ -320,7 +320,7 @@ export function Scene1() {
 
         <div className="fed-takeaway-card">
           <div className="fed-takeaway-icon">
-            <span className="material-symbols-rounded" style={{ fontSize: 22 }}>
+            <span className="material-symbols-rounded" style={{ fontSize: 28 }}>
               blur_on
             </span>
           </div>
@@ -335,7 +335,7 @@ export function Scene1() {
 
         <div className="fed-takeaway-card">
           <div className="fed-takeaway-icon">
-            <span className="material-symbols-rounded" style={{ fontSize: 22 }}>
+            <span className="material-symbols-rounded" style={{ fontSize: 28 }}>
               trending_down
             </span>
           </div>

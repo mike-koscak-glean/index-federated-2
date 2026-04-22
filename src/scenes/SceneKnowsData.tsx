@@ -324,7 +324,7 @@ function RiskScoring() {
     >
       <div className="kd-risk-section">
         <div className="kd-risk-header kd-risk-header-neg">
-          <span className="material-symbols-rounded" style={{ fontSize: 13 }}>trending_down</span>
+          <span className="material-symbols-rounded" style={{ fontSize: 15 }}>trending_down</span>
           Strong negative signals
         </div>
         {NEGATIVE_SIGNALS.map((sig, i) => (
@@ -351,7 +351,7 @@ function RiskScoring() {
 
       <div className="kd-risk-section">
         <div className="kd-risk-header kd-risk-header-pos">
-          <span className="material-symbols-rounded" style={{ fontSize: 13 }}>trending_up</span>
+          <span className="material-symbols-rounded" style={{ fontSize: 15 }}>trending_up</span>
           Strong positive signals
         </div>
         {POSITIVE_SIGNALS.map((sig, i) => (
@@ -400,7 +400,7 @@ function DataPanel() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.3 }}
             >
-              <span className="material-symbols-rounded" style={{ fontSize: 14 }}>table_chart</span>
+              <span className="material-symbols-rounded" style={{ fontSize: 16 }}>table_chart</span>
               Structured
             </motion.div>
             {STRUCTURED_SOURCES.map((item, i) => (
@@ -415,7 +415,7 @@ function DataPanel() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.3 }}
             >
-              <span className="material-symbols-rounded" style={{ fontSize: 14 }}>text_snippet</span>
+              <span className="material-symbols-rounded" style={{ fontSize: 16 }}>text_snippet</span>
               Unstructured
             </motion.div>
             {UNSTRUCTURED_SOURCES.map((item, i) => (

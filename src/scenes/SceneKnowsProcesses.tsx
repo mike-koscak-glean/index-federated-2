@@ -110,7 +110,7 @@ function AssistantPanel() {
           if (line.type === 'thinking') {
             return (
               <motion.div key={i} className="kp-thinking" initial={{ opacity: 0 }} animate={{ opacity: [0, 0.6, 0.4, 0.6] }} transition={{ delay, duration: 2, repeat: 1 }}>
-                <span className="material-symbols-rounded" style={{ fontSize: 12 }}>psychology</span>
+                <span className="material-symbols-rounded" style={{ fontSize: 14 }}>psychology</span>
                 {line.text}
               </motion.div>
             );
@@ -192,7 +192,7 @@ function TraceLanes({ phase }: { phase: number }) {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.55, duration: 0.33 }}
       >
-        <span className="material-symbols-rounded" style={{ fontSize: 13 }}>timeline</span>
+        <span className="material-symbols-rounded" style={{ fontSize: 15 }}>timeline</span>
         How your team does it today
       </motion.div>
 
@@ -294,7 +294,7 @@ function DistilledPipeline({ visible }: { visible: boolean }) {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.17, duration: 0.33 }}
       >
-        <span className="material-symbols-rounded" style={{ fontSize: 13 }}>conversion_path</span>
+        <span className="material-symbols-rounded" style={{ fontSize: 15 }}>conversion_path</span>
         Distilled process
       </motion.div>
 
@@ -332,7 +332,7 @@ function SkillCards({ visible }: { visible: boolean }) {
       transition={{ delay: 0.88, duration: 0.44 }}
     >
       <div className="kp-traces-header">
-        <span className="material-symbols-rounded" style={{ fontSize: 13 }}>hub</span>
+        <span className="material-symbols-rounded" style={{ fontSize: 15 }}>hub</span>
         Learned skill patterns
       </div>
 

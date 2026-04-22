@@ -47,7 +47,7 @@ const DIMENSIONS = [
 
 export function Scene7() {
   return (
-    <div className="scene">
+    <div className="scene scene-s7">
       <motion.div
         className="scene-title"
         initial={{ opacity: 0 }}
@@ -114,7 +114,7 @@ export function Scene7() {
         animate={{ opacity: [0, 0.7, 1], y: 0 }}
         transition={{ delay: 3.3, duration: 1.0 }}
       >
-        <span className="material-symbols-rounded" style={{ fontSize: 20 }}>arrow_forward</span>
+        <span className="material-symbols-rounded" style={{ fontSize: 24 }}>arrow_forward</span>
         Better search is just the beginning of what an Enterprise Graph unlocks
       </motion.div>
     </div>
