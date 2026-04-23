@@ -35,9 +35,6 @@ const FRAGMENTS = [
   { text: 'CR-2847 change req', logo: LOGOS.servicenow, relevant: false },
 ];
 
-const QUALITY_STEPS = [88, 82, 76, 71, 66, 64, 61];
-const TOKEN_STEPS   = [8, 15, 23, 31, 39, 44, 47];
-
 const CYCLE_MS = 7500;
 const LANE_H = 30;
 const LANE_GAP = 4;
@@ -45,25 +42,11 @@ const LANES_TOTAL_H = APPS.length * LANE_H + (APPS.length - 1) * LANE_GAP;
 
 export function Scene1() {
   const [cycle, setCycle] = useState(0);
-  const [qualityPct, setQualityPct] = useState(92);
-  const [tokenCount, setTokenCount] = useState(0);
 
   useEffect(() => {
     const id = setInterval(() => setCycle((c) => c + 1), CYCLE_MS);
     return () => clearInterval(id);
   }, []);
-
-  useEffect(() => {
-    setQualityPct(92);
-    setTokenCount(0);
-    const timers = APPS.map((_, i) =>
-      setTimeout(() => {
-        setQualityPct(QUALITY_STEPS[i]);
-        setTokenCount(TOKEN_STEPS[i]);
-      }, (1.6 + RETURN_DELAYS[i] + 0.2) * 1000),
-    );
-    return () => timers.forEach(clearTimeout);
-  }, [cycle]);
 
   const prompt = PROMPTS[cycle % PROMPTS.length];
 
@@ -242,56 +225,6 @@ export function Scene1() {
               </motion.span>
             </div>
 
-            <div className="fed-indicators">
-              <motion.div
-                className="fed-indicator"
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.8 }}
-              >
-                <span
-                  className="material-symbols-rounded"
-                  style={{ fontSize: 25, color: '#FF7E4C' }}
-                >
-                  trending_down
-                </span>
-                <span className="fed-indicator-label">Quality</span>
-                <motion.span
-                  className="fed-indicator-value"
-                  style={{ color: qualityPct > 80 ? '#54D848' : '#FF7E4C' }}
-                  key={qualityPct}
-                  initial={{ scale: 1.3 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {qualityPct}%
-                </motion.span>
-              </motion.div>
-
-              <motion.div
-                className="fed-indicator fed-indicator-secondary"
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 2.0 }}
-              >
-                <span
-                  className="material-symbols-rounded"
-                  style={{ fontSize: 25, color: '#FF7E4C' }}
-                >
-                  trending_up
-                </span>
-                <span className="fed-indicator-label">Tokens</span>
-                <motion.span
-                  className="fed-indicator-value fed-indicator-value-cost"
-                  key={tokenCount}
-                  initial={{ scale: 1.2 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  {tokenCount > 0 ? `~${tokenCount}K` : '0'}
-                </motion.span>
-              </motion.div>
-            </div>
           </div>
         </motion.div>
       </AnimatePresence>
