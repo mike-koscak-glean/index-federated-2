@@ -236,7 +236,7 @@ export const SCENARIOS: Scenario[] = [
 export const BADGE_CONFIG: Record<MatchType, { label: string; icon: string; color: string; bg: string; border: string }> = {
   keyword:  { label: 'Keyword',  icon: 'text_fields',   color: '#D8FD49', bg: 'rgba(216,253,73,0.10)',  border: 'rgba(216,253,73,0.20)' },
   semantic: { label: 'Semantic', icon: 'neurology',      color: '#343CED', bg: 'rgba(52,60,237,0.12)',   border: 'rgba(52,60,237,0.25)' },
-  activity: { label: 'Activity', icon: 'trending_up',    color: '#FF7E4C', bg: 'rgba(255,126,76,0.12)',  border: 'rgba(255,126,76,0.25)' },
+  activity: { label: 'Activity', icon: 'trending_up',    color: '#35C878', bg: 'rgba(53,200,120,0.12)',  border: 'rgba(53,200,120,0.25)' },
   people:   { label: 'People',   icon: 'person_search',  color: '#3FA3FF', bg: 'rgba(63,163,255,0.12)',  border: 'rgba(63,163,255,0.25)' },
   entity:       { label: 'Entity',       icon: 'hub',            color: '#E16BFF', bg: 'rgba(225,107,255,0.12)', border: 'rgba(225,107,255,0.25)' },
   personalized: { label: 'Personalized', icon: 'person_pin',     color: '#D8FD49', bg: 'rgba(216,253,73,0.12)',  border: 'rgba(216,253,73,0.25)' },
@@ -247,7 +247,7 @@ export const BADGE_CONFIG: Record<MatchType, { label: string; icon: string; colo
 export const MATCH_COLORS: Record<MatchType, string> = {
   keyword: '#00B207',
   semantic: '#343CED',
-  activity: '#FF7E4C',
+  activity: '#35C878',
   people: '#3FA3FF',
   entity: '#E16BFF',
   personalized: '#D8FD49',

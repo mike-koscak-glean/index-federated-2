@@ -221,7 +221,7 @@ function ActivitySignalsResults({ scenario, stepped }: { scenario: Scenario; ste
                     animate={{
                       opacity: 1,
                       scale: 1,
-                      ...(sig.type === 'hot' ? { boxShadow: ['0 0 0px rgba(255,126,76,0)', '0 0 8px rgba(255,126,76,0.4)', '0 0 0px rgba(255,126,76,0)'] } : {}),
+                      ...(sig.type === 'hot' ? { boxShadow: ['0 0 0px rgba(53,200,120,0)', '0 0 8px rgba(53,200,120,0.4)', '0 0 0px rgba(53,200,120,0)'] } : {}),
                     }}
                     transition={{
                       delay: (stepped ? 0.3 : T.signalStart) + i * (stepped ? 0.15 : T.signalStagger) + si * 0.15,

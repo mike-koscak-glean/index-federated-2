@@ -2333,9 +2333,9 @@
 }
 
 .s4b1-signal-hot {
-  background: rgba(255, 126, 76, 0.12);
-  border: 1px solid rgba(255, 126, 76, 0.25);
-  color: #FF7E4C;
+  background: rgba(53, 200, 120, 0.12);
+  border: 1px solid rgba(53, 200, 120, 0.25);
+  color: #35C878;
 }
 
 .s4b1-signal-recent {
@@ -2365,11 +2365,11 @@
 }
 
 .s4b1-heat-fill-hot {
-  background: linear-gradient(90deg, #FF7E4C, #FFAC8C);
+  background: linear-gradient(90deg, #35C878, #7BE7AB);
 }
 
 .s4b1-heat-fill-recent {
-  background: linear-gradient(90deg, rgba(255, 126, 76, 0.6), rgba(255, 126, 76, 0.5));
+  background: linear-gradient(90deg, rgba(53, 200, 120, 0.7), rgba(53, 200, 120, 0.5));
 }
 
 .s4b1-heat-fill-stale {
@@ -2377,8 +2377,8 @@
 }
 
 @keyframes s4b1-heat-pulse {
-  0%, 100% { box-shadow: 0 0 4px rgba(255, 126, 76, 0.3); }
-  50% { box-shadow: 0 0 12px rgba(255, 126, 76, 0.6); }
+  0%, 100% { box-shadow: 0 0 4px rgba(53, 200, 120, 0.3); }
+  50% { box-shadow: 0 0 12px rgba(53, 200, 120, 0.6); }
 }
 
 .s4b1-heat-bar-glow {
